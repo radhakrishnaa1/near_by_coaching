@@ -80,7 +80,7 @@ const StudentRegistration = () => (
     // tokenSeparators={[',']}
     
   >
-    <option value="apple">Hindi</option>
+    <option value="apple">Raipur</option>
      <option value="apple">English</option>
      
       
