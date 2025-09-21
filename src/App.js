@@ -1,18 +1,22 @@
 
 import Home from './components/Pages/Home';
-import Registration from './components/Pages/Registration';
+import InstituteRegistration from './components/Pages/Registration';
+import StudentRegistration from './components/Pages/StudentRegistration';
 
 function App() {
   return (
    <>
-   {/* <Home/> */}
-   <Registration/>
+  {/* <Home/> */}
+   {/* <InstituteRegistration/> */}
+    <StudentRegistration/>
    </>
   );
 }
 
 export default App;
 
+
+// https://www.careerpower.in/
 
 // <!-- class -> when css is used by multiple tags
 // id -> when need css in single tag # -->

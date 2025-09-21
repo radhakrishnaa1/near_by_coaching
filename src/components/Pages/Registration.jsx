@@ -1,21 +1,59 @@
-
 import React from 'react';
-import { Button, Col, Row, Statistic } from 'antd';
+import { Divider,Card, Form, Input,Row,Col,Select,Button} from 'antd';
 import LayoutHome from '../Layouts/LayoutHome';
 
-
-const Registration = () => (
+const InstituteRegistration = () => (
   <LayoutHome>
-  <Row gutter={16}>
-    <Col span={12}>
-      <Statistic title="Active Users" value={112893} />
-    </Col>
-    <Col span={12}>
-      <Statistic title="Account Balance (CNY)" value={112893} precision={2} />
-      
-    </Col>
+    <Card title={<div style={{fontSize:20}}>Institute Registration</div>} variant="borderless" style={{textAlign:"center"}}>
+     <Form name="layout-multiple-vertical" layout="vertical">
+     
+ <Row gutter={16}>
+      <Col span={12}>
+       <Form.Item layout="vertical" label="Institute Name" name="vertical" rules={[{ required: true }]}>
+        <Input />
+      </Form.Item>
+      </Col>
+      <Col span={12}> 
+      <Form.Item layout="vertical" label="Contact Number" name="vertical2" rules={[{ required: true }]}>
+        <Input />
+      </Form.Item></Col>
+     
+    </Row>
+
+         
+ <Row gutter={16}>
+      <Col span={12}>
+       <Form.Item layout="vertical" label="Email id" name="vertical" rules={[{ required: true }]}>
+        <Input />
+      </Form.Item>
+      </Col>
+      <Col span={12}> 
+      <Form.Item layout="vertical" label="Mode Of learning" name="vertical2" rules={[{ required: true }]}>
+         <Select
+    mode="tags"
+    style={{ width: '100%' }}
+    // onChange={handleChange}
+    // tokenSeparators={[',']}
     
-  </Row>
+  >
+    <option value="apple">Online</option>
+     <option value="apple">Offline</option>
+      
+  </Select>
+      </Form.Item></Col>
+      <Col span={8}> <Form.Item label="medium" name="vertical" rules={[{ required: true }]}>
+        <Input />
+      </Form.Item></Col>
+    </Row>
+     
+ 
+    <Divider />
+     <Button type="primary" htmlType="submit">
+        Submit
+      </Button>
+  
+</Form>
+    </Card>
   </LayoutHome>
 );
-export default Registration;
+export default InstituteRegistration;
