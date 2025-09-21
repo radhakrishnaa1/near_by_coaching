@@ -2,13 +2,16 @@
 import Home from './components/Pages/Home';
 import InstituteRegistration from './components/Pages/Registration';
 import StudentRegistration from './components/Pages/StudentRegistration';
+import Courseform from './components/Pages/Courseform';
+
 
 function App() {
   return (
    <>
   {/* <Home/> */}
-   {/* <InstituteRegistration/> */}
-    <StudentRegistration/>
+   {/* { <InstituteRegistration/> } */}
+    {/* <StudentRegistration/> */}
+    {Courseform}
    </>
   );
 }
