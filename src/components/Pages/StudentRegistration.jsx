@@ -81,7 +81,7 @@ const StudentRegistration = () => (
     
   >
     <option value="apple">Raipur</option>
-     <option value="apple">English</option>
+     <option value="apple">Durg</option>
      
       
   </Select>
