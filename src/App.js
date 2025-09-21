@@ -3,6 +3,7 @@ import Home from './components/Pages/Home';
 import InstituteRegistration from './components/Pages/Registration';
 import StudentRegistration from './components/Pages/StudentRegistration';
 import Courseform from './components/Pages/Courseform';
+import AuthLayout from './components/Layouts/AuthLayout';
 
 
 function App() {
@@ -11,7 +12,8 @@ function App() {
   {/* <Home/> */}
    {/* { <InstituteRegistration/> } */}
     {/* <StudentRegistration/> */}
-    {Courseform}
+    {/* <Courseform/> */}
+    <AuthLayout/>
    </>
   );
 }
