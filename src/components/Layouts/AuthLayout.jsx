@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   DesktopOutlined,
   FileOutlined,
   PieChartOutlined,
   TeamOutlined,
   UserOutlined,
-} from '@ant-design/icons';
-import { Breadcrumb, Layout, Menu, theme } from 'antd';
+} from "@ant-design/icons";
+import { Breadcrumb, Layout, Menu, Avatar, theme } from "antd";
 // import AuthHeader from './AuthHeader';
 const { Header, Content, Footer, Sider } = Layout;
 function getItem(label, key, icon, children) {
@@ -18,15 +18,18 @@ function getItem(label, key, icon, children) {
   };
 }
 const items = [
-  getItem('Option 1', '1', <PieChartOutlined />),
-  getItem('Option 2', '2', <DesktopOutlined />),
-  getItem('User', 'sub1', <UserOutlined />, [
-    getItem('Tom', '3'),
-    getItem('Bill', '4'),
-    getItem('Alex', '5'),
+  getItem("Dashboard", "1", <PieChartOutlined />),
+  getItem("My Courses", "2", <DesktopOutlined />),
+  getItem("Offers", "9", <FileOutlined />),
+  getItem("Faculties", "sub1", <TeamOutlined />, [
+    getItem("Tom", "3"),
+    getItem("Bill", "4"),
+    getItem("Alex", "5"),
   ]),
-  getItem('Team', 'sub2', <TeamOutlined />, [getItem('Team 1', '6'), getItem('Team 2', '8')]),
-  getItem('Files', '9', <FileOutlined />),
+  getItem("Reports", "sub2", <UserOutlined />, [
+    getItem("Team 1", "6"),
+    getItem("Team 2", "8"),
+  ]),
 ];
 const AuthLayout = () => {
   const [collapsed, setCollapsed] = useState(false);
@@ -35,43 +38,92 @@ const AuthLayout = () => {
   } = theme.useToken();
   return (
     <>
-         {/* <AuthHeader /> */}
-    <Layout style={{ minHeight: '100vh' }}>
-      <Sider collapsible collapsed={collapsed} onCollapse={value => setCollapsed(value)}>
-        <div className="demo-logo-vertical" />
-        <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" items={items} />
-      </Sider>
-      <Layout>
-        <Header style={{ padding: 0, background: colorBgContainer }} />
-        <Content style={{ margin: '0 16px' }}>
-          <Breadcrumb style={{ margin: '16px 0' }} items={[{ title: 'User' }, { title: 'Bill' }]} />
-          <div
-            style={{
-              padding: 24,
-              minHeight: 360,
-              background: colorBgContainer,
-              borderRadius: borderRadiusLG,
-            }}
-          >
-            Bill is a cat.
-          </div>
+      {/* <AuthHeader /> */}
+      <Layout style={{ minHeight: "100vh" }}>
+        <Sider
+          collapsible
+          collapsed={collapsed}
+          onCollapse={(value) => setCollapsed(value)}
+        >
+          <div className="demo-logo-vertical">
+            <div
+              style={{
+                marginTop: 10,
+                borderBottom: "1px solid #ffffff45",
+                paddingBottom: 20,
+                textAlign: "center",
+              }}
+            >
+              <Avatar
+                style={{
+                  margin: "auto",
+                  display: "block",
+                  width: 80,
+                  height: 80,
+                }}
+                src={
+                  <img
+                    draggable={false}
+                    src={require("../../ilogo.png")}
+                    alt="avatar"
+                  />
+                }
+              />
 
-          <div
-            style={{
-              padding: 24,
-              minHeight: 360,
-              background: colorBgContainer,
-              borderRadius: borderRadiusLG,
-            }}
-          >
-            Bill is a cat.
+              <div
+                className="main-title"
+                style={{ color: "#fff", marginTop: 10 }}
+              >
+                {" "}
+                जनदर्शन
+              </div>
+              <div className="sub-title" style={{ color: "#fff" }}>
+                {" "}
+                मुख्यमंत्री छत्तीसगढ़ शासन
+              </div>
+            </div>
           </div>
-        </Content>
-        <Footer style={{ textAlign: 'center' }}>
-          Ant Design ©{new Date().getFullYear()} Created by Ant UED
-        </Footer>
+          <Menu
+            theme="dark"
+            defaultSelectedKeys={["1"]}
+            mode="inline"
+            items={items}
+          />
+        </Sider>
+        <Layout>
+          <Header style={{ padding: 0, background: colorBgContainer }} />
+          <Content style={{ margin: "0 16px" }}>
+            <Breadcrumb
+              style={{ margin: "16px 0" }}
+              items={[{ title: "User" }, { title: "Bill" }]}
+            />
+            <div
+              style={{
+                padding: 24,
+                minHeight: 360,
+                background: colorBgContainer,
+                borderRadius: borderRadiusLG,
+              }}
+            >
+              Bill is a cat.
+            </div>
+
+            <div
+              style={{
+                padding: 24,
+                minHeight: 360,
+                background: colorBgContainer,
+                borderRadius: borderRadiusLG,
+              }}
+            >
+              Bill is a cat.
+            </div>
+          </Content>
+          <Footer style={{ textAlign: "center" }}>
+            Ant Design ©{new Date().getFullYear()} Created by Ant UED
+          </Footer>
+        </Layout>
       </Layout>
-    </Layout>
     </>
   );
 };
