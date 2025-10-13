@@ -7,6 +7,7 @@ import {
   UserOutlined,
 } from "@ant-design/icons";
 import { Breadcrumb, Layout, Menu, Avatar, theme } from "antd";
+import { Outlet } from "react-router-dom";
 // import AuthHeader from './AuthHeader';
 const { Header, Content, Footer, Sider } = Layout;
 function getItem(label, key, icon, children) {
@@ -93,31 +94,7 @@ const AuthLayout = () => {
         <Layout>
           <Header style={{ padding: 0, background: colorBgContainer }} />
           <Content style={{ margin: "0 16px" }}>
-            <Breadcrumb
-              style={{ margin: "16px 0" }}
-              items={[{ title: "User" }, { title: "Bill" }]}
-            />
-            <div
-              style={{
-                padding: 24,
-                minHeight: 360,
-                background: colorBgContainer,
-                borderRadius: borderRadiusLG,
-              }}
-            >
-              Bill is a cat.
-            </div>
-
-            <div
-              style={{
-                padding: 24,
-                minHeight: 360,
-                background: colorBgContainer,
-                borderRadius: borderRadiusLG,
-              }}
-            >
-              Bill is a cat.
-            </div>
+            <Outlet />
           </Content>
           <Footer style={{ textAlign: "center" }}>
             Ant Design ©{new Date().getFullYear()} Created by Ant UED

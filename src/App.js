@@ -25,6 +25,7 @@ import Swal from 'sweetalert2'
 import AuthLayout from './components/Layouts/AuthLayout';
 import InstituteRegistration from './components/Pages/Registration';
  import StudentRegistration from './components/Pages/StudentRegistration';
+import InstituteDashboard from './components/Pages/InstituteDashboard';
 function LandingPage(props) {
 
   const width = props.width
@@ -46,7 +47,7 @@ function LandingPage(props) {
       return (
         <Routes>
 
-          <Route path={"/"} element= {<AuthLayout {...props} /> }/>
+          <Route path={"/"} element= {<InstituteDashboard {...props} /> }/>
           <Route path={"/instituteregistration"}  element={ <InstituteRegistration {...props} />} />
 
           <Route path={"/studentregistration"} element={ <StudentRegistration  {...props} listProp="RTI" />} />
