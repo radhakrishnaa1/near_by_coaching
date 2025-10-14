@@ -1,74 +1,81 @@
+import React from "react";
+import { Card, Row, Col, Statistic } from "antd";
+import {
+  MessageOutlined,
+  DollarCircleOutlined,
+  UserOutlined,
+  CustomerServiceOutlined,
+  ExceptionOutlined,
+  FileDoneOutlined,
+  HistoryOutlined,
+  FileTextOutlined,
+} from "@ant-design/icons";
+import CountUp from "react-countup";
+const formatter = (value) => <CountUp end={value} separator="," />;
+const DashboardCard = () => {
+  const stats = [
+    {
+      title: "कुल पत्रों की संख्या",
+      value: 859,
+      icon: <FileTextOutlined style={{ fontSize: "30px", color: "#2196f3" }} />,
+    },
+    {
+      title: "लंबित पत्रों की संख्या",
+      value: "3521",
+      icon: (
+        <ExceptionOutlined style={{ fontSize: "30px", color: "#ff5722" }} />
+      ),
+    },
+    {
+      title: "निराकृत पत्रों की संख्या",
+      value: 562,
+      icon: <FileDoneOutlined style={{ fontSize: "30px", color: "#4caf50" }} />,
+    },
+    {
+      title: "कुल काउंटर द्वारा लंबित आवेदन",
+      value: 353,
+      icon: (
+        <HistoryOutlined
+          style={{ fontSize: "30px", color: "rgba(244, 67, 54, 1)" }}
+        />
+      ),
+    },
+  ];
 
-import React from 'react';
-import { Card, Row, Col, Avatar ,Typography} from 'antd';
-
-const { Title } = Typography;
-
-const items = [
-  {
-    title: 'कार्यवाही दर्ज',
-    icon: '', // Replace with your icon URL
-    count:230
-  },
-  {
-    title: 'दर्ज शिकायत',
-    icon: '', // Replace with your icon URL
-    count:2320
-  },
-  {
-    title: 'निराकृत पत्र',
-    icon: '', // Replace with your icon URL
-    count:130
-  },
-   {
-    title: 'उपयोगकर्ता',
-    icon: '', // Replace with your icon URL
-    count:2030
-
-  },
-];
-
-const cardStyle = {
-  width: 180,
-  height: 220,
-  borderRadius: 20,
-  boxShadow: '0 10px 20px rgba(0,0,0,0.15)',
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'center',
-  justifyContent: 'center',
-  background: 'linear-gradient(180deg, #ffe5b4 0%, #c1d8ff 100%)',
-};
-const containerStyle = {
-  borderRadius: 20,
-  padding: 20,
-  background:"#fcf8e3ff",
-  // background: 'linear-gradient(135deg, #fca311 40%, #3b82f6 90%)',
-  width:"60%",
-margin:20
-};
-
-
-export default function App() {
   return (
-    
-      <Row gutter={[24, 24]} justify="center" wrap>
-        { items && items.map(({ title, icon,count }) => (
-          <Col key={title}>
-            <Card
-              style={cardStyle}
-              bodyStyle={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 20 }}
-              bordered={false}
-              hoverable
-            >
-              <Avatar src={icon} size={72} style={{ background: 'white' }} />
-              <div style={{ textAlign: 'center', fontWeight: 500, fontSize: 16 }}>{count}</div>
-
-              <div style={{ textAlign: 'center', fontWeight: 500, fontSize: 16 }}>{title}</div>
-            </Card>
-          </Col>
-        ))}
-      </Row>
-    
+    <Row gutter={16} style={{ textAlign: "center", marginTop: "20px" }}>
+      {stats.map((stat, index) => (
+        <Col xs={24} sm={12} md={6} key={index}>
+          <Card variant="borderless" style={{ boxShadow: "0 2px 8px #f0f1f2" }}>
+            <div style={{ marginBottom: "10px" }}>{stat.icon}</div>
+            <Statistic
+              style={{ fontSize: "22px", fontWeight: "bold" }}
+              value={stat.value}
+              formatter={formatter}
+            />
+            <div style={{ fontSize: "12px", color: "gray", marginTop: "5px" }}>
+              {stat.title}
+            </div>
+          </Card>
+        </Col>
+      ))}
+    </Row>
   );
-}
+};
+
+export default DashboardCard;
+// import React from 'react';
+// import { Col, Row, Statistic } from 'antd';
+// import CountUp from 'react-countup';
+// const formatter = value => <CountUp end={value} separator="," />;
+// const App = () => (
+//   <Row gutter={16}>
+//     <Col span={12}>
+//       <Statistic title="Active Users" value={112893} formatter={formatter} />
+//     </Col>
+//     <Col span={12}>
+//       <Statistic title="Account Balance (CNY)" value={112893} precision={2} formatter={formatter} />
+//     </Col>
+//   </Row>
+// );
+// export default App;

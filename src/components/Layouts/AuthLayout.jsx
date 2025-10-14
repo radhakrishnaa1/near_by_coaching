@@ -32,7 +32,7 @@ const items = [
     getItem("Team 2", "8"),
   ]),
 ];
-const AuthLayout = () => {
+const AuthLayout = (props) => {
   const [collapsed, setCollapsed] = useState(false);
   const {
     token: { colorBgContainer, borderRadiusLG },
@@ -93,9 +93,7 @@ const AuthLayout = () => {
         </Sider>
         <Layout>
           <Header style={{ padding: 0, background: colorBgContainer }} />
-          <Content style={{ margin: "0 16px" }}>
-            <Outlet />
-          </Content>
+          <Content style={{ margin: "0 16px" }}>{props?.children}</Content>
           <Footer style={{ textAlign: "center" }}>
             Ant Design ©{new Date().getFullYear()} Created by Ant UED
           </Footer>
