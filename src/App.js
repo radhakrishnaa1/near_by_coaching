@@ -26,6 +26,7 @@ import AuthLayout from './components/Layouts/AuthLayout';
 import InstituteRegistration from './components/Pages/Registration';
  import StudentRegistration from './components/Pages/StudentRegistration';
 import InstituteDashboard from './components/Pages/InstituteDashboard';
+import MyCourses from './components/Pages/MyCourses';
 function LandingPage(props) {
 
   const width = props.width
@@ -50,7 +51,9 @@ function LandingPage(props) {
           <Route path={"/"} element= {<InstituteDashboard {...props} /> }/>
           <Route path={"/instituteregistration"}  element={ <InstituteRegistration {...props} />} />
 
-          <Route path={"/studentregistration"} element={ <StudentRegistration  {...props} listProp="RTI" />} />
+          <Route path={"/studentregistration"} element={ <StudentRegistration  {...props} />} />
+          <Route path={"/mycourses"}  element={ <MyCourses {...props} />} />
+          
           </Routes>
       )
    
