@@ -1,9 +1,14 @@
 import React from 'react';
 import { Carousel } from 'antd';
+import atdoor from "../../atdoor.png"
+import online from "../../online.png"
+import offline from "../../offline.png"
+import offline2 from "../../offline2.png"
+
 
 const contentStyle = {
   width: '100%',
-  height: '400px',
+  height: '450px',
   objectFit: 'cover',
 };
 const CarouselTop = () => (
@@ -11,29 +16,29 @@ const CarouselTop = () => (
   <Carousel autoplay>
    <div>
         <img
-          src="https://jandarshan.cg.nic.in/stimages/Article/240702002101/240702002101_1.jpg"
+          src={offline}
           alt="Slide 1"
           style={contentStyle}
         />
       </div>
       <div>
         <img
-          src="https://jandarshan.cg.nic.in/stimages/Article/240702002501/240702002501_1.jpg"
+          src={online}
           alt="Slide 2"
           style={contentStyle}
         />
       </div>
       <div>
         <img
-          src="https://jandarshan.cg.nic.in/stimages/Article/240702002301/240702002301_1.jpg"
+          src={atdoor}
           alt="Slide 3"
           style={contentStyle}
         />
       </div>
-      <div>
+       <div>
         <img
-          src="https://jandarshan.cg.nic.in/stimages/Article/240702002501/240702002501_1.jpg"
-          alt="Slide 4"
+          src={offline2}
+          alt="Slide 3"
           style={contentStyle}
         />
       </div>

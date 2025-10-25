@@ -38,6 +38,8 @@ const InstituteRegistration = () => (
   >
     <option value="apple">Online</option>
      <option value="apple">Offline</option>
+          <option value="apple">At Your door</option>
+
       
   </Select>
       </Form.Item></Col>

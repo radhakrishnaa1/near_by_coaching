@@ -1,9 +1,10 @@
 
 import Home from './components/Pages/Home';
-import InstituteRegistration from './components/Pages/Registration';
-import StudentRegistration from './components/Pages/StudentRegistration';
+// import InstituteRegistration from './components/Pages/Registration';
+// import StudentRegistration from './components/Pages/StudentRegistration';
 import Courseform from './components/Pages/Courseform';
-import AuthLayout from './components/Layouts/AuthLayout';
+// import AuthLayout from './components/Layouts/AuthLayout';
+// import CarouselTop from './components/Layouts/CarouselTop';
 
 
 function App() {
@@ -12,8 +13,8 @@ function App() {
   {/* <Home/> */}
    {/* { <InstituteRegistration/> } */}
     {/* <StudentRegistration/> */}
-    {/* <Courseform/> */}
-    <AuthLayout/>
+    <Courseform/>
+    {/* <AuthLayout/> */}
    </>
   );
 }

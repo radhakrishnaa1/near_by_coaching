@@ -64,7 +64,7 @@ setMedium(e)
 
      <Row gutter={16}>
       <Col span={12}>
-       <Form.Item layout="vertical" label="Course Duration" name="vertical" rules={[{ required: true }]}>
+       <Form.Item layout="vertical" label="Subject name" name="vertical" rules={[{ required: true }]}>
         <Input />
       </Form.Item>
       </Col>
