@@ -31,8 +31,7 @@ import Home from './components/Pages/Home';
 import CourseTable from './components/Pages/CourseTable';
 import Faculty from './components/Pages/Faculty';
 import CourseDetails from './components/Pages/CourseDetails';
-import Teacherdetail from './components/Pages/Teacherdetail';
-
+import {HOME, COURSE_DETAILS, COURSE_TABLE, FACULTY_DETAILS, INSTITUTE_DASHBOARD, INSTITUTE_REGISTRATION, STUDENT_REGISTRATION, MYCOURSES} from './constants/Routes.jsx'
 
 
 
@@ -56,19 +55,19 @@ function LandingPage(props) {
 
       return (
         <Routes>
-          <Route path={"/TD"} element= {<Teacherdetail {...props} /> }/>
+          <Route path={HOME} element= {<Home {...props} /> }/>
 
 
-          <Route path={"/course-details"} element= {<CourseDetails {...props} /> }/>
-          <Route path={"/course-table"} element= {<CourseTable {...props} /> }/>
-          <Route path={"/faculty-details"} element= {<Faculty {...props} handleSpinner={handleSpinner} /> }/>
+          <Route path={COURSE_DETAILS} element= {<CourseDetails {...props} /> }/>
+          <Route path={COURSE_TABLE} element= {<CourseTable {...props} /> }/>
+          <Route path={FACULTY_DETAILS} element= {<Faculty {...props} handleSpinner={handleSpinner} /> }/>
 
-          <Route path={"/instituteDashboard"} element= {<InstituteDashboard {...props} /> }/>
+          <Route path={INSTITUTE_DASHBOARD} element= {<InstituteDashboard {...props} /> }/>
 
-          <Route path={"/instituteregistration"}  element={ <InstituteRegistration {...props} />} />
+          <Route path={INSTITUTE_REGISTRATION}  element={ <InstituteRegistration {...props} />} />
 
-          <Route path={"/studentregistration"} element={ <StudentRegistration  {...props} />} />
-          <Route path={"/mycourses"}  element={ <MyCourses {...props} />} />
+          <Route path={STUDENT_REGISTRATION} element={ <StudentRegistration  {...props} />} />
+          <Route path={MYCOURSES}  element={ <MyCourses {...props} />} />
           
           </Routes>
       )

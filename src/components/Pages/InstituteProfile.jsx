@@ -69,15 +69,26 @@ const InstituteProfile = () => {
           <Input placeholder="Enter your Emial Id" />
         </Form.Item>
         <Form.Item
-          label="Qualification"
-          name="qualification"
+          label="Institute Objective (Slogun)"
+          name="objective"
           rules={[{ required: true }]}
         >
-          <Input placeholder="Enter Qualification" />
+          <Input placeholder="Enter Learning" />
         </Form.Item>
 
-        <Form.Item label="Address" name="address" rules={[{ required: true }]}>
-          <TextArea rows={6} placeholder="Enter Address" />
+        <Form.Item
+          label="Institute Details"
+          name="instituteDetails"
+          rules={[{ required: true }]}
+        >
+          <TextArea rows={6} placeholder="Enter Institute Details" />
+        </Form.Item>
+        <Form.Item
+          label="Institute Address"
+          name="instituteAddress"
+          rules={[{ required: true }]}
+        >
+          <TextArea rows={6} placeholder="Enter Institute Address" />
         </Form.Item>
 
         <Space style={{ width: "100%", justifyContent: "space-between" }}>
