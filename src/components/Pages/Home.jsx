@@ -3,6 +3,7 @@ import { Col, Row,Typography ,theme} from 'antd';
 import LayoutHome from '../Layouts/LayoutHome';
 import Login from './Login';
 import HomeCard from "./HomeCard"
+import StudyModeCard from "./StudyModeCard"
 // import registration from './Registration';
 const { Title } = Typography;
 
@@ -43,6 +44,7 @@ style={{
             borderRadius: borderRadiusLG,
           }}>
 <HomeCard/>
+<StudyModeCard/>
 </div>
 
   </LayoutHome>)

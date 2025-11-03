@@ -19,8 +19,8 @@ const handleMedium =(e)=>{
 setMedium(e)
 }
   return(
-  <LayoutHome>
-    <Card title={<div style={{fontSize:20}}>Course Details</div>} variant="borderless" style={{textAlign:"center"}}>
+  <>
+    <Card title={<div style={{fontSize:20}}>Course Detail Form</div>} variant="borderless" style={{textAlign:"center"}}>
      <Form name="layout-multiple-vertical" layout="vertical">
      
  <Row gutter={16}>
@@ -61,7 +61,18 @@ setMedium(e)
       </Form.Item></Col>
       
     </Row>
-
+ <Row gutter={16}>
+      <Col span={12}>
+       <Form.Item layout="vertical" label="Course Discription" name="vertical" rules={[{ required: true }]}>
+        <Input />
+      </Form.Item>
+      </Col>
+      <Col span={12}> 
+      <Form.Item layout="vertical" label="MaxLimit" name="vertical2" rules={[{ required: true }]}>
+        <Input />
+      </Form.Item></Col>
+      
+    </Row>
      <Row gutter={16}>
       <Col span={12}>
        <Form.Item layout="vertical" label="Subject name" name="vertical" rules={[{ required: true }]}>
@@ -74,7 +85,18 @@ setMedium(e)
       </Form.Item></Col>
       
     </Row>
-
+ <Row gutter={16}>
+      <Col span={12}>
+       <Form.Item layout="vertical" label="Mode Of Class" name="vertical" rules={[{ required: true }]}>
+        <Input />
+      </Form.Item>
+      </Col>
+      <Col span={12}> 
+      <Form.Item layout="vertical" label="Timing" name="vertical2" rules={[{ required: true }]}>
+        <Input />
+      </Form.Item></Col>
+      
+    </Row>
      <Divider />
      <Button type="primary" htmlType="submit">
         Submit
@@ -82,6 +104,6 @@ setMedium(e)
   
 </Form>
     </Card>
-  </LayoutHome>)
+  </>)
 }
 export default Courseform;

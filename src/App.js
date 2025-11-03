@@ -27,6 +27,15 @@ import InstituteRegistration from './components/Pages/Registration';
  import StudentRegistration from './components/Pages/StudentRegistration';
 import InstituteDashboard from './components/Pages/InstituteDashboard';
 import MyCourses from './components/Pages/MyCourses';
+import Home from './components/Pages/Home';
+import CourseTable from './components/Pages/CourseTable';
+import Faculty from './components/Pages/Faculty';
+import CourseDetails from './components/Pages/CourseDetails';
+import Teacherdetail from './components/Pages/Teacherdetail';
+
+
+
+
 function LandingPage(props) {
 
   const width = props.width
@@ -47,8 +56,15 @@ function LandingPage(props) {
 
       return (
         <Routes>
+          <Route path={"/TD"} element= {<Teacherdetail {...props} /> }/>
 
-          <Route path={"/"} element= {<InstituteDashboard {...props} /> }/>
+
+          <Route path={"/course-details"} element= {<CourseDetails {...props} /> }/>
+          <Route path={"/course-table"} element= {<CourseTable {...props} /> }/>
+          <Route path={"/faculty-details"} element= {<Faculty {...props} /> }/>
+
+          <Route path={"/instituteDashboard"} element= {<InstituteDashboard {...props} /> }/>
+
           <Route path={"/instituteregistration"}  element={ <InstituteRegistration {...props} />} />
 
           <Route path={"/studentregistration"} element={ <StudentRegistration  {...props} />} />
