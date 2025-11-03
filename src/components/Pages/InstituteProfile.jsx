@@ -14,7 +14,7 @@ import ImageUpload from "./ImageUpload";
 const { Title, Text } = Typography;
 const { TextArea } = Input;
 
-const Teacherdetails = () => {
+const InstituteProfile = () => {
   const [form] = Form.useForm();
 
   // 🧠 State to store form values
@@ -51,19 +51,11 @@ const Teacherdetails = () => {
           <ImageUpload />
         </div>
         <Form.Item
-          label="Name of faculty"
+          label="Name of Institute"
           name="name"
           rules={[{ required: true }]}
         >
-          <Input placeholder="Enter facultyt name" />
-        </Form.Item>
-
-        <Form.Item
-          label="Qualification"
-          name="qualification"
-          rules={[{ required: true }]}
-        >
-          <Input placeholder="Enter Qualification" />
+          <Input placeholder="Enter Institute name" />
         </Form.Item>
 
         <Form.Item
@@ -76,9 +68,18 @@ const Teacherdetails = () => {
         <Form.Item label="Email ID" name="emailId" rules={[{ required: true }]}>
           <Input placeholder="Enter your Emial Id" />
         </Form.Item>
+        <Form.Item
+          label="Qualification"
+          name="qualification"
+          rules={[{ required: true }]}
+        >
+          <Input placeholder="Enter Qualification" />
+        </Form.Item>
+
         <Form.Item label="Address" name="address" rules={[{ required: true }]}>
           <TextArea rows={6} placeholder="Enter Address" />
         </Form.Item>
+
         <Space style={{ width: "100%", justifyContent: "space-between" }}>
           <Button
             type="primary"
@@ -94,4 +95,4 @@ const Teacherdetails = () => {
   );
 };
 
-export default Teacherdetails;
+export default InstituteProfile;

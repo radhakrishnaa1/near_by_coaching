@@ -163,7 +163,9 @@ const AuthLayout = (props) => {
               </Col>
             </Row>
           </Header>
-          <Content style={{ margin: "0 16px" }}>{props?.children}</Content>
+          <Content style={{ margin: "16px", backgroundColor: "#ffffff" }}>
+            {props?.children}
+          </Content>
           <Footer style={{ textAlign: "center" }}>
             Ant Design ©{new Date().getFullYear()} Created by Ant UED
           </Footer>

@@ -61,7 +61,7 @@ function LandingPage(props) {
 
           <Route path={"/course-details"} element= {<CourseDetails {...props} /> }/>
           <Route path={"/course-table"} element= {<CourseTable {...props} /> }/>
-          <Route path={"/faculty-details"} element= {<Faculty {...props} /> }/>
+          <Route path={"/faculty-details"} element= {<Faculty {...props} handleSpinner={handleSpinner} /> }/>
 
           <Route path={"/instituteDashboard"} element= {<InstituteDashboard {...props} /> }/>
 
