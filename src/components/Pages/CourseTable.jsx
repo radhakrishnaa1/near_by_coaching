@@ -1,89 +1,106 @@
-import { Table, Divider, Tag } from 'antd';
-import LayoutHome from '../Layouts/LayoutHome';
-import BranchInfo from './BranchInfo';
+import { Table, Divider, Tag, Button } from "antd";
+import LayoutHome from "../Layouts/LayoutHome";
+import BranchInfo from "./BranchInfo";
+import InstituteDetails from "./InstituteDetails";
 
 const columns = [
   {
-    title: 'Institute Name',
-    dataIndex: 'name',
-    key: 'name',
-    render: text => <a>{text}</a>,
+    title: "Institute Name",
+    dataIndex: "instituteName",
+    key: "name",
+    render: (text) => <a>{text}</a>,
   },
   {
-    title: 'Contact',
-    dataIndex: 'Contact',
-    key: 'Contact',
+    title: "Course Details",
+    dataIndex: "courseDetails",
+    key: "courseDetails",
   },
   {
-    title: 'Address',
-    dataIndex: 'address',
-    key: 'address',
+    title: "Address",
+    dataIndex: "address",
+    key: "add",
   },
   {
-    title: 'Contact',
-    key: 'tags',
-    dataIndex: 'tags',
-    render: tags => (
-      <span>
-        {tags.map(tag => {
-          let color = tag.length > 5 ? 'geekblue' : 'green';
-          if (tag === 'loser') {
-            color = 'volcano';
-          }
-          return (
-            <Tag color={color} key={tag}>
-              {tag.toUpperCase()}
-            </Tag>
-          );
-        })}
-      </span>
-    ),
+    title: "Date & Time",
+    dataIndex: "dateTime",
+    key: "dateTime",
   },
   {
-    title: 'Action',
-    key: 'action',
+    title: "Status",
+    dataIndex: "status",
+    key: "status",
+  },
+  {
+    title: "Action",
+    key: "action",
     render: (text, record) => (
-      <span>
-        <a>Invite {record.name}</a>
-        <Divider type="vertical" />
-        <a>Delete</a>
-      </span>
+      <Button type="primary" danger>
+        Join Now
+      </Button>
     ),
   },
 ];
 
 const data = [
   {
-    key: '1',
-    name: 'John Brown',
-    Contact: 5436278976,
-    address: 'New York No. 1 Lake Park',
-    tags: ['nice', 'developer'],
+    key: "1",
+    instituteName: "Nurdi Academy Classes",
+    courseDetails: "PCM - 6 Months",
+    address: "New sahu para khamtarai",
+    dateTime: "12th June, 10:00 AM",
+    status: "Running",
   },
   {
-    key: '2',
-    name: 'Jim Green',
-    Contact: 6463536786,
-    address: 'London No. 1 Lake Park',
-    tags: ['loser'],
+    key: "2",
+    instituteName: "Bench Preb",
+    courseDetails: "PCB - 6 Months",
+    address: "New sahu para khamtarai",
+    dateTime: "12th June, 10:00 AM",
+    status: "Running",
   },
   {
-    key: '3',
-    name: 'Joe Black',
-    Contact: 6347463474,
-    address: 'Sidney No. 1 Lake Park',
-    tags: ['cool', 'teacher'],
+    key: "3",
+    instituteName: "Ansh Classes",
+    courseDetails: "PCM - 6 Months",
+    address: "New sahu para khamtarai",
+    dateTime: "12th June, 10:00 AM",
+    status: "Active",
+  },
+  {
+    key: "4",
+    instituteName: "Paramount ",
+    courseDetails: "Banking - 3 Months",
+    address: "Near shyam square pandari raipur",
+    dateTime: "10th August 25, 10:00 AM",
+    status: "Upcomming",
+  },
+  {
+    key: "3",
+    instituteName: "Ansh Classes",
+    courseDetails: "PCB - 6 Months",
+    address: "New sahu para khamtarai",
+    dateTime: "12th June, 10:00 AM",
+    status: "Running",
+  },
+  {
+    key: "3",
+    instituteName: "Ansh Classes",
+    courseDetails: "PCM - 6 Months",
+    address: "New sahu para khamtarai",
+    dateTime: "12th June, 10:00 AM",
+    status: "Upcoming",
   },
 ];
 
 const CourseTable = (props) => {
-
-return (<LayoutHome>
-
-  <BranchInfo/>
-  
-  <Table columns={columns} dataSource={data} />
-  
-  </LayoutHome>)
-}
- export default CourseTable
+  return (
+    <LayoutHome>
+      <BranchInfo />
+      <div style={{ width: "90%", margin: "40px auto" }}>
+        <Table columns={columns} dataSource={data} />
+      </div>
+      <InstituteDetails />
+    </LayoutHome>
+  );
+};
+export default CourseTable;

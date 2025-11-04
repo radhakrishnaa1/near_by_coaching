@@ -1,12 +1,25 @@
 import React from "react";
 import { Card, Row, Col, Button, Typography } from "antd";
 import "antd/dist/reset.css";
-
+import { COURSE_TABLE } from "../../constants/Routes";
+import { useNavigate } from "react-router-dom";
 const { Title, Paragraph } = Typography;
 
 const StudyMode = () => {
+  const navigate = useNavigate();
+  const handleNavigate = () => {
+    navigate(COURSE_TABLE);
+  };
+
   return (
-    <div style={{marginTop:60, padding: "40px", background: "#f9f9f9", minHeight: "100vh" }}>
+    <div
+      style={{
+        marginTop: 60,
+        padding: "40px",
+        background: "#f9f9f9",
+        minHeight: "100vh",
+      }}
+    >
       <Row gutter={[24, 24]} justify="center">
         {/* Study Online Card */}
         <Col xs={24} sm={24} md={12} lg={8}>
@@ -70,12 +83,13 @@ const StudyMode = () => {
                 borderRadius: "8px",
                 padding: "0 24px",
               }}
+              onClick={() => handleNavigate()}
             >
               Find a Centre Near You
             </Button>
           </Card>
         </Col>
-         <Col xs={24} sm={24} md={12} lg={8}>
+        <Col xs={24} sm={24} md={12} lg={8}>
           <Card
             hoverable
             style={{

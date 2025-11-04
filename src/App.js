@@ -31,7 +31,9 @@ import Home from './components/Pages/Home';
 import CourseTable from './components/Pages/CourseTable';
 import Faculty from './components/Pages/Faculty';
 import CourseDetails from './components/Pages/CourseDetails';
-import {HOME, COURSE_DETAILS, COURSE_TABLE, FACULTY_DETAILS, INSTITUTE_DASHBOARD, INSTITUTE_REGISTRATION, STUDENT_REGISTRATION, MYCOURSES} from './constants/Routes.jsx'
+import {HOME,
+  COURSE_DETAILS, COURSE_TABLE, 
+  FACULTY_DETAILS, INSTITUTE_DASHBOARD, STUDENT_REGISTRATION, INSTITUTE_REGISTRATION,MYCOURSES} from './constants/Routes';
 
 
 

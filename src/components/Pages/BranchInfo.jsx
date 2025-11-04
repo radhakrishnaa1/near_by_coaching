@@ -28,9 +28,9 @@ const BranchInfo = () => {
           </Title>
 
           <p style={{ fontSize: 16, marginTop: 10 }}>
-            <EnvironmentOutlined />{" "}
-            Career Power Laxmi Nagar B/37, Gurunanak Pura, Laxmi Nagar Near ICICI
-            Bank, Nirman Vihar Metro Station, Delhi - 110092
+            <EnvironmentOutlined /> Career Power Laxmi Nagar B/37, Gurunanak
+            Pura, Laxmi Nagar Near ICICI Bank, Nirman Vihar Metro Station, Delhi
+            - 110092
           </p>
           <p style={{ fontSize: 16 }}>
             <PhoneOutlined /> 8750505082, 8750606007
