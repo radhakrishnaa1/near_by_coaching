@@ -56,6 +56,8 @@ function LandingPage(props) {
 
       return (
         <Routes>
+          <Route path={"/Home"} element= {<Home {...props} /> }/>
+
           <Route path={"/TD"} element= {<Teacherdetail {...props} /> }/>
 
 
