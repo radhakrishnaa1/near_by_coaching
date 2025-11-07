@@ -15,7 +15,8 @@ const courses = [
     videos: "219 Videos",
     price: "₹3996",
     offer: "Offers Available",
-    image: "https://via.placeholder.com/300x180?text=Bihar+B.Ed.", // replace with real image
+    image:
+      "https://st.adda247.com/https://storeimages.adda247.com/941621760351293.png?tr=w-undefined", // replace with real image
   },
   {
     id: 2,
@@ -25,7 +26,8 @@ const courses = [
     videos: "289 Videos",
     price: "₹1996",
     offer: "Offers Available",
-    image: "https://via.placeholder.com/300x180?text=Ayachi+Bihar+Govt",
+    image:
+      "https://st.adda247.com/https://storeimages.adda247.com/941621760351293.png?tr=w-undefined",
   },
   {
     id: 3,
@@ -35,7 +37,8 @@ const courses = [
     videos: "29 Videos",
     price: "₹1596",
     offer: "Offers Available",
-    image: "https://via.placeholder.com/300x180?text=Computer+Knowledge",
+    image:
+      "https://st.adda247.com/https://storeimages.adda247.com/941621760351293.png?tr=w-undefined",
   },
   {
     id: 4,
@@ -45,7 +48,8 @@ const courses = [
     videos: "52 Videos | 10 E-books",
     price: "₹2996",
     offer: "Offers Available",
-    image: "https://via.placeholder.com/300x180?text=Spoken+English+Booster",
+    image:
+      "https://st.adda247.com/https://storeimages.adda247.com/941621760351293.png?tr=w-undefined",
   },
 ];
 
