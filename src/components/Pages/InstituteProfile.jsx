@@ -37,7 +37,7 @@ const InstituteProfile = () => {
   return (
     <>
       <Title level={5} style={{ textAlign: "center" }}>
-        Add Faculty Details
+        Add Institute Details
       </Title>
 
       <Form form={form} layout="vertical" onFinish={handleFinish}>
@@ -97,9 +97,9 @@ const InstituteProfile = () => {
             htmlType="submit"
             onClick={console.log("Letter Data:", letterData)}
           >
-            Preview Letter
+            Preview Details
           </Button>
-          <Button type="default">Print Letter</Button>
+          <Button type="default">Submit</Button>
         </Space>
       </Form>
     </>
