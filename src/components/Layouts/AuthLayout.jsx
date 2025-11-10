@@ -19,6 +19,7 @@ import {
   Row,
 } from "antd";
 import { Outlet, useNavigate } from "react-router-dom";
+import { FACULTY_DETAILS, MYCOURSES } from "../../constants/Routes";
 
 const { Text } = Typography;
 // import AuthHeader from './AuthHeader';
@@ -37,18 +38,20 @@ const items = [
     key: "1",
     label: "Dashboard",
     icon: <AppstoreOutlined />,
+    routes: "/",
   },
   {
     key: "2",
     label: "My Courses",
     icon: <DesktopOutlined />,
-    routes: "/mycourses",
+    routes: MYCOURSES,
   },
   { key: "3", label: "Offers", icon: <FileOutlined /> },
   {
     key: "4",
     label: "Faculties",
     icon: <TeamOutlined />,
+    routes: FACULTY_DETAILS,
   },
   {
     key: "5",
@@ -163,7 +166,9 @@ const AuthLayout = (props) => {
               </Col>
             </Row>
           </Header>
-          <Content style={{ margin: "0 16px" }}>{props?.children}</Content>
+          <Content style={{ margin: "16px", backgroundColor: "#ffffff" }}>
+            {props?.children}
+          </Content>
           <Footer style={{ textAlign: "center" }}>
             Ant Design ©{new Date().getFullYear()} Created by Ant UED
           </Footer>

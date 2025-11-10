@@ -26,7 +26,6 @@
 
 // ]
 
-
 // const LayoutHome = (props) => {
 //   const {
 //     token: { colorBgContainer, borderRadiusLG },
@@ -40,7 +39,6 @@
 //     <div style={{ color: '#ffffff', fontSize: '18px', fontWeight: 'bold' }}>My Coaching App</div>
 //   </div>
 
-  
 //   <Menu
 //     theme="dark"
 //     mode="horizontal"
@@ -51,9 +49,9 @@
 // </Header>
 // <CarouselTop/>
 //       <Content style={{ padding: '48px' }}>
-       
+
 //         <div
-          
+
 //         >
 //           {props?.children}
 //         </div>
@@ -66,13 +64,12 @@
 // };
 // export default LayoutHome;
 
-
 import React, { Children } from "react";
 import { Layout, Button, Typography, Space, Badge } from "antd";
 import { BellOutlined, SettingOutlined, UserOutlined } from "@ant-design/icons";
-import CarouselTop from './CarouselTop';
+import CarouselTop from "./CarouselTop";
 
-const { Header,Footer,Content } = Layout;
+const { Header, Footer, Content } = Layout;
 const { Title } = Typography;
 
 const FloatingAppBar = (props) => {
@@ -98,11 +95,8 @@ const FloatingAppBar = (props) => {
         }}
       >
         {/* Left Section: Logo or Title */}
-        <Title
-          level={4}
-          style={{ margin: 0, color: "#333", fontWeight: 600 }}
-        >
-          NEAR BY COACHING
+        <Title level={4} style={{ margin: 0, color: "#333", fontWeight: 600 }}>
+          {/* NEAR BY COACHING */}
         </Title>
 
         {/* Right Section: Action Buttons */}
@@ -125,16 +119,16 @@ const FloatingAppBar = (props) => {
           />
         </Space>
       </Header>
-      <div style={{paddingTop:100,backgroundColor:"#fff"}}></div>
-<CarouselTop/>
+      <div style={{ paddingTop: 100, backgroundColor: "#fff" }}></div>
+      <CarouselTop />
 
       {/* Dummy content to test scrolling */}
-      <Content style={{ background:"#fff", padding: 20 }}>
+      <Content style={{ background: "#fff", padding: 20 }}>
         {props?.children}
       </Content>
-       <Footer style={{ textAlign: 'center' }}>
+      <Footer style={{ textAlign: "center" }}>
         Ant Design ©{new Date().getFullYear()} Created by Ant UED
-     </Footer>
+      </Footer>
     </Layout>
   );
 };
