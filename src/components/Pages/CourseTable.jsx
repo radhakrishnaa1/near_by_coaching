@@ -34,13 +34,16 @@ const columns = [
     title: "Action",
     key: "action",
     render: (text, record) => (
-      <Button type="primary" danger>
+      <Button type="primary" onClick={()=>handleClick()}danger>
         Join Now
       </Button>
     ),
   },
 ];
 
+const handleClick =()=>{
+  // INSTITUTE_DETAILS
+}
 const data = [
   {
     key: "1",
@@ -99,7 +102,7 @@ const CourseTable = (props) => {
       <div style={{ width: "90%", margin: "40px auto" }}>
         <Table columns={columns} dataSource={data} />
       </div>
-      <InstituteDetails />
+      {/* <InstituteDetails /> */}
     </LayoutHome>
   );
 };
