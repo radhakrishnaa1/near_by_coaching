@@ -6,12 +6,14 @@ import {
   MailOutlined,
 } from "@ant-design/icons";
 import offline from "../../modern-education-Skillstork.jpg";
+import CourseCardOuter from "./CourseCardOuter";
 const { Title, Text } = Typography;
 const { Option } = Select;
 
 const BranchInfo = () => {
   const url = offline;
   return (
+    <>
     <div
       style={{
         backgroundColor: "rgb(14 41 64)", // semi-transparent blue overlay
@@ -76,9 +78,13 @@ const BranchInfo = () => {
           </p>
         </Col>
 
-        {/* Right side selects */}
-      </Row>
-    </div>
+          {/* Right side selects */}
+        </Row>
+      </div>
+      <div>
+        <CourseCardOuter />
+      </div>
+    </>
   );
 };
 
