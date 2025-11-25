@@ -57,7 +57,7 @@ const Courses = () => {
   return (
     <div style={{ padding: "40px" }}>
       <Row justify="space-between" align="middle" style={{ marginBottom: 20 }}>
-        <Title level={3}>Videos For Banking, SSC And Others Govt Jobs</Title>
+        <Title level={3}>Courses Offered by Our Institute</Title>
         <Select defaultValue="Relevance" style={{ width: 150 }}>
           <Option value="Relevance">Relevance</Option>
           <Option value="PriceLow">Price: Low to High</Option>

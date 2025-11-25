@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { Divider, Card, Form, Input, Row, Col, Select, Button } from "antd";
+
 import LayoutHome from "../Layouts/LayoutHome";
 import Title from "antd/es/typography/Title";
+const { Option } = Select;
 
 const Courseform = () => {
   return (
@@ -13,7 +15,7 @@ const Courseform = () => {
       >
         <Form name="layout-multiple-vertical" layout="vertical">
           <Row gutter={16}>
-            <Col span={12}>
+            <Col span={24}>
               <Form.Item
                 layout="vertical"
                 label="Student Name"
@@ -26,7 +28,7 @@ const Courseform = () => {
           </Row>
 
           <Row gutter={16}>
-            <Col span={12}>
+            <Col span={24}>
               <Form.Item
                 layout="vertical"
                 label="Email Id"
@@ -38,7 +40,7 @@ const Courseform = () => {
             </Col>
           </Row>
           <Row gutter={16}>
-            <Col span={12}>
+            <Col span={24}>
               <Form.Item
                 layout="vertical"
                 label="Enter Phone Number"
@@ -50,43 +52,55 @@ const Courseform = () => {
             </Col>
           </Row>
           <Row gutter={16}>
-            <Col span={12}>
+            <Col span={24}>
               <Form.Item
                 layout="vertical"
                 label="Select Class"
                 rules={[{ required: true }]}
               >
-                <Input name="class" />
+                <Select>
+                  <Option value={"Class 1"}>Class 1</Option>
+
+                  <Option value={"Class 2"}>Class 2</Option>
+                </Select>
               </Form.Item>
             </Col>
           </Row>
           <Divider />
-          <Title level={4} style={{ textAlign: "center" }}>
+          <Title
+            level={4}
+            style={{
+              textAlign: "center",
+              backgroundColor: "#fc7d15ff",
+              padding: "10px",
+            }}
+          >
             Payment Details
           </Title>
           <Row gutter={16}>
             <Col span={8}>
-              <div>Course Fee</div>
+              <Title level={5}>Course Fee</Title>
             </Col>
 
             <Col span={8}>2000</Col>
           </Row>
           <Row gutter={16}>
             <Col span={8}>
-              <div> Discount</div>
-            </Col>
-
-            <Col span={8}>1000</Col>
-          </Row>
-          <Row gutter={16}>
-            <Col span={8}>
-              <div> Pay Amount</div>
+              <Title level={5}> Discount</Title>
             </Col>
 
             <Col span={8}>1000</Col>
           </Row>
           <Divider />
-          <Button type="primary" htmlType="submit">
+          <Row gutter={16}>
+            <Col span={8}>
+              <Title level={5}>Pay Amount</Title>
+            </Col>
+
+            <Col span={8}>1000</Col>
+          </Row>
+
+          <Button type="primary" htmlType="submit" style={{ width: "100%" }}>
             PAY NOW
           </Button>
         </Form>

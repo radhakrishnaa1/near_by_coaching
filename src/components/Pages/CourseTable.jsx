@@ -1,6 +1,6 @@
 import { Table, Divider, Tag, Button } from "antd";
 import LayoutHome from "../Layouts/LayoutHome";
-import BranchInfo from "./BranchInfo";
+import BranchInfo from "./BranchInformation";
 import InstituteDetails from "./InstituteDetails";
 
 const columns = [
@@ -34,16 +34,16 @@ const columns = [
     title: "Action",
     key: "action",
     render: (text, record) => (
-      <Button type="primary" onClick={()=>handleClick()}danger>
+      <Button type="primary" onClick={() => handleClick()} danger>
         Join Now
       </Button>
     ),
   },
 ];
 
-const handleClick =()=>{
+const handleClick = () => {
   // INSTITUTE_DETAILS
-}
+};
 const data = [
   {
     key: "1",
@@ -78,7 +78,7 @@ const data = [
     status: "Upcomming",
   },
   {
-    key: "3",
+    key: "5",
     instituteName: "Ansh Classes",
     courseDetails: "PCB - 6 Months",
     address: "New sahu para khamtarai",
@@ -86,7 +86,7 @@ const data = [
     status: "Running",
   },
   {
-    key: "3",
+    key: "6",
     instituteName: "Ansh Classes",
     courseDetails: "PCM - 6 Months",
     address: "New sahu para khamtarai",
@@ -97,12 +97,12 @@ const data = [
 
 const CourseTable = (props) => {
   return (
-    <LayoutHome>
+    <LayoutHome flagForSlider={false}>
       <BranchInfo />
       <div style={{ width: "90%", margin: "40px auto" }}>
         <Table columns={columns} dataSource={data} />
       </div>
-      {/* <InstituteDetails /> */}
+      <InstituteDetails />
     </LayoutHome>
   );
 };

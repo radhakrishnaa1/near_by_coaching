@@ -2,7 +2,7 @@ import React from "react";
 import { Table, Divider, Tag, Row, Col } from "antd";
 
 import AuthLayout from "../Layouts/AuthLayout";
-import BranchInfo from "./BranchInfo";
+import BranchInfo from "./BranchInformation";
 import Teacherdetails from "./Teacherdetail";
 import { Avatar, List, Typography } from "antd";
 const { Title } = Typography;
