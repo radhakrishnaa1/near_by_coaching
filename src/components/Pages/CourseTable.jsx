@@ -102,7 +102,7 @@ const CourseTable = (props) => {
       <div style={{ width: "90%", margin: "40px auto" }}>
         <Table columns={columns} dataSource={data} />
       </div>
-      <InstituteDetails />
+      {/* <InstituteDetails /> */}
     </LayoutHome>
   );
 };

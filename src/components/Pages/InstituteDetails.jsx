@@ -9,13 +9,14 @@ import offline from "../../modern-education-Skillstork.jpg";
 import CourseCardOuter from "./CourseCardOuter";
 import PurchaseCourse from "./PurchaseCourse";
 import CourseDetails from "./CourseDetails";
+import LayoutHome from "../Layouts/LayoutHome";
 const { Title, Text } = Typography;
 const { Option } = Select;
 
 const InstituteDetails = () => {
   const url = offline;
   return (
-    <>
+    <LayoutHome flagForSlider={false}>
       <div
         style={{
           backgroundColor: "rgb(14 41 64)", // semi-transparent blue overlay
@@ -124,7 +125,7 @@ const InstituteDetails = () => {
           </Col>
         </Row>
       </div>
-    </>
+    </LayoutHome>
   );
 };
 
