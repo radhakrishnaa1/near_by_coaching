@@ -7,6 +7,8 @@ import {
 } from "@ant-design/icons";
 import offline from "../../modern-education-Skillstork.jpg";
 import CourseCardOuter from "./CourseCardOuter";
+import PurchaseCourse from "./PurchaseCourse";
+import CourseDetails from "./CourseDetails";
 const { Title, Text } = Typography;
 const { Option } = Select;
 
@@ -93,6 +95,15 @@ const BranchInfo = () => {
       <div>
         <CourseCardOuter />
       </div>
+      <Row gutter={16}>
+        <Col span={12}>
+          <CourseDetails />
+        </Col>
+
+        <Col span={12}>
+          <PurchaseCourse />
+        </Col>
+      </Row>
     </>
   );
 };
