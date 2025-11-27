@@ -4,13 +4,36 @@ import LayoutHome from "../Layouts/LayoutHome";
 import Login from "./Login";
 import HomeCard from "./HomeCard";
 import StudyModeCard from "./StudyModeCard";
+import axios from "axios";
 // import registration from './Registration';
 const { Title } = Typography;
 
 const App = () => {
+  const [notesData, setNotesData] = React.useState([]);
+
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
+
+  React.useEffect(() => {
+    getNotesData();
+  }, []);
+
+  const getNotesData = () => {
+    axios({
+      method: "get",
+      url: `http://localhost:3003/`,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then(function (response) {
+        setNotesData(response.data);
+        console.log("notes data", response.data);
+      })
+      .catch(() => {});
+  };
+
   return (
     <LayoutHome flagForSlider={true}>
       <div
