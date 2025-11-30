@@ -5,20 +5,30 @@ import Login from "./Login";
 import HomeCard from "./HomeCard";
 import StudyModeCard from "./StudyModeCard";
 import axios from "axios";
+import { Content } from "antd/es/layout/layout";
 // import registration from './Registration';
 const { Title } = Typography;
 
 const App = () => {
   const [notesData, setNotesData] = React.useState([]);
+  const [notesDataPost, setNotesDataPost] = React.useState({
+    id:"",
+    title:"",
+    Contents:"",
+    ctreated:""
+  });
+
 
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
 
   React.useEffect(() => {
-    getNotesData();
+    // getNotesData();
+    // postNotesData()
+    delNoteData()
   }, []);
-
+// notedata get api
   const getNotesData = () => {
     axios({
       method: "get",
@@ -33,6 +43,48 @@ const App = () => {
       })
       .catch(() => {});
   };
+
+
+const delNoteData = () => {
+    axios({
+      method: "get",
+      url: `http://localhost:3003/${2}`,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then(function (response) {
+        // setNotesData(response.data);
+        console.log("notes data", response);
+      })
+      .catch(() => {});
+  };
+
+  const postNotesData = () => {
+const saveNoteData ={
+  id:2,
+  title:"c++",
+  contents:"oops",
+  created:"2025-09-11"
+}
+
+    axios({
+                    method: "post",
+                    url: "http://localhost:3003/",
+                    data: saveNoteData,
+                    headers: {
+                        "Access-Control-Allow-Origin": "*",
+                        "Content-Type": "application/json",
+                        
+                    },
+                })
+                    .then(function (response) {
+                  console.log(response)      
+                    })
+                    .catch(() => { });
+            
+  };
+
 
   return (
     <LayoutHome flagForSlider={true}>
