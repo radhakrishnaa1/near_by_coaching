@@ -59,6 +59,8 @@ function LandingPage(props) {
         <Routes>
           <Route path={HOME} element= {<Home {...props} /> }/>
 
+          {/* <Route path={"/TD"} element= {<Teacherdetail {...props} /> }/> */}
+
 
           <Route path={COURSE_DETAILS} element= {<CourseDetails {...props} /> }/>
           <Route path={COURSE_TABLE} element= {<CourseTable {...props} /> }/> 
@@ -68,10 +70,10 @@ function LandingPage(props) {
 
           <Route path={INSTITUTE_DASHBOARD} element= {<InstituteDashboard {...props} /> }/>
 
-          <Route path={INSTITUTE_REGISTRATION}  element={ <InstituteRegistration {...props} />} />
+          <Route path={"/instituteregistration"}  element={ <InstituteRegistration {...props} />} />
 
-          <Route path={STUDENT_REGISTRATION} element={ <StudentRegistration  {...props} />} />
-          <Route path={MYCOURSES}  element={ <MyCourses {...props} />} />
+          <Route path={"/studentregistration"} element={ <StudentRegistration  {...props} />} />
+          <Route path={"/mycourses"}  element={ <MyCourses {...props} />} />
           
           </Routes>
       )

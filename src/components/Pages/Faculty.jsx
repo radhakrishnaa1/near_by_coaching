@@ -8,16 +8,16 @@ import { Avatar, List, Typography } from "antd";
 const { Title } = Typography;
 const data = [
   {
-    title: "Ant Design Title 1",
+    title: "Rukhmani Vasanth",
   },
   {
-    title: "Ant Design Title 2",
+    title: "Tulsi Das khan",
   },
   {
-    title: "Ant Design Title 3",
+    title: "Ankush Franklin",
   },
   {
-    title: "Ant Design Title 4",
+    title: "Rishabh Shetty",
   },
 ];
 const App = (props) => {
@@ -38,7 +38,7 @@ const App = (props) => {
                 paddingBottom: "50px",
               }}
             >
-              List Of Faculties
+              List Of Teachers
             </Title>
             <List
               itemLayout="horizontal"
@@ -52,7 +52,7 @@ const App = (props) => {
                       />
                     }
                     title={<a href="https://ant.design">{item.title}</a>}
-                    description="Ant Design, a design language for background applications, is refined by Ant UED Team"
+                    description="Assistant Teacher "
                   />{" "}
                   <List.Item
                     actions={[
