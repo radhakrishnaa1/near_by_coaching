@@ -5,7 +5,7 @@ import Login from "./Login";
 import HomeCard from "./HomeCard";
 import StudyModeCard from "./StudyModeCard";
 import axios from "axios";
-// import registration from './Registration';
+import Registration from "./Registration";
 const { Title } = Typography;
 
 const App = () => {
@@ -45,7 +45,7 @@ const App = () => {
         }}
       >
         <Row>
-          <Col span={12}>
+          <Col span={8}>
             <div style={{ padding: "0px 40px" }}>
               <Title level={2} style={{ fontFamily: "Poppins" }}>
                 Near By Coaching
@@ -68,8 +68,11 @@ const App = () => {
             </div>
           </Col>
 
-          <Col span={12}>
+          <Col span={8}>
             <Login></Login>
+          </Col>
+          <Col span={8}>
+            <Registration />
           </Col>
         </Row>
       </div>
