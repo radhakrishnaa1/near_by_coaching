@@ -11,8 +11,11 @@ const InstituteRegistration = () => {
   });
 
   const handleSubmit = () => {
+    const currentDateUTC = new Date().toISOString().split("T")[0];
+    console.log(currentDateUTC);
     console.log("registration data", registrationData);
     const registerData = {
+      institute_id: 7,
       institute_name: registrationData.institute_name,
       institute_discription: null,
       institute_logo: null,
@@ -23,14 +26,14 @@ const InstituteRegistration = () => {
       city: null,
       pincode: null,
       vision: null,
-      creation_date: "2025-12-14",
+      creation_date: currentDateUTC,
     };
 
     if (registrationData) {
       axios({
         method: "post",
-        url: "http://localhost:3003/institute_registration",
-        data: registrationData,
+        url: "http://localhost:3004/registerInstitute",
+        data: registerData,
         headers: {
           "Content-Type": "application/json",
         },
@@ -42,7 +45,7 @@ const InstituteRegistration = () => {
           console.log("error===>", error);
         });
     } else {
-      console.log("error===>");
+      console.log("error===> Please fill all the details");
     }
   };
   const handleChange = (e) => {

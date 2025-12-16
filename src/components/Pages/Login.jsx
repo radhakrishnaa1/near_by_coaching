@@ -1,13 +1,39 @@
 import React, { useState } from "react";
 import { UserOutlined, BankOutlined } from "@ant-design/icons";
 import { Card, Button, Flex, Form, Input, Row, Col } from "antd";
+import axios from "axios";
 
 const App = () => {
   const [size, setSize] = useState("large"); // default is 'middle'
+  const [roleId, setRoleId] = React.useState(1);
 
   const onFinish = (values) => {
     console.log("Success:", values);
+    // const logindata = {
+    //   login_id: values.login_id,
+    //   password: values.password,
+    //   roll_id: roleId,
+    //   logindate: new Date().toISOString().split("T")[0],
+    // };
     setSize(1);
+
+    if (values) {
+      axios({
+        method: "get",
+        url: `http://localhost:3004/userlogin/${values.login_id}/${values.password}/${roleId}`,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+        .then(function (response) {
+          console.log("response===>", response);
+        })
+        .catch((error) => {
+          console.log("error===>", error);
+        });
+    } else {
+      console.log("error===> Please fill all the details");
+    }
   };
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
@@ -52,6 +78,7 @@ const App = () => {
                   shape="round"
                   icon={<UserOutlined />}
                   size={size}
+                  onClick={() => setRoleId(2)}
                 >
                   Student
                 </Button>
@@ -60,6 +87,7 @@ const App = () => {
                   shape="round"
                   icon={<BankOutlined />}
                   size={size}
+                  onClick={() => setRoleId(1)}
                 >
                   Institute
                 </Button>
@@ -69,14 +97,14 @@ const App = () => {
           <Row gutter={16} style={{ marginTop: 30 }}>
             <Col span={24}>
               <Form.Item
-                label="Username"
-                name="username"
+                label="Email Id"
+                name="login_id"
                 layout="vertical"
                 rules={[
                   { required: true, message: "Please input your username!" },
                 ]}
               >
-                <Input />
+                <Input name="login_id" />
               </Form.Item>
             </Col>
           </Row>
@@ -90,7 +118,7 @@ const App = () => {
                   { required: true, message: "Please input your password!" },
                 ]}
               >
-                <Input.Password />
+                <Input.Password name="password" />
               </Form.Item>
             </Col>
           </Row>
