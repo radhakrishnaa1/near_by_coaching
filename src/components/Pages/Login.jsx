@@ -9,14 +9,16 @@ const App = () => {
 
   const onFinish = (values) => {
     console.log("Success:", values);
-    // const logindata = {
-    //   login_id: values.login_id,
-    //   password: values.password,
-    //   roll_id: roleId,
-    //   logindate: new Date().toISOString().split("T")[0],
-    // };
+    //    [
+    //     {
+    //         "login_id": "sharma@gmail.com",
+    //         "password": "78655645332",
+    //         "roll_id": "1",
+    //         "logindate": "2025-12-15T18:30:00.000Z"
+    //     }
+    // ]
     setSize(1);
-
+    // sessionStorage.getItem("roleId")
     if (values) {
       axios({
         method: "get",
@@ -27,6 +29,17 @@ const App = () => {
       })
         .then(function (response) {
           console.log("response===>", response);
+          if (response.data.length > 0) {
+            sessionStorage.setItem("userId", response.data[0].id);
+            sessionStorage.setItem("roleId", roleId);
+            if (roleId == 1) {
+              window.location.href = "/institute-dashboard";
+            } else {
+              window.location.href = "/student-dashboard";
+            }
+          } else {
+            console.log("error===> Invalid Credentials");
+          }
         })
         .catch((error) => {
           console.log("error===>", error);

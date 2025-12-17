@@ -33,8 +33,9 @@ import Faculty from './components/Pages/Faculty';
 import CourseDetails from './components/Pages/CourseDetails';
 import {HOME,
   COURSE_DETAILS, COURSE_TABLE, INSTITUTE_DETAILS,
-  FACULTY_DETAILS, INSTITUTE_DASHBOARD, STUDENT_REGISTRATION, INSTITUTE_REGISTRATION,MYCOURSES} from './constants/Routes';
+  FACULTY_DETAILS, INSTITUTE_DASHBOARD, STUDENT_REGISTRATION,MYCOURSES} from './constants/Routes';
 import InstituteDetails from "./components/Pages/InstituteDetails"
+import InstituteProfile from './components/Pages/InstituteProfile';
 
 
 function LandingPage(props) {
@@ -70,10 +71,11 @@ function LandingPage(props) {
 
           <Route path={INSTITUTE_DASHBOARD} element= {<InstituteDashboard {...props} /> }/>
 
-          <Route path={"/instituteregistration"}  element={ <InstituteRegistration {...props} />} />
+          {/* <Route path={"/instituteregistration"}  element={ <InstituteRegistration {...props} />} /> */}
 
-          <Route path={"/studentregistration"} element={ <StudentRegistration  {...props} />} />
-          <Route path={"/mycourses"}  element={ <MyCourses {...props} />} />
+          <Route path={STUDENT_REGISTRATION} element={ <StudentRegistration  {...props} />} />
+          <Route path={MYCOURSES}  element={ <MyCourses {...props} />} />
+          {/* <Route path={INSTITUTE_DETAILS}  element={ <InstituteProfile {...props} />} /> */}
           
           </Routes>
       )
