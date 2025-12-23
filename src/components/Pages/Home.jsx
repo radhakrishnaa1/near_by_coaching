@@ -24,7 +24,7 @@ const App = () => {
   React.useEffect(() => {
     // getNotesData();
     // postNotesData()
-    delNoteData();
+    // delNoteData();
   }, []);
   // notedata get api
   const getNotesData = () => {

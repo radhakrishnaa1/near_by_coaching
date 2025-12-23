@@ -12,8 +12,7 @@ const InstituteRegistration = () => {
 
   const handleSubmit = () => {
     const currentDateUTC = new Date().toISOString().split("T")[0];
-    console.log(currentDateUTC);
-    console.log("registration data", registrationData);
+
     const registerData = {
       institute_id: 7,
       institute_name: registrationData.institute_name,
