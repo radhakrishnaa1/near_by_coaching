@@ -25,7 +25,7 @@ connection.connect((err) => {
 
 
 
-app.get("/", (request, response) => {
+app.get("/getCourseDetails", (request, response) => {
   let sql = "SELECT * from course_details";
   connection.query(sql, (error, results) => {
     if (error) {
@@ -125,9 +125,11 @@ app.post("/saveCourseData", (request, response) => {
     course_medium, 
     start_date, 
     end_date, 
-    discount, 
+    discount,
+    max_student, 
+    course_details,
     creation_date} = request.body;
-  let sql = "INSERT INTO course_details (courseid, course_name, course_duraton, course_fee, status, mode, timing, course_medium, start_date, end_date, discount, creation_date) VALUES (?, ?, ?, ?,?,?,?,?,?,?,?,?)";   
+  let sql = "INSERT INTO course_details ( course_name, course_duraton, course_fee, status, mode, timing, course_medium, start_date, end_date, discount,max_student,course_details, creation_date) VALUES (?, ?, ?, ?,?,?,?,?,?,?,?,?)";   
   connection.query(sql, [courseid, 
     course_name, 
     course_duraton, 
@@ -137,7 +139,9 @@ app.post("/saveCourseData", (request, response) => {
     course_medium, 
     start_date, 
     end_date, 
-    discount, 
+    discount,
+     max_student, 
+    course_details, 
     creation_date], (error, results) => {
     if (error) {
       return response.status(500).send("Error saving course_details to database.");
