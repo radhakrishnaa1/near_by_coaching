@@ -35,6 +35,25 @@ app.get("/getCourseDetails", (request, response) => {
   });
 });
 
+app.get("/getDistrictsData", (request, response) => {
+  let sql = "SELECT * from districts";
+  connection.query(sql, (error, results) => {
+    if (error) {
+      return response.status(500).send("Error retrieving districts from database.");
+    } 
+    response.json(results);
+  });
+});
+
+app.get("/getStateData", (request, response) => {
+  let sql = "SELECT * from states";
+  connection.query(sql, (error, results) => {
+    if (error) {
+      return response.status(500).send("Error retrieving course from database.");
+    } 
+    response.json(results);
+  });
+});
 
 // file upload endpoint
 app.post('/upload', upload.single('myFile'), (req, res) => {
@@ -129,8 +148,8 @@ app.post("/saveCourseData", (request, response) => {
     max_student, 
     course_details,
     creation_date} = request.body;
-  let sql = "INSERT INTO course_details ( course_name, course_duraton, course_fee, status, mode, timing, course_medium, start_date, end_date, discount,max_student,course_details, creation_date) VALUES (?, ?, ?, ?,?,?,?,?,?,?,?,?)";   
-  connection.query(sql, [courseid, 
+  let sql = "INSERT INTO course_details ( course_name, course_duraton, course_fee, status, mode, timing, course_medium, start_date, end_date, discount,max_student,course_details, creation_date) VALUES (?, ?, ?, ?,?,?,?,?,?,?,?,?,?)";   
+  connection.query(sql, [
     course_name, 
     course_duraton, 
     course_fee, 
@@ -152,7 +171,6 @@ app.post("/saveCourseData", (request, response) => {
 
 app.post("/saveInstituteData", (request, response) => {
   const {
-    institute_id,
     institute_name,
     institute_discription,
     institute_logo,
@@ -168,8 +186,8 @@ app.post("/saveInstituteData", (request, response) => {
 
   const sql = `
     INSERT INTO institute_details 
-    (institute_id, institute_name, institute_discription, institute_logo, email, contact, address, state, city, pincode, vision, creation_date) 
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    ( institute_name, institute_discription, institute_logo, email, contact, address, state, city, pincode, vision, creation_date) 
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
   `;
 
   connection.query(
@@ -204,47 +222,7 @@ app.post("/saveInstituteData", (request, response) => {
 
 
 
-// app.post('/savelogininstitute', (req, res) => {
-//   const rollId ="1";
-//     const {
-//     institute_id,
-//     institute_name,
-//     institute_discription,
-//     institute_logo,
-//     email,
-//     contact,
-//     address,
-//     state,
-//     city,
-//     pincode,
-//     vision,
-//     creation_date
-//   } = req.body;
-// //Destructured object
-//     const car_info_query = `INSERT INTO institute_details (institute_id, institute_name, institute_discription, institute_logo, email, contact, address, state, city, pincode, vision, creation_date) 
-//     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
-//     const sales_info_query = `INSERT INTO login (login_id, password, roll_id, logindate) VALUES (?, ?, ?, ?)`
-    
-//     let write_car_info = connection.query(car_info_query, [institute_id,
-//     institute_name,
-//     institute_discription,
-//     institute_logo,
-//     email,
-//     contact,
-//     address,
-//     state,
-//     city,
-//     pincode,
-//     vision,
-//     creation_date] , (err, result) => {
-//         if (err) throw err;
-//     });
-//     let write_sales_info = connection.query(sales_info_query, [email, contact, rollId,creation_date], (err, result) => {
-//         if (err) throw err
-//     })
-//     //Insert into as many tables as you want
-//     res.status(201).send({ message: 'Institute registered successfully',write_sales_info });
-// });
+
 
 app.post('/registerInstitute',  (req, res) => {
   const rollId ="1";

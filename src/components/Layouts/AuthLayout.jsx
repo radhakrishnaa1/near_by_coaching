@@ -19,7 +19,11 @@ import {
   Row,
 } from "antd";
 import { Outlet, useNavigate } from "react-router-dom";
-import { FACULTY_DETAILS, MYCOURSES } from "../../constants/Routes";
+import {
+  FACULTY_DETAILS,
+  INSTITUTE_PROFILE,
+  MYCOURSES,
+} from "../../constants/Routes";
 
 const { Text } = Typography;
 // import AuthHeader from './AuthHeader';
@@ -39,6 +43,12 @@ const items = [
     label: "Dashboard",
     icon: <AppstoreOutlined />,
     routes: "/",
+  },
+  {
+    key: "6",
+    label: "Institute Profile",
+    icon: <AppstoreOutlined />,
+    routes: INSTITUTE_PROFILE,
   },
   {
     key: "2",
