@@ -35,6 +35,28 @@ app.get("/getCourseDetails", (request, response) => {
   });
 });
 
+app.get("/getInstituteList", (request, response) => {
+  let sql = "SELECT * from institute_details";
+  connection.query(sql, (error, results) => {
+    if (error) {
+      return response.status(500).send("Error retrieving course from database.");
+    } 
+    response.json(results);
+  });
+});
+
+app.get("/getInstituteDetails/:id", (request, response) => {
+    const institute_id = request.params.id;
+           
+  let sql = "SELECT * FROM institute_details WHERE institute_id = ? ";
+  connection.query(sql, [institute_id], (error, results) => {
+    if (error) {
+      return response.status(500).send("Error retrieving login from database.");
+    } 
+    response.json(results);
+  });
+});
+
 app.get("/getDistrictsData", (request, response) => {
   let sql = "SELECT * from districts";
   connection.query(sql, (error, results) => {
@@ -227,7 +249,6 @@ app.post("/saveInstituteData", (request, response) => {
 app.post('/registerInstitute',  (req, res) => {
   const rollId ="1";
   const {
-    institute_id,
     institute_name,
     institute_discription,
     institute_logo,
@@ -238,7 +259,8 @@ app.post('/registerInstitute',  (req, res) => {
     city,
     pincode,
     vision,
-    creation_date
+    creation_date,
+    entry_date
   } = req.body;
 
   try {
@@ -246,10 +268,9 @@ app.post('/registerInstitute',  (req, res) => {
      connection.beginTransaction();
 
     // 2. Insert into the first table (e.g., 'orders')
-     const sql = `INSERT INTO institute_details (institute_id, institute_name, institute_discription, institute_logo, email, contact, address, state, city, pincode, vision, creation_date) 
+     const sql = `INSERT INTO institute_details (institute_name, institute_discription, institute_logo, email, contact, address, state, city, pincode, vision, creation_date,entry_date) 
     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
-    const sqlResult = connection.query(sql, [institute_id,
-      institute_name,
+    const sqlResult = connection.query(sql, [institute_name,
       institute_discription,
       institute_logo,
       email,
@@ -259,7 +280,7 @@ app.post('/registerInstitute',  (req, res) => {
       city,
       pincode,
       vision,
-      creation_date]);
+      creation_date,entry_date]);
     const sqlId = sqlResult.insertId; // Get the ID of the newly inserted order
 
     const loginSql = `INSERT INTO login (login_id, password, roll_id, logindate) VALUES (?, ?, ?, ?)`
@@ -278,11 +299,6 @@ app.post('/registerInstitute',  (req, res) => {
     res.status(500).send({ message: 'Failed to register institute ', error: error.message });
   }
 });
-
-
-
-
-
 
 
 app.post("/saveStudentData", (request, response) => {
@@ -322,3 +338,61 @@ app.delete("/:id", (request, response) => {
   });
 });
 
+// Update a user
+app.post('/updateinstitute/:id', (req, res) => {
+  const { id } = req.params;
+  const {institute_name,
+    institute_discription,
+    institute_logo,
+    address,
+    state,
+    city,
+    pincode,
+    vision,
+    creation_date,entry_date } = req.body;
+  connection.query('UPDATE institute_details SET  institute_name = ?, institute_discription = ?, institute_logo = ?, address = ?, state = ?, city = ?, pincode = ?, vision = ?, creation_date  = ? , entry_date = ? WHERE institute_id = ?', [institute_name,
+    institute_discription,
+    institute_logo,
+    address,
+    state,
+    city,
+    pincode,
+    vision,
+    creation_date,entry_date, id], (err) => {
+    if (err) throw err;
+    res.json({ message: 'User updated successfully' });
+  });
+});
+
+// UPDATE API
+app.put("/update-user/:id", async (req, res) => {
+  const userId = req.params.id;
+  const { name, email, mobile } = req.body;
+
+  try {
+    const [result] = await db.execute(
+      `UPDATE users 
+       SET name = ?, email = ?, mobile = ?
+       WHERE id = ?`,
+      [name, email, mobile, userId]
+    );
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({
+        status: false,
+        message: "User not found"
+      });
+    }
+
+    res.json({
+      status: true,
+      message: "User updated successfully"
+    });
+
+  } catch (error) {
+    res.status(500).json({
+      status: false,
+      error: error.message
+    });
+  }
+});

@@ -35,6 +35,8 @@ const InstituteProfile = () => {
     creation_date: new Date().toISOString().split("T")[0],
   });
 
+  // #5021ff
+
   React.useEffect(() => {
     getStateData();
     getDistrictData();
@@ -65,7 +67,7 @@ const InstituteProfile = () => {
   const handleFinish = (values) => {
     setInstituteData({
       ...instituteData,
-      mode: values,
+      values,
     });
   };
 
@@ -75,12 +77,25 @@ const InstituteProfile = () => {
 
   const handleSaveData = () => {
     console.log("Submitted Data:", instituteData);
+    const updateData = {
+      institute_name: instituteData.values.institute_name,
+      institute_discription: instituteData.values.institute_discription,
+      institute_logo: null,
+      address: instituteData.values.address,
+      state: stateData,
+      city: districtData,
+      pincode: instituteData.values.pincode,
+      vision: instituteData.values.vision,
+      creation_date: instituteData.creation_date,
+      entry_date: instituteData.creation_date,
+    };
+
     // Here, you can send 'letterData' to your backend or perform other actions
     if (instituteData) {
       axios({
         method: "post",
-        url: "http://localhost:3004/saveInstituteData",
-        data: instituteData,
+        url: "http://localhost:3004/updateinstitute",
+        data: updateData,
         headers: {
           "Content-Type": "application/json",
         },
@@ -124,10 +139,10 @@ const InstituteProfile = () => {
           name="contactNumber"
           rules={[{ required: true }]}
         >
-          <Input placeholder="Enter your number" />
+          <Input placeholder="Enter your number" disabled />
         </Form.Item>
         <Form.Item label="Email ID" name="emailId" rules={[{ required: true }]}>
-          <Input placeholder="Enter your Emial Id" />
+          <Input placeholder="Enter your Emial Id" disabled />
         </Form.Item>
         <Form.Item
           label="Institute Objective (Slogun)"

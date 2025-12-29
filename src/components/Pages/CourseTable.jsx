@@ -7,6 +7,21 @@ import { useNavigate } from "react-router-dom";
 const CourseTable = (props) => {
   const navigate = useNavigate();
 
+  const getCourseList = () => {
+    axios({
+      method: "get",
+      url: `http://localhost:3004/getInstituteList`,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then(function (response) {
+        setCourseList(response.data);
+        console.log("notes data", response.data);
+      })
+      .catch(() => {});
+  };
+
   const columns = [
     {
       title: "Institute Name",
@@ -14,23 +29,19 @@ const CourseTable = (props) => {
       key: "name",
       render: (text) => <a>{text}</a>,
     },
-    {
-      title: "Course Details",
-      dataIndex: "courseDetails",
-      key: "courseDetails",
-    },
+
     {
       title: "Address",
       dataIndex: "address",
       key: "add",
     },
     {
-      title: "Date & Time",
+      title: "Contact Details",
       dataIndex: "dateTime",
       key: "dateTime",
     },
     {
-      title: "Status",
+      title: "Email ID",
       dataIndex: "status",
       key: "status",
     },
@@ -39,7 +50,7 @@ const CourseTable = (props) => {
       key: "action",
       render: (text, record) => (
         <Button type="primary" onClick={(record) => handleClick(record)} danger>
-          Join Now
+          View Courses
         </Button>
       ),
     },
@@ -49,56 +60,6 @@ const CourseTable = (props) => {
     console.log("clicked", record);
     navigate(INSTITUTE_DETAILS);
   };
-  const data = [
-    {
-      key: "1",
-      instituteName: "Nurdi Academy Classes",
-      courseDetails: "PCM - 6 Months",
-      address: "New sahu para khamtarai",
-      dateTime: "12th June, 10:00 AM",
-      status: "Running",
-    },
-    {
-      key: "2",
-      instituteName: "Bench Preb",
-      courseDetails: "PCB - 6 Months",
-      address: "New sahu para khamtarai",
-      dateTime: "12th June, 10:00 AM",
-      status: "Running",
-    },
-    {
-      key: "3",
-      instituteName: "Ansh Classes",
-      courseDetails: "PCM - 6 Months",
-      address: "New sahu para khamtarai",
-      dateTime: "12th June, 10:00 AM",
-      status: "Active",
-    },
-    {
-      key: "4",
-      instituteName: "Paramount ",
-      courseDetails: "Banking - 3 Months",
-      address: "Near shyam square pandari raipur",
-      dateTime: "10th August 25, 10:00 AM",
-      status: "Upcomming",
-    },
-    {
-      key: "5",
-      instituteName: "Ansh Classes",
-      courseDetails: "PCB - 6 Months",
-      address: "New sahu para khamtarai",
-      dateTime: "12th June, 10:00 AM",
-      status: "Running",
-    },
-    {
-      key: "6",
-      instituteName: "Ansh Classes",
-      courseDetails: "PCM - 6 Months",
-      address: "New sahu para khamtarai",
-      dateTime: "12th June, 10:00 AM",
-      status: "Upcoming",
-    },
-  ];
 
   return (
     <LayoutHome flagForSlider={false}>

@@ -25,7 +25,8 @@ const InstituteRegistration = () => {
       city: null,
       pincode: null,
       vision: null,
-      creation_date: currentDateUTC,
+      creation_date: null,
+      entry_date: currentDateUTC,
     };
 
     if (registrationData) {
