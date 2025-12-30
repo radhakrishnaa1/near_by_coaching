@@ -9,12 +9,38 @@ import offline from "../../modern-education-Skillstork.jpg";
 import CourseCardOuter from "./CourseCardOuter";
 import PurchaseCourse from "./PurchaseCourse";
 import CourseDetails from "./CourseDetails";
+import axios from "axios";
 import LayoutHome from "../Layouts/LayoutHome";
+import { useParams } from "react-router-dom";
+
 const { Title, Text } = Typography;
 const { Option } = Select;
 
-const InstituteDetails = () => {
+const InstituteDetails = (props) => {
+  const [instituteDetails, setInstituteDetails] = React.useState({});
+
+  const params = useParams();
+
+  React.useEffect(() => {
+    getInstituteDetails();
+  }, [params]);
+  const getInstituteDetails = () => {
+    axios({
+      method: "get",
+      url: `http://localhost:3004/getInstituteDetails/${params.id}`,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then(function (response) {
+        if (response.data && response.data.length > 0) {
+          setInstituteDetails(response.data[0]);
+        }
+      })
+      .catch(() => {});
+  };
   const url = offline;
+
   return (
     <LayoutHome flagForSlider={false}>
       <div
@@ -46,13 +72,13 @@ const InstituteDetails = () => {
               }
             />
             <div style={{ paddingTop: 10, fontFamily: "poppins" }}>
-              Making Learning better
+              {instituteDetails.vision}
             </div>
           </Col>
           <Col xs={24} md={16}>
             {/* <Text style={{ fontSize: 18 }}>Career Power centre at</Text> */}
             <Title level={1} style={{ color: "#fff", marginTop: 0 }}>
-              Ansh Classes
+              {instituteDetails.institute_name}
             </Title>
 
             <p
@@ -63,16 +89,19 @@ const InstituteDetails = () => {
                 fontFamily: "poppins",
               }}
             >
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry. Lorem Ipsum has been the industry's standard dummy text
-              ever since the 1500s, when an unknown printer took a galley of
-              type and scrambled it to make a type specimen book. It has
-              survived not only five centuries, but also the leap into
-              electronic typesetting, remaining essentially unchanged. It was
-              popularised in the 1960s with the release of Letraset sheets
-              containing Lorem Ipsum passages, and more recently with desktop
-              publishing software like Aldus PageMaker including versions of
-              Lorem Ipsum.
+              {instituteDetails.institute_discription}
+            </p>
+
+            <p
+              style={{
+                fontSize: 16,
+                marginTop: 10,
+                lineHeight: "1.8rem",
+                fontFamily: "poppins",
+                color: "#fce304ff",
+              }}
+            >
+              Since {instituteDetails.entry_date}
             </p>
           </Col>
           <Col xs={24} md={4}>
@@ -84,9 +113,8 @@ const InstituteDetails = () => {
                 fontFamily: "poppins",
               }}
             >
-              <EnvironmentOutlined /> Career Power Laxmi Nagar B/37, Gurunanak
-              Pura, Laxmi Nagar Near ICICI Bank, Nirman Vihar Metro Station,
-              Delhi - 110092
+              <EnvironmentOutlined /> {instituteDetails.address},{" "}
+              {instituteDetails.city} - {instituteDetails.pincode}
             </p>
             <p
               style={{
@@ -95,7 +123,7 @@ const InstituteDetails = () => {
                 fontFamily: "poppins",
               }}
             >
-              <PhoneOutlined /> 8750505082, 8750606007
+              <PhoneOutlined /> {instituteDetails.contact}
             </p>
             <p
               style={{
@@ -104,7 +132,7 @@ const InstituteDetails = () => {
                 fontFamily: "poppins",
               }}
             >
-              <MailOutlined /> Ln@careerpower.in
+              <MailOutlined /> {instituteDetails.email}
             </p>
           </Col>
 

@@ -35,6 +35,20 @@ app.get("/getCourseDetails", (request, response) => {
   });
 });
 
+app.get("/getCourseData/:id", (request, response) => {
+   const institute_id = request.params.id;
+           
+  let sql = "SELECT * FROM course_details WHERE institute_id = ? ";
+  connection.query(sql, [institute_id], (error, results) => {
+    if (error) {
+      return response.status(500).send("Error retrieving login from database.");
+    } 
+    response.json(results);
+});
+});
+
+
+
 app.get("/getInstituteList", (request, response) => {
   let sql = "SELECT * from institute_details";
   connection.query(sql, (error, results) => {

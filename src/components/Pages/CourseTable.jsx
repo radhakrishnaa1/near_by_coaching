@@ -4,10 +4,16 @@ import BranchInfo from "./BranchInformation";
 import InstituteDetails from "./InstituteDetails";
 import { INSTITUTE_DETAILS } from "../../constants/Routes";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import React from "react";
 const CourseTable = (props) => {
   const navigate = useNavigate();
+  const [instituteList, setInstituteList] = React.useState([]);
+  React.useEffect(() => {
+    getInstituteList();
+  }, []);
 
-  const getCourseList = () => {
+  const getInstituteList = () => {
     axios({
       method: "get",
       url: `http://localhost:3004/getInstituteList`,
@@ -16,7 +22,7 @@ const CourseTable = (props) => {
       },
     })
       .then(function (response) {
-        setCourseList(response.data);
+        setInstituteList(response.data);
         console.log("notes data", response.data);
       })
       .catch(() => {});
@@ -25,8 +31,8 @@ const CourseTable = (props) => {
   const columns = [
     {
       title: "Institute Name",
-      dataIndex: "instituteName",
-      key: "name",
+      dataIndex: "institute_name",
+      key: "institute_name",
       render: (text) => <a>{text}</a>,
     },
 
@@ -37,35 +43,44 @@ const CourseTable = (props) => {
     },
     {
       title: "Contact Details",
-      dataIndex: "dateTime",
-      key: "dateTime",
+      dataIndex: "contact",
+      key: "contact",
     },
     {
-      title: "Email ID",
-      dataIndex: "status",
+      title: "State/City",
+
       key: "status",
+      render: (text, record) => (
+        <div>
+          {record.state} / {record.city}
+        </div>
+      ),
     },
     {
       title: "Action",
       key: "action",
       render: (text, record) => (
-        <Button type="primary" onClick={(record) => handleClick(record)} danger>
+        <Button
+          type="primary"
+          onClick={() => handleClick(record.institute_id)}
+          danger
+        >
           View Courses
         </Button>
       ),
     },
   ];
 
-  const handleClick = (record) => {
-    console.log("clicked", record);
-    navigate(INSTITUTE_DETAILS);
+  const handleClick = (institute_id) => {
+    console.log("clicked", institute_id);
+    navigate(INSTITUTE_DETAILS + "/" + institute_id);
   };
 
   return (
     <LayoutHome flagForSlider={false}>
       <BranchInfo />
       <div style={{ width: "90%", margin: "40px auto" }}>
-        <Table columns={columns} dataSource={data} />
+        <Table columns={columns} dataSource={instituteList} />
       </div>
       {/* <InstituteDetails /> */}
     </LayoutHome>
