@@ -27,7 +27,7 @@ const InstituteDetails = (props) => {
   const getInstituteDetails = () => {
     axios({
       method: "get",
-      url: `http://localhost:3004/getInstituteDetails/${params.id}`,
+      url: `http://localhost:3004/getInstituteDetails/${params.id}/0`,
       headers: {
         "Content-Type": "application/json",
       },

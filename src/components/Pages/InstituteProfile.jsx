@@ -22,6 +22,7 @@ const InstituteProfile = () => {
   const [stateData, setStateData] = useState([]);
   const [districtData, setDistrictData] = useState([]); // 🧠 State to store form values
   const [instituteData, setInstituteData] = useState({
+    institute_id: "",
     institute_name: "",
     institute_discription: "",
     institute_logo: "",
@@ -30,6 +31,8 @@ const InstituteProfile = () => {
     address: "",
     state: "",
     city: "",
+    stateName: "",
+    cityName: "",
     pincode: "",
     vision: "",
     creation_date: new Date().toISOString().split("T")[0],
@@ -40,6 +43,7 @@ const InstituteProfile = () => {
   React.useEffect(() => {
     getStateData();
     getDistrictData();
+    getInstituteDetails();
   }, []);
   const getStateData = () => {
     axios
@@ -63,6 +67,54 @@ const InstituteProfile = () => {
       });
   };
 
+  const getInstituteDetails = () => {
+    const email = sessionStorage.getItem("userId");
+    console.log("email===>", email);
+    axios
+      .get(`http://localhost:3004/getInstituteDetails/0/${email}`)
+      .then((response) => {
+        console.log("institute details===>", response.data);
+        if (response.data.length > 0) {
+          const data = response.data[0];
+          form.setFieldsValue({
+            name: data.institute_name,
+            instituteDetails: data.institute_discription,
+            instituteAddress: data.address,
+            contactNumber: data.contact,
+            emailId: data.email,
+            objective: data.vision,
+            stateName: data.state_name,
+            cityName: data.city_name,
+          });
+          console.log("data===>", districtData, stateData);
+          setInstituteData({
+            ...instituteData,
+            institute_id: data.institute_id,
+            institute_name: data.institute_name,
+            institute_discription: data.institute_discription,
+            institute_logo: data.institute_logo,
+            email: data.email,
+            contact: data.contact,
+            address: data.address,
+            state: data.state,
+            city: data.city,
+            stateName: data.state_name,
+            cityName: data.city_name,
+            pincode: data.pincode,
+            vision: data.vision,
+            creation_date: data.creation_date,
+          });
+          setInitialValues();
+        }
+      })
+      .catch((error) => {
+        console.error("There was an error fetching the district data!", error);
+      });
+  };
+
+  const setInitialValues = () => {
+    console.log("instituteData===>", stateData, districtData);
+  };
   // Handle form submission
   const handleFinish = (values) => {
     setInstituteData({
@@ -71,9 +123,9 @@ const InstituteProfile = () => {
     });
   };
 
-  const handleSelectChange = (value, name) => {
-    console.log(`selected ${value}`);
-  };
+  // const handleSelectChange = (value, name) => {
+  //   console.log(`selected ${value}`);
+  // };
 
   const handleSaveData = () => {
     console.log("Submitted Data:", instituteData);
@@ -82,8 +134,8 @@ const InstituteProfile = () => {
       institute_discription: instituteData.values.institute_discription,
       institute_logo: null,
       address: instituteData.values.address,
-      state: stateData,
-      city: districtData,
+      state: instituteData.values.state,
+      city: instituteData.values.city,
       pincode: instituteData.values.pincode,
       vision: instituteData.values.vision,
       creation_date: instituteData.creation_date,
@@ -94,7 +146,7 @@ const InstituteProfile = () => {
     if (instituteData) {
       axios({
         method: "post",
-        url: "http://localhost:3004/updateinstitute",
+        url: `http://localhost:3004/updateinstitute/${instituteData.institute_id}`,
         data: updateData,
         headers: {
           "Content-Type": "application/json",
@@ -169,8 +221,8 @@ const InstituteProfile = () => {
         <Form.Item label="State" name="state" rules={[{ required: true }]}>
           <Select
             style={{ width: "100%" }}
-            onChange={(value) => handleSelectChange(value, "state")}
-            name="state"
+            // onChange={(value) => handleSelectChange(value, "state")}
+            name="stateName"
           >
             {stateData.map((data, idd) => {
               return (
@@ -184,8 +236,8 @@ const InstituteProfile = () => {
         <Form.Item label="City" name="city" rules={[{ required: true }]}>
           <Select
             style={{ width: "100%" }}
-            onChange={(value) => handleSelectChange(value, "city")}
-            name="city"
+            // onChange={(value) => handleSelectChange(value, "city")}
+            name="cityName"
           >
             {districtData.map((data, idd) => {
               return (

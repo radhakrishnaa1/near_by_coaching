@@ -2,10 +2,12 @@ import React, { useState } from "react";
 import { UserOutlined, BankOutlined } from "@ant-design/icons";
 import { Card, Button, Flex, Form, Input, Row, Col } from "antd";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const App = () => {
   const [size, setSize] = useState("large"); // default is 'middle'
   const [roleId, setRoleId] = React.useState(1);
+  const navigate = useNavigate();
 
   const onFinish = (values) => {
     console.log("Success:", values);
@@ -30,12 +32,14 @@ const App = () => {
         .then(function (response) {
           console.log("response===>", response);
           if (response.data.length > 0) {
-            sessionStorage.setItem("userId", response.data[0].id);
+            sessionStorage.setItem("userId", response.data[0].login_id);
             sessionStorage.setItem("roleId", roleId);
             if (roleId == 1) {
-              window.location.href = "/institute-dashboard";
+              // window.location.href = "/institute-dashboard";
+              navigate("/institute-dashboard");
             } else {
-              window.location.href = "/student-dashboard";
+              // window.location.href = "/student-dashboard";
+              navigate("/student-dashboard");
             }
           } else {
             console.log("error===> Invalid Credentials");

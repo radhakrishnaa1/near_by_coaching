@@ -59,11 +59,25 @@ app.get("/getInstituteList", (request, response) => {
   });
 });
 
-app.get("/getInstituteDetails/:id", (request, response) => {
+app.get("/getInstituteDetails/:id/:email", (request, response) => {
     const institute_id = request.params.id;
+    const email = request.params.email;
+
            
-  let sql = "SELECT * FROM institute_details WHERE institute_id = ? ";
-  connection.query(sql, [institute_id], (error, results) => {
+  let sql = "SELECT * FROM institute_details WHERE institute_id = ? OR email = ? ";
+  connection.query(sql, [institute_id,email], (error, results) => {
+    if (error) {
+      return response.status(500).send("Error retrieving login from database.");
+    } 
+    response.json(results);
+  });
+});
+
+app.get("/getInstituteDetailsbyEmail/:email", (request, response) => {
+    const email = request.params.email;
+           
+  let sql = "SELECT * FROM institute_details WHERE email = ? ";
+  connection.query(sql, [email], (error, results) => {
     if (error) {
       return response.status(500).send("Error retrieving login from database.");
     } 
