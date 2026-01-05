@@ -10,7 +10,7 @@ import {
   DatePicker,
   Button,
   Row,
-  Col,
+  Col,Modal,
   Select,
   Space,
 } from "antd";
@@ -37,7 +37,16 @@ const InstituteProfile = () => {
     vision: "",
     creation_date: new Date().toISOString().split("T")[0],
   });
-
+const [isModalOpen, setIsModalOpen] = useState(false);
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
   // #5021ff
 
   React.useEffect(() => {
@@ -67,6 +76,7 @@ const InstituteProfile = () => {
       });
   };
 
+  
   const getInstituteDetails = () => {
     const email = sessionStorage.getItem("userId");
     console.log("email===>", email);
@@ -86,7 +96,7 @@ const InstituteProfile = () => {
             stateName: data.state_name,
             cityName: data.city_name,
           });
-          console.log("data===>", districtData, stateData);
+          // console.log("data===>", districtData, stateData);
           setInstituteData({
             ...instituteData,
             institute_id: data.institute_id,
@@ -104,7 +114,7 @@ const InstituteProfile = () => {
             vision: data.vision,
             creation_date: data.creation_date,
           });
-          setInitialValues();
+          // setInitialValues();
         }
       })
       .catch((error) => {
@@ -112,9 +122,9 @@ const InstituteProfile = () => {
       });
   };
 
-  const setInitialValues = () => {
-    console.log("instituteData===>", stateData, districtData);
-  };
+  // const setInitialValues = () => {
+  //   console.log("instituteData===>", stateData, districtData);
+  // };
   // Handle form submission
   const handleFinish = (values) => {
     setInstituteData({
@@ -127,23 +137,35 @@ const InstituteProfile = () => {
   //   console.log(`selected ${value}`);
   // };
 
+const handlePreviewData =()=>{
+  console.log(instituteData)
+    // console.log("city ", instituteData.values.city.split("/"))
+    
+
+}
   const handleSaveData = () => {
     console.log("Submitted Data:", instituteData);
+    // console.log("city ", instituteData.values.city.split("/"))
+  const stateDataArray =instituteData.values.state.split("/")
+  const cityDataArray =instituteData.values.city.split("/")
+
     const updateData = {
-      institute_name: instituteData.values.institute_name,
-      institute_discription: instituteData.values.institute_discription,
+      institute_name: instituteData.values.name,
+      institute_discription: instituteData.values.instituteDetails,
       institute_logo: null,
-      address: instituteData.values.address,
-      state: instituteData.values.state,
-      city: instituteData.values.city,
+      address: instituteData.values.instituteAddress,
+      state: stateDataArray[0],
+      city_name:cityDataArray[1],
+      state_name:stateDataArray[1],
+      city: cityDataArray[0],
       pincode: instituteData.values.pincode,
       vision: instituteData.values.vision,
-      creation_date: instituteData.creation_date,
-      entry_date: instituteData.creation_date,
+      creation_date: "2002-06-08",
+      entry_date: new Date().toISOString().split("T")[0],
     };
 
     // Here, you can send 'letterData' to your backend or perform other actions
-    if (instituteData) {
+    if (updateData) {
       axios({
         method: "post",
         url: `http://localhost:3004/updateinstitute/${instituteData.institute_id}`,
@@ -218,7 +240,7 @@ const InstituteProfile = () => {
         >
           <TextArea rows={6} placeholder="Enter Institute Address" />
         </Form.Item>
-        <Form.Item label="State" name="state" rules={[{ required: true }]}>
+        <Form.Item label="State" name="stateName" rules={[{ required: true }]}>
           <Select
             style={{ width: "100%" }}
             // onChange={(value) => handleSelectChange(value, "state")}
@@ -226,14 +248,14 @@ const InstituteProfile = () => {
           >
             {stateData.map((data, idd) => {
               return (
-                <option key={idd} value={data.id}>
+                <option key={idd} value={data.id+"/"+data.name}>
                   {data.name}
                 </option>
               );
             })}
           </Select>
         </Form.Item>
-        <Form.Item label="City" name="city" rules={[{ required: true }]}>
+        <Form.Item label="City" name="cityName" rules={[{ required: true }]}>
           <Select
             style={{ width: "100%" }}
             // onChange={(value) => handleSelectChange(value, "city")}
@@ -241,7 +263,7 @@ const InstituteProfile = () => {
           >
             {districtData.map((data, idd) => {
               return (
-                <option key={idd} value={data.city_code}>
+                <option key={idd} value={data.city_code+"/"+data.name}>
                   {data.name}
                 </option>
               );
@@ -252,7 +274,7 @@ const InstituteProfile = () => {
           <Button
             type="primary"
             htmlType="submit"
-            onClick={console.log("Letter Data:", instituteData)}
+            onClick={()=>showModal()}
           >
             Preview Details
           </Button>
@@ -261,6 +283,76 @@ const InstituteProfile = () => {
           </Button>
         </Space>
       </Form>
+
+ <Modal
+        title="Basic Modal"
+        closable={{ 'aria-label': 'Custom Close Button' }}
+        open={isModalOpen}
+        onOk={handleOk}
+        onCancel={handleCancel}
+      >
+       <Row gutter={16} style={{marginBottom:20}}>
+      <Col className="gutter-row" span={8}>
+        <div >Institute Name</div>
+        <div >{instituteData?.values?.name}</div>
+
+      </Col>
+      <Col className="gutter-row" span={8}>
+        <div >Email</div>
+        <div>{instituteData?.values?.instituteDetails}</div>
+      </Col>
+      <Col className="gutter-row" span={8}>
+        <div >Contact</div>
+        <div>{}</div>
+      </Col>
+      
+    </Row>
+    <Row gutter={16} style={{marginBottom:20}}>
+      <Col className="gutter-row" span={8}>
+        <div >Address</div>
+        <div>{instituteData?.values?.instituteAddress}</div>
+      </Col>
+      <Col className="gutter-row" span={8}>
+        <div >state</div>
+      </Col>
+      <Col className="gutter-row" span={8}>
+        <div >city</div>
+        <div>{}</div>
+      </Col>
+      
+    </Row>
+    <Row gutter={16}>
+      <Col className="gutter-row" span={8}>
+        <div> Vision</div>
+        <div>{instituteData?.values?.vision}</div>
+      </Col>
+      <Col className="gutter-row" span={8}>
+        <div> Discription</div>
+        <div>{instituteData?.values?.institute_discription}</div>
+      </Col>
+      <Col className="gutter-row" span={8}>
+        <div>Formation Date</div>
+      </Col>
+
+      <Col className="gutter-row" span={8}>
+        <div>pincode</div>
+        <div>{instituteData?.values?.pincode}</div>
+      </Col>
+      
+    </Row>
+
+       <Row gutter={16}>
+      
+      <Col className="gutter-row" span={12}>
+        <div> Discription</div>
+        <div> {instituteData?.values?.instituteDetails}</div>
+        
+      </Col>
+
+      
+    </Row>
+      </Modal>
+
     </AuthLayout>
   );
 };
