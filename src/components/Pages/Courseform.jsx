@@ -15,7 +15,7 @@ import axios from "axios";
 
 import LayoutHome from "../Layouts/LayoutHome";
 // import dayjs from "dayjs";
-const Courseform = () => {
+const Courseform = (props) => {
   const [courseData, setCourseData] = useState({
     course_name: "",
     course_duraton: "",
@@ -60,7 +60,7 @@ const Courseform = () => {
     });
   };
   const handleSubmit = () => {
-    console.log("course data", courseData);
+    // console.log("course data", courseData);
     // const currentDateUTC = new Date().toISOString().split("T")[0];
 
     if (courseData) {
@@ -254,8 +254,15 @@ const Courseform = () => {
           </Row>
 
           <Divider />
-          <Button type="primary" onClick={() => handleSubmit()}>
+          <Button
+            type="primary"
+            onClick={() => handleSubmit()}
+            style={{ marginRight: 20 }}
+          >
             Submit
+          </Button>
+          <Button type="primary" onClick={() => props?.cancel()}>
+            Cancel
           </Button>
         </Form>
       </Card>

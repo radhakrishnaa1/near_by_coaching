@@ -36,3 +36,7 @@
     transform: rotate(360deg);
   }
 }
+.ant-card .ant-card-meta-title {
+  white-space: normal;
+  font-weight: 600;
+}

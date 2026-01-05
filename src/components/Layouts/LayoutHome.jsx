@@ -120,7 +120,7 @@ const FloatingAppBar = (props) => {
         </Space>
       </Header>
       <div style={{ paddingTop: 100, backgroundColor: "#fff" }}></div>
-      {props?.flagForSlider ? <CarouselTop /> : null}
+      {/* {props?.flagForSlider ? <CarouselTop /> : null} */}
 
       {/* Dummy content to test scrolling */}
       <Content style={{ background: "#fff", padding: 20 }}>

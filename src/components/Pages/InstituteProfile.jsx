@@ -10,7 +10,8 @@ import {
   DatePicker,
   Button,
   Row,
-  Col,Modal,
+  Col,
+  Modal,
   Select,
   Space,
 } from "antd";
@@ -20,7 +21,10 @@ const { TextArea } = Input;
 const InstituteProfile = () => {
   const [form] = Form.useForm();
   const [stateData, setStateData] = useState([]);
-  const [districtData, setDistrictData] = useState([]); // 🧠 State to store form values
+  const [districtData, setDistrictData] = useState([]);
+  const [stateName, setStateName] = useState("");
+  const [cityName, setCityName] = useState(""); // 🧠 State to store form values
+  // 🧠 State to store form values
   const [instituteData, setInstituteData] = useState({
     institute_id: "",
     institute_name: "",
@@ -37,8 +41,9 @@ const InstituteProfile = () => {
     vision: "",
     creation_date: new Date().toISOString().split("T")[0],
   });
-const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const showModal = () => {
+    console.log("instituteData===>", instituteData);
     setIsModalOpen(true);
   };
   const handleOk = () => {
@@ -76,7 +81,6 @@ const [isModalOpen, setIsModalOpen] = useState(false);
       });
   };
 
-  
   const getInstituteDetails = () => {
     const email = sessionStorage.getItem("userId");
     console.log("email===>", email);
@@ -137,17 +141,15 @@ const [isModalOpen, setIsModalOpen] = useState(false);
   //   console.log(`selected ${value}`);
   // };
 
-const handlePreviewData =()=>{
-  console.log(instituteData)
+  const handlePreviewData = () => {
+    console.log(instituteData);
     // console.log("city ", instituteData.values.city.split("/"))
-    
-
-}
+  };
   const handleSaveData = () => {
     console.log("Submitted Data:", instituteData);
     // console.log("city ", instituteData.values.city.split("/"))
-  const stateDataArray =instituteData.values.state.split("/")
-  const cityDataArray =instituteData.values.city.split("/")
+    const stateDataArray = instituteData.values.state.split("/");
+    const cityDataArray = instituteData.values.city.split("/");
 
     const updateData = {
       institute_name: instituteData.values.name,
@@ -155,8 +157,8 @@ const handlePreviewData =()=>{
       institute_logo: null,
       address: instituteData.values.instituteAddress,
       state: stateDataArray[0],
-      city_name:cityDataArray[1],
-      state_name:stateDataArray[1],
+      city_name: cityDataArray[1],
+      state_name: stateDataArray[1],
       city: cityDataArray[0],
       pincode: instituteData.values.pincode,
       vision: instituteData.values.vision,
@@ -248,7 +250,7 @@ const handlePreviewData =()=>{
           >
             {stateData.map((data, idd) => {
               return (
-                <option key={idd} value={data.id+"/"+data.name}>
+                <option key={idd} value={data.id + "/" + data.name}>
                   {data.name}
                 </option>
               );
@@ -263,96 +265,94 @@ const handlePreviewData =()=>{
           >
             {districtData.map((data, idd) => {
               return (
-                <option key={idd} value={data.city_code+"/"+data.name}>
+                <option key={idd} value={data.city_code + "/" + data.name}>
                   {data.name}
                 </option>
               );
             })}
           </Select>
         </Form.Item>
-        <Space style={{ width: "100%", justifyContent: "space-between" }}>
-          <Button
-            type="primary"
-            htmlType="submit"
-            onClick={()=>showModal()}
-          >
+        <Space
+          style={{
+            width: "100%",
+            justifyContent: "space-around",
+            marginBottom: "20px",
+          }}
+        >
+          <Button type="primary" htmlType="submit" onClick={() => showModal()}>
             Preview Details
           </Button>
-          <Button type="default" onClick={() => handleSaveData()}>
+          <Button type="primary" danger onClick={() => handleSaveData()}>
             Submit
           </Button>
         </Space>
       </Form>
 
- <Modal
-        title="Basic Modal"
-        closable={{ 'aria-label': 'Custom Close Button' }}
+      <Modal
+        title="Preview Institute Details Before Submit"
+        closable={{ "aria-label": "Custom Close Button" }}
         open={isModalOpen}
         onOk={handleOk}
         onCancel={handleCancel}
+        width={{
+          xs: "90%",
+          sm: "80%",
+          md: "80%",
+          lg: "80%",
+          xl: "80%",
+          xxl: "70%",
+        }}
       >
-       <Row gutter={16} style={{marginBottom:20}}>
-      <Col className="gutter-row" span={8}>
-        <div >Institute Name</div>
-        <div >{instituteData?.values?.name}</div>
+        <Row gutter={16} style={{ marginBottom: 20 }}>
+          <Col className="gutter-row" span={8}>
+            <div>Institute Name</div>
+            <div>{instituteData?.values?.name}</div>
+          </Col>
+          <Col className="gutter-row" span={8}>
+            <div>Email</div>
+            <div>{instituteData?.values?.emailId}</div>
+          </Col>
+          <Col className="gutter-row" span={8}>
+            <div>Contact</div>
+            <div>{instituteData?.values?.contactNumber}</div>
+          </Col>
+        </Row>
+        <Row gutter={16} style={{ marginBottom: 20 }}>
+          <Col className="gutter-row" span={8}>
+            <div>Address</div>
+            <div>{instituteData?.values?.instituteAddress}</div>
+          </Col>
+          <Col className="gutter-row" span={8}>
+            <div>State</div>
+            <div>{instituteData?.values?.stateName}</div>
+          </Col>
+          <Col className="gutter-row" span={8}>
+            <div>city</div>
+            <div>{instituteData?.values?.cityName}</div>
+          </Col>
+        </Row>
+        <Row gutter={16} style={{ marginBottom: 20 }}>
+          <Col className="gutter-row" span={8}>
+            <div> Vision</div>
+            <div>{instituteData?.values?.objective}</div>
+          </Col>
+          <Col className="gutter-row" span={8}>
+            <div>pincode</div>
+            <div>{instituteData?.pincode}</div>
+          </Col>
+          <Col className="gutter-row" span={8}>
+            <div>Formation Date</div>
+            <div>{instituteData?.creation_date}</div>
+          </Col>
+        </Row>
 
-      </Col>
-      <Col className="gutter-row" span={8}>
-        <div >Email</div>
-        <div>{instituteData?.values?.instituteDetails}</div>
-      </Col>
-      <Col className="gutter-row" span={8}>
-        <div >Contact</div>
-        <div>{}</div>
-      </Col>
-      
-    </Row>
-    <Row gutter={16} style={{marginBottom:20}}>
-      <Col className="gutter-row" span={8}>
-        <div >Address</div>
-        <div>{instituteData?.values?.instituteAddress}</div>
-      </Col>
-      <Col className="gutter-row" span={8}>
-        <div >state</div>
-      </Col>
-      <Col className="gutter-row" span={8}>
-        <div >city</div>
-        <div>{}</div>
-      </Col>
-      
-    </Row>
-    <Row gutter={16}>
-      <Col className="gutter-row" span={8}>
-        <div> Vision</div>
-        <div>{instituteData?.values?.vision}</div>
-      </Col>
-      <Col className="gutter-row" span={8}>
-        <div> Discription</div>
-        <div>{instituteData?.values?.institute_discription}</div>
-      </Col>
-      <Col className="gutter-row" span={8}>
-        <div>Formation Date</div>
-      </Col>
-
-      <Col className="gutter-row" span={8}>
-        <div>pincode</div>
-        <div>{instituteData?.values?.pincode}</div>
-      </Col>
-      
-    </Row>
-
-       <Row gutter={16}>
-      
-      <Col className="gutter-row" span={12}>
-        <div> Discription</div>
-        <div> {instituteData?.values?.instituteDetails}</div>
-        
-      </Col>
-
-      
-    </Row>
+        <Row gutter={16}>
+          <Col className="gutter-row" span={12}>
+            <div> Discription</div>
+            <div> {instituteData?.values?.instituteDetails}</div>
+          </Col>
+        </Row>
       </Modal>
-
     </AuthLayout>
   );
 };

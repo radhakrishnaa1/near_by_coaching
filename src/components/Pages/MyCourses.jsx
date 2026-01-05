@@ -10,9 +10,9 @@ import axios from "axios";
 
 const MyCourses = () => {
   const [size, setSize] = useState("large");
-  const [courseList, setCourseList] = useState("large"); // default is 'middle'
-  // default is 'middle'
-
+  const [courseList, setCourseList] = useState([]); // default is 'middle'
+  const [showCourseForm, setShowForm] = useState(false); // default is 'middle'
+  const [viewCourseDetails, setViewCourseDetails] = useState(""); // default is 'middle'
   React.useEffect(() => {
     getCourseList();
   }, []);
@@ -26,57 +26,20 @@ const MyCourses = () => {
     })
       .then(function (response) {
         setCourseList(response.data);
-        console.log("notes data", response.data);
+        // console.log("notes data", response.data);
       })
       .catch(() => {});
   };
 
-  
-  const courseData = [
-    {
-      key: 1,
-      label: "PCM 12th",
-      courseDescription: "This is the Course description",
-      board: "CBSE",
-      medium: "English",
-      duration: "6 months",
-      fee: "4000",
-      timing: "6 AM",
-      mode: "Online",
-      active: true,
-      status: "",
-      maxlimit: 30,
-      img: "https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png",
-    },
-    {
-      key: 2,
-      label: "10th Board",
-      courseDescription: "This is the Course description",
-      board: "CG Board",
-      medium: "English",
-      duration: "6 months",
-      fee: "4000",
-      timing: "6 AM",
-      mode: "Offline",
-      active: true,
-      maxlimit: 45,
-      img: "https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png",
-    },
-    {
-      key: 3,
-      label: "PCM 12th",
-      courseDescription: "This is the Course description",
-      board: "CBSE",
-      medium: "English",
-      duration: "6 months",
-      fee: "4000",
-      timing: "6 AM",
-      mode: "Online",
-      active: true,
-      maxlimit: 60,
-      img: "https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png",
-    },
-  ];
+  const addCourseFormShow = () => {
+    setShowForm(!showCourseForm);
+    setViewCourseDetails("");
+  };
+
+  const handleCardClick = (data) => {
+    console.log("card clicked", data);
+    setViewCourseDetails(data);
+  };
 
   return (
     <AuthLayout>
@@ -85,14 +48,27 @@ const MyCourses = () => {
           paddingTop: 30,
           paddingBottom: 30,
           display: "flex",
+          flexWrap: "wrap",
+          gap: 20,
           justifyContent: "space-around",
+          marginBottom: 10,
         }}
       >
-        {courseData?.map((data, id) => {
-          return <CourseCard courseData={data} />;
+        {courseList?.map((data, id) => {
+          return (
+            <CourseCard
+              key={id}
+              courseData={data}
+              handleCardClick={handleCardClick}
+              img="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
+            />
+          );
         })}
 
-        <Card style={{ width: 300, textAlign: "center", paddingTop: 100 }}>
+        <Card
+          style={{ width: 300, textAlign: "center", paddingTop: 100 }}
+          onClick={() => addCourseFormShow()}
+        >
           <Avatar
             style={{ backgroundColor: "#fde3cf", color: "#f56a00" }}
             size={64}
@@ -101,8 +77,11 @@ const MyCourses = () => {
           <p style={{ paddingTop: 20, fontFamily: "poppins" }}>Add Courses</p>
         </Card>
       </div>
-      <CourseForm />
-      <CourseDetails></CourseDetails>
+      {showCourseForm ? <CourseForm cancel={addCourseFormShow} /> : null}
+
+      {viewCourseDetails == "" ? null : (
+        <CourseDetails viewCourseDetails={viewCourseDetails}></CourseDetails>
+      )}
     </AuthLayout>
   );
 };

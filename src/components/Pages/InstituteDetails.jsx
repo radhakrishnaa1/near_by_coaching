@@ -142,7 +142,7 @@ const InstituteDetails = (props) => {
       <div>
         <CourseCardOuter />
       </div>
-      <div style={{ margin: "auto", width: "95%" }}>
+      {/* <div style={{ margin: "auto", width: "95%" }}>
         <Row gutter={16}>
           <Col span={12}>
             <CourseDetails />
@@ -152,7 +152,7 @@ const InstituteDetails = (props) => {
             <PurchaseCourse />
           </Col>
         </Row>
-      </div>
+      </div> */}
     </LayoutHome>
   );
 };

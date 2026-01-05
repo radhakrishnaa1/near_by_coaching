@@ -2,27 +2,30 @@ import React from "react";
 import { Row, Col, Card, Typography, Select, Button } from "antd";
 import { HeartOutlined } from "@ant-design/icons";
 import { useParams } from "react-router-dom";
+import PurchaseCourse from "./PurchaseCourse";
+import CourseDetails from "./CourseDetails";
 import axios from "axios";
 const { Title, Text } = Typography;
 const { Option } = Select;
 
-const courses = [
-  {
-    id: 1,
-    title:
-      "Bihar B.Ed. 4-year Integrated Course 2025 Common Entrance Exam (CET-BED)",
-    language: "Hinglish",
-    type: "Video Course",
-    videos: "219 Videos",
-    price: "₹3996",
-    offer: "Offers Available",
-    image:
-      "https://st.adda247.com/https://storeimages.adda247.com/941621760351293.png?tr=w-undefined", // replace with real image
-  },
-];
+// const courses = [
+//   {
+//     id: 1,
+//     title:
+//       "Bihar B.Ed. 4-year Integrated Course 2025 Common Entrance Exam (CET-BED)",
+//     language: "Hinglish",
+//     type: "Video Course",
+//     videos: "219 Videos",
+//     price: "₹3996",
+//     offer: "Offers Available",
+//     image:
+//       "https://st.adda247.com/https://storeimages.adda247.com/941621760351293.png?tr=w-undefined", // replace with real image
+//   },
+// ];
 
 const Courses = () => {
-  const [coursesList, setCoursesList] = React.useState(courses);
+  const [coursesList, setCoursesList] = React.useState([]);
+  const [courseSelected, setCourseSelected] = React.useState(null);
   const params = useParams();
 
   React.useEffect(() => {
@@ -42,6 +45,12 @@ const Courses = () => {
         setCoursesList(response.data);
       })
       .catch(() => {});
+  };
+
+  const handleCourseselect = (data) => {
+    console.log("Selected course ID:", data);
+    setCourseSelected(data);
+    // Implement further actions based on selected course
   };
 
   return (
@@ -71,6 +80,7 @@ const Courses = () => {
                   }}
                 />
               }
+              onClick={() => handleCourseselect(course)}
               actions={[<HeartOutlined key="like" />]}
             >
               <div style={{ marginBottom: 8 }}>
@@ -93,6 +103,18 @@ const Courses = () => {
           </Col>
         ))}
       </Row>
+
+      <div style={{ margin: "auto", width: "95%" }}>
+        <Row gutter={16}>
+          <Col span={12}>
+            <CourseDetails viewCourseDetails={courseSelected} />
+          </Col>
+
+          <Col span={12}>
+            <PurchaseCourse />
+          </Col>
+        </Row>
+      </div>
     </div>
   );
 };
