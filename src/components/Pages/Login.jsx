@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 
 const App = () => {
   const [size, setSize] = useState("large"); // default is 'middle'
-  const [roleId, setRoleId] = React.useState(1);
+  const [roleId, setRoleId] = React.useState("1");
   const navigate = useNavigate();
 
   const onFinish = (values) => {
@@ -34,6 +34,7 @@ const App = () => {
           if (response.data.length > 0) {
             sessionStorage.setItem("userId", response.data[0].login_id);
             sessionStorage.setItem("roleId", roleId);
+            sessionStorage.setItem("active", "true");
             if (roleId == 1) {
               // window.location.href = "/institute-dashboard";
               navigate("/institute-dashboard");
@@ -91,20 +92,26 @@ const App = () => {
             <Col span={24}>
               <Flex gap="small" justify="space-around" wrap>
                 <Button
-                  type="primary"
                   shape="round"
                   icon={<UserOutlined />}
                   size={size}
-                  onClick={() => setRoleId(2)}
+                  onClick={() => setRoleId("2")}
+                  style={{
+                    backgroundColor: roleId === "2" ? "#1890ff" : "",
+                    color: roleId === "2" ? "#fff" : "",
+                  }}
                 >
                   Student
                 </Button>
                 <Button
-                  type="primary"
                   shape="round"
                   icon={<BankOutlined />}
                   size={size}
-                  onClick={() => setRoleId(1)}
+                  style={{
+                    backgroundColor: roleId === "1" ? "#1890ff" : "",
+                    color: roleId === "1" ? "#fff" : "",
+                  }}
+                  onClick={() => setRoleId("1")}
                 >
                   Institute
                 </Button>

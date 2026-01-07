@@ -33,9 +33,10 @@ import Faculty from './components/Pages/Faculty';
 import CourseDetails from './components/Pages/CourseDetails';
 import {HOME,
   COURSE_DETAILS, COURSE_TABLE, INSTITUTE_DETAILS,
-  FACULTY_DETAILS, INSTITUTE_DASHBOARD, STUDENT_REGISTRATION,MYCOURSES,INSTITUTE_DETAILS_ID, INSTITUTE_PROFILE} from './constants/Routes';
+  FACULTY_DETAILS, INSTITUTE_DASHBOARD, STUDENT_REGISTRATION,MYCOURSES,INSTITUTE_DETAILS_ID, INSTITUTE_PROFILE,STUDENTDASHBOARD} from './constants/Routes';
 import InstituteDetails from "./components/Pages/InstituteDetails"
 import InstituteProfile from './components/Pages/InstituteProfile';
+import StudentDashboard from './components/Pages/StudentDashboard';
 
 
 function LandingPage(props) {
@@ -56,29 +57,53 @@ function LandingPage(props) {
     })
   }
 
+  console.log(sessionStorage.getItem("roleId") === "2",sessionStorage.getItem("active") === "true")
+ if (sessionStorage.getItem("active") === "true") {
+    if (sessionStorage.getItem("roleId") === "1") {
       return (
         <Routes>
-          <Route path={HOME} element= {<Home {...props} /> }/>
+          <Route path={HOME} element= {<Home {...props} handleSpinner={handleSpinner} /> }/>
 
           {/* <Route path={"/TD"} element= {<Teacherdetail {...props} /> }/> */}
 
 
-          <Route path={COURSE_DETAILS} element= {<CourseDetails {...props} /> }/>
-          <Route path={COURSE_TABLE} element= {<CourseTable {...props} /> }/> 
+          <Route path={COURSE_DETAILS} element= {<CourseDetails {...props}  handleSpinner={handleSpinner}/> }/>
+          <Route path={COURSE_TABLE} element= {<CourseTable {...props} handleSpinner={handleSpinner} /> }/> 
           <Route path={FACULTY_DETAILS} element= {<Faculty {...props} handleSpinner={handleSpinner} /> }/>
 
           <Route path={INSTITUTE_DETAILS_ID} element= {<InstituteDetails {...props} handleSpinner={handleSpinner} /> }/>
 
-          <Route path={INSTITUTE_DASHBOARD} element= {<InstituteDashboard {...props} /> }/>
+          <Route path={INSTITUTE_DASHBOARD} element= {<InstituteDashboard {...props} handleSpinner={handleSpinner} /> }/>
 
           {/* <Route path={"/instituteregistration"}  element={ <InstituteRegistration {...props} />} /> */}
 
-          <Route path={STUDENT_REGISTRATION} element={ <StudentRegistration  {...props} />} />
-          <Route path={MYCOURSES}  element={ <MyCourses {...props} />} />
-          <Route path={INSTITUTE_PROFILE}  element={ <InstituteProfile {...props} />} />
+          <Route path={STUDENT_REGISTRATION} element={ <StudentRegistration  {...props}  handleSpinner={handleSpinner}/>} />
+          <Route path={MYCOURSES}  element={ <MyCourses {...props} handleSpinner={handleSpinner} />} />
+          <Route path={INSTITUTE_PROFILE}  element={ <InstituteProfile {...props} handleSpinner={handleSpinner}/>} />
           
           </Routes>
       )
+    }
+    else if (sessionStorage.getItem("roleId") === "2") {
+      return (
+        <Routes>
+          <Route path={STUDENTDASHBOARD} element= {<StudentDashboard {...props} handleSpinner={handleSpinner}/> }/>
+       
+          </Routes>
+          )
+    }
+  }
+  else if (sessionStorage.getItem("active") !== "true") {
+    return (
+      <Routes>
+        <Route path={HOME} element= {<Home {...props} handleSpinner={handleSpinner} /> }/>
+     <Route path={COURSE_TABLE} element= {<CourseTable {...props}  handleSpinner={handleSpinner}/> }/> 
+          <Route path={INSTITUTE_DETAILS_ID} element= {<InstituteDetails {...props} handleSpinner={handleSpinner} /> }/>
+          <Route path={COURSE_DETAILS} element= {<CourseDetails {...props} handleSpinner={handleSpinner}/> }/>
+
+        </Routes>
+    )
+  }
    
 }
 

@@ -12,6 +12,8 @@ import CourseDetails from "./CourseDetails";
 import axios from "axios";
 import LayoutHome from "../Layouts/LayoutHome";
 import { useParams } from "react-router-dom";
+import moment from "moment";
+import Swal from "sweetalert2";
 
 const { Title, Text } = Typography;
 const { Option } = Select;
@@ -25,6 +27,7 @@ const InstituteDetails = (props) => {
     getInstituteDetails();
   }, [params]);
   const getInstituteDetails = () => {
+    props.handleSpinner(true);
     axios({
       method: "get",
       url: `http://localhost:3004/getInstituteDetails/${params.id}/0`,
@@ -34,6 +37,7 @@ const InstituteDetails = (props) => {
     })
       .then(function (response) {
         if (response.data && response.data.length > 0) {
+          Swal.close();
           setInstituteDetails(response.data[0]);
         }
       })
@@ -101,7 +105,9 @@ const InstituteDetails = (props) => {
                 color: "#fce304ff",
               }}
             >
-              Since {instituteDetails.entry_date}
+              {/* {instituteDetails.creation_date} */}
+              Since{" "}
+              {moment(instituteDetails.creation_date).format("DD-MM-YYYY")}
             </p>
           </Col>
           <Col xs={24} md={4}>
@@ -140,7 +146,10 @@ const InstituteDetails = (props) => {
         </Row>
       </div>
       <div>
-        <CourseCardOuter />
+        <CourseCardOuter
+          handleSpinner={props.handleSpinner}
+          instituteId={instituteDetails?.institute_id}
+        />
       </div>
       {/* <div style={{ margin: "auto", width: "95%" }}>
         <Row gutter={16}>

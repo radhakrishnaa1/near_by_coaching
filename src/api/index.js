@@ -85,6 +85,35 @@ app.get("/getInstituteDetailsbyEmail/:email", (request, response) => {
   });
 });
 
+app.get("/purchasecoursebystudent/:email", (request, response) => {
+    const email = request.params.email;
+           
+  let sql = "SELECT p.purchase_id,p.student_id,p.purchase_date,p.fee_paid,c.courseid,c.course_name, c.course_duraton,c.course_fee,c.status,c.mode,c.timing,c.course_medium,c.start_date,c.end_date,c.discount FROM purchase_course p INNER JOIN course_details c ON p.course_id = c.courseid WHERE p.email = ?";
+  connection.query(sql, [email], (error, results) => {
+    if (error) {
+     console.error("SQL ERROR:", error);  // logs actual error
+        return response.status(500).json({
+          message: "Error saving institute_details to database",
+          error: error.message
+        });
+    } 
+    response.json(results);
+  });
+});
+
+app.get("/getStudentByEMail/:email", (request, response) => {
+    const email = request.params.email;
+           
+  let sql = "SELECT * FROM student_details WHERE email = ? ";
+  connection.query(sql, [email], (error, results) => {
+    if (error) {
+      return response.status(500).send("Error retrieving login from database.");
+    } 
+    response.json(results);
+  });
+});
+
+
 app.get("/getDistrictsData", (request, response) => {
   let sql = "SELECT * from districts";
   connection.query(sql, (error, results) => {
@@ -366,7 +395,7 @@ app.delete("/:id", (request, response) => {
   });
 });
 
-// Update a user
+// Update a institute profile
 app.post('/updateinstitute/:id', (req, res) => {
   const { id } = req.params;
   const {institute_name,
@@ -392,35 +421,137 @@ app.post('/updateinstitute/:id', (req, res) => {
   });
 });
 
-// UPDATE API
-app.put("/update-user/:id", async (req, res) => {
-  const userId = req.params.id;
-  const { name, email, mobile } = req.body;
+// app.post('/purchaseCourse',  (req, res) => {
+//   const rollId ="2";
+//   // purchase_id
+  
+//   const {
+//      institute_id,
+//      student_id,
+//      course_id,
+//       purchase_date, 
+//       fee_paid, 
+//      student_name, 
+//      email, 
+//      contact, 
+//     creation_date
+//   } = req.body;
 
-  try {
-    const [result] = await db.execute(
-      `UPDATE users 
-       SET name = ?, email = ?, mobile = ?
-       WHERE id = ?`,
-      [name, email, mobile, userId]
+//   try {
+//     // 1. Start a transaction (method depends on your library)
+//      connection.beginTransaction();
+
+//     // 2. Insert into the first table (e.g., 'orders')
+//      const sql = `INSERT INTO purchase_course (institute_id,email,course_id,contact, purchase_date, fee_paid ) 
+//     VALUES (?, ?, ?, ?, ?, ?)`;
+//     const sqlResult = connection.query(sql, [institute_id,email ,course_id,contact, purchase_date, fee_paid]);
+//     const sqlId = sqlResult.insertId; // Get the ID of the newly inserted order
+
+//     const loginSql = `INSERT INTO login (login_id, password, roll_id, logindate) VALUES (?, ?, ?, ?)`
+
+//     // 4. Insert multiple records into the second table
+//      connection.query(loginSql, [email,contact,rollId,creation_date]);
+
+//  const studentSql = `INSERT INTO student_details (student_name, email, contact, creation_date) VALUES ( ?, ?, ?,?)`
+
+//     // 4. Insert multiple records into the second table
+//      connection.query(studentSql, [student_name, email,contact,creation_date]);
+
+//     // 5. Commit the transaction if all inserts were successful
+//      connection.commit();
+
+//     res.status(201).send({ message: 'Login Id created successfuly' ,sqlId});
+//   } catch (error) {
+//     // 6. Rollback the transaction in case of any error
+//      connection.rollback();
+//     console.error(error);
+//     res.status(500).send({ message: 'Failed to register institute ', error: error.message });
+//   }
+// });
+
+
+app.post('/purchaseCourse', (req, res) => {
+  const rollId = "2";
+
+  const {
+    institute_id,
+    course_id,
+    purchase_date,
+    fee_paid,
+    student_name,
+    email,
+    contact,
+    creation_date
+  } = req.body;
+
+  connection.beginTransaction((err) => {
+    if (err) return res.status(500).json(err);
+
+    const purchaseSql = `
+      INSERT INTO purchase_course 
+      (institute_id, email, course_id, contact, purchase_date, fee_paid)
+      VALUES (?, ?, ?, ?, ?, ?)
+    `;
+
+    connection.query(
+      purchaseSql,
+      [institute_id, email, course_id, contact, purchase_date, fee_paid],
+      (err, purchaseResult) => {
+        if (err) {
+          return connection.rollback(() => {
+            res.status(500).json(err);
+          });
+        }
+
+        const purchaseId = purchaseResult.insertId;
+
+        const loginSql = `
+          INSERT INTO login (login_id, password, roll_id, logindate)
+          VALUES (?, ?, ?, ?)
+        `;
+
+        connection.query(
+          loginSql,
+          [email, contact, rollId, creation_date],
+          (err) => {
+            if (err) {
+              return connection.rollback(() => {
+                res.status(500).json(err);
+              });
+            }
+
+            const studentSql = `
+              INSERT INTO student_details (student_name, email, contact, creation_date)
+              VALUES (?, ?, ?, ?)
+            `;
+
+            connection.query(
+              studentSql,
+              [student_name, email, contact, creation_date],
+              (err) => {
+                if (err) {
+                  return connection.rollback(() => {
+                    res.status(500).json(err);
+                  });
+                }
+
+                connection.commit((err) => {
+                  if (err) {
+                    return connection.rollback(() => {
+                      res.status(500).json(err);
+                    });
+                  }
+
+                  res.status(201).json({
+                    message: "Purchase & student created successfully",
+                    purchaseId
+                  });
+                });
+              }
+            );
+          }
+        );
+      }
     );
-
-    if (result.affectedRows === 0) {
-      return res.status(404).json({
-        status: false,
-        message: "User not found"
-      });
-    }
-
-    res.json({
-      status: true,
-      message: "User updated successfully"
-    });
-
-  } catch (error) {
-    res.status(500).json({
-      status: false,
-      error: error.message
-    });
-  }
+  });
 });

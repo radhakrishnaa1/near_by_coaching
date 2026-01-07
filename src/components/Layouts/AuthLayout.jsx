@@ -6,7 +6,9 @@ import {
   FileOutlined,
   PieChartOutlined,
   TeamOutlined,
+  LogoutOutlined,
   UserOutlined,
+  LaptopOutlined,
 } from "@ant-design/icons";
 import {
   Breadcrumb,
@@ -17,6 +19,7 @@ import {
   theme,
   Col,
   Row,
+  Divider,
 } from "antd";
 import { Outlet, useNavigate } from "react-router-dom";
 import {
@@ -36,6 +39,27 @@ function getItem(label, key, icon, children) {
     label,
   };
 }
+
+const itemsForStudent = [
+  {
+    key: "1",
+    label: "Dashboard",
+    icon: <AppstoreOutlined />,
+    routes: "/",
+  },
+  {
+    key: "2",
+    label: "Profile",
+    icon: <AppstoreOutlined />,
+    routes: "/",
+  },
+  {
+    key: "3",
+    label: "Payment Receipt",
+    icon: <AppstoreOutlined />,
+    routes: "/",
+  },
+];
 
 const items = [
   {
@@ -77,22 +101,9 @@ const items = [
   },
 ];
 
-// const items = [
-//   getItem("Dashboard", "1", <PieChartOutlined />),
-//   getItem("My Courses", "2", <DesktopOutlined />),
-//   getItem("Offers", "9", <FileOutlined />),
-//   getItem("Faculties", "sub1", <TeamOutlined />, [
-//     getItem("Tom", "3"),
-//     getItem("Bill", "4"),
-//     getItem("Alex", "5"),
-//   ]),
-//   getItem("Reports", "sub2", <UserOutlined />, [
-//     getItem("Team 1", "6"),
-//     getItem("Team 2", "8"),
-//   ]),
-// ];
 const AuthLayout = (props) => {
   const [collapsed, setCollapsed] = useState(false);
+  const [roleId, setRoleId] = useState(sessionStorage.getItem("roleId"));
   const navigate = useNavigate();
   const {
     token: { colorBgContainer, borderRadiusLG },
@@ -102,6 +113,11 @@ const AuthLayout = (props) => {
     navigate(e.item.props.routes);
   };
 
+  console.log("roleId===>", props?.instituteData);
+  const handlelogOut = () => {
+    sessionStorage.clear();
+    navigate("/");
+  };
   return (
     <>
       {/* <AuthHeader /> */}
@@ -135,25 +151,42 @@ const AuthLayout = (props) => {
                   />
                 }
               />
-
-              <div
-                className="main-title"
-                style={{ color: "#fff", marginTop: 10 }}
-              >
-                {" "}
-                जनदर्शन
-              </div>
-              <div className="sub-title" style={{ color: "#fff" }}>
-                {" "}
-                मुख्यमंत्री छत्तीसगढ़ शासन
-              </div>
+              {roleId === "1" ? (
+                <>
+                  <div
+                    className="main-title"
+                    style={{ color: "#fff", marginTop: 10 }}
+                  >
+                    {props?.instituteData?.institute_name}
+                  </div>
+                  <div
+                    style={{
+                      borderTop: "0.1px solid #80808073",
+                      width: "80%",
+                      margin: "auto",
+                    }}
+                  ></div>
+                  <div className="sub-title" style={{ color: "#fff" }}>
+                    {props?.instituteData?.vision}
+                  </div>
+                </>
+              ) : (
+                <>
+                  <div
+                    className="main-title"
+                    style={{ color: "#fff", marginTop: 10 }}
+                  >
+                    {props?.studentData?.student_name}
+                  </div>
+                </>
+              )}
             </div>
           </div>
           <Menu
             theme="dark"
             defaultSelectedKeys={["1"]}
             mode="inline"
-            items={items}
+            items={roleId === "1" ? items : itemsForStudent}
             onClick={handleMenuClick}
           />
         </Sider>
@@ -162,8 +195,8 @@ const AuthLayout = (props) => {
             <Row>
               <Col span={8}></Col>
               <Col span={12}></Col>
-              <Col span={4}>
-                <Avatar
+              <Col span={4} onClick={() => handlelogOut()}>
+                {/* <Avatar
                   src={
                     <img
                       draggable={false}
@@ -171,7 +204,10 @@ const AuthLayout = (props) => {
                       alt="avatar"
                     />
                   }
-                />
+                /> */}
+                <LogoutOutlined
+                  style={{ fontSize: "30px", color: "rgba(244, 67, 54, 1)" }}
+                />{" "}
                 <Text> Admin</Text>
               </Col>
             </Row>

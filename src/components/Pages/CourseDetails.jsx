@@ -21,7 +21,7 @@ const Courseform = (props) => {
   return (
     <>
       <Card
-        title={<div style={{ fontSize: 20 }}>Course Detail Form</div>}
+        title={<div style={{ fontSize: 20 }}>Course Detail </div>}
         variant="borderless"
         style={{ textAlign: "center" }}
       >
@@ -134,7 +134,7 @@ const Courseform = (props) => {
                 rules={[{ required: false }]}
               >
                 <div style={{ textAlign: "left", color: "blue" }}>
-                  {props?.viewCourseDetails?.max_student}
+                  {props?.viewCourseDetails?.mode}
                 </div>
               </Form.Item>
             </Col>

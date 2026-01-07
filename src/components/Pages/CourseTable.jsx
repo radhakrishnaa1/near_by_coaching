@@ -4,6 +4,8 @@ import BranchInfo from "./BranchInformation";
 import InstituteDetails from "./InstituteDetails";
 import { INSTITUTE_DETAILS } from "../../constants/Routes";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
+
 import axios from "axios";
 import React from "react";
 const CourseTable = (props) => {
@@ -14,6 +16,7 @@ const CourseTable = (props) => {
   }, []);
 
   const getInstituteList = () => {
+    props.handleSpinner(true);
     axios({
       method: "get",
       url: `http://localhost:3004/getInstituteList`,
@@ -23,6 +26,7 @@ const CourseTable = (props) => {
     })
       .then(function (response) {
         setInstituteList(response.data);
+        Swal.close();
         console.log("notes data", response.data);
       })
       .catch(() => {});

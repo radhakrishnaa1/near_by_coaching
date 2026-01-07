@@ -1,11 +1,63 @@
 import React, { useState } from "react";
 import { Divider, Card, Form, Input, Row, Col, Select, Button } from "antd";
+import axios from "axios";
 
 import LayoutHome from "../Layouts/LayoutHome";
 import Title from "antd/es/typography/Title";
+import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
+
 const { Option } = Select;
 
-const Courseform = () => {
+const Courseform = (props) => {
+  const navigate = useNavigate();
+
+  const handleFinish = (values) => {
+    console.log("Success:", values);
+
+    const purchaseData = {
+      institute_id: props?.instituteId,
+      course_id: props?.courseId,
+      purchase_date: new Date().toISOString().split("T")[0],
+      fee_paid: props?.courseFee,
+      student_name: values.studentName,
+      email: values.emailId,
+      contact: values.phoneNumber,
+      creation_date: new Date().toISOString().split("T")[0],
+    };
+    props?.handleSpinner(true);
+    if (
+      purchaseData.student_name &&
+      purchaseData.email &&
+      purchaseData.contact
+    ) {
+      axios({
+        method: "post",
+        url: "http://localhost:3004/purchaseCourse",
+        data: purchaseData,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+        .then(function (response) {
+          console.log("response===>", response);
+          Swal.fire({
+            icon: "success",
+            text: "You have successfully purchased the course Please Login with  your registered email id and phone number",
+            showConfirmButton: false,
+            timer: 2000,
+          }).then((result) => {
+            navigate("/");
+          });
+        })
+        .catch((error) => {
+          console.log("error===>", error);
+        });
+    } else {
+      console.log("error===> Please fill all the details");
+    }
+  };
+
   return (
     <>
       <Card
@@ -13,7 +65,11 @@ const Courseform = () => {
         variant="borderless"
         style={{ textAlign: "center" }}
       >
-        <Form name="layout-multiple-vertical" layout="vertical">
+        <Form
+          name="layout-multiple-vertical"
+          layout="vertical"
+          onFinish={handleFinish}
+        >
           <Row gutter={16}>
             <Col span={24}>
               <Form.Item
@@ -51,7 +107,7 @@ const Courseform = () => {
               </Form.Item>
             </Col>
           </Row>
-          <Row gutter={16}>
+          {/* <Row gutter={16}>
             <Col span={24}>
               <Form.Item
                 layout="vertical"
@@ -65,7 +121,7 @@ const Courseform = () => {
                 </Select>
               </Form.Item>
             </Col>
-          </Row>
+          </Row> */}
           <Divider />
           <Title
             level={4}
@@ -82,15 +138,15 @@ const Courseform = () => {
               <Title level={5}>Course Fee</Title>
             </Col>
 
-            <Col span={8}>2000</Col>
+            <Col span={8}>{props?.courseFee}</Col>
           </Row>
-          <Row gutter={16}>
+          {/* <Row gutter={16}>
             <Col span={8}>
               <Title level={5}> Discount</Title>
             </Col>
 
             <Col span={8}>1000</Col>
-          </Row>
+          </Row> */}
           <Divider />
           <Row gutter={16}>
             <Col span={8}>

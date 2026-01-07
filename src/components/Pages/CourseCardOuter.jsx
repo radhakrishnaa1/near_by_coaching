@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 import PurchaseCourse from "./PurchaseCourse";
 import CourseDetails from "./CourseDetails";
 import axios from "axios";
+import Swal from "sweetalert2";
 const { Title, Text } = Typography;
 const { Option } = Select;
 
@@ -23,7 +24,7 @@ const { Option } = Select;
 //   },
 // ];
 
-const Courses = () => {
+const Courses = (props) => {
   const [coursesList, setCoursesList] = React.useState([]);
   const [courseSelected, setCourseSelected] = React.useState(null);
   const params = useParams();
@@ -34,6 +35,7 @@ const Courses = () => {
   }, []);
 
   const getCourseList = () => {
+    props.handleSpinner(true);
     axios({
       method: "get",
       url: `http://localhost:3004/getCourseData/${params.id}`,
@@ -43,6 +45,7 @@ const Courses = () => {
     })
       .then(function (response) {
         setCoursesList(response.data);
+        Swal.close();
       })
       .catch(() => {});
   };
@@ -104,17 +107,24 @@ const Courses = () => {
         ))}
       </Row>
 
-      <div style={{ margin: "auto", width: "95%" }}>
-        <Row gutter={16}>
-          <Col span={12}>
-            <CourseDetails viewCourseDetails={courseSelected} />
-          </Col>
+      {courseSelected ? (
+        <div style={{ margin: "auto", width: "95%" }}>
+          <Row gutter={16}>
+            <Col span={12}>
+              <CourseDetails viewCourseDetails={courseSelected} />
+            </Col>
 
-          <Col span={12}>
-            <PurchaseCourse />
-          </Col>
-        </Row>
-      </div>
+            <Col span={12}>
+              <PurchaseCourse
+                handleSpinner={props.handleSpinner}
+                instituteId={props?.instituteId}
+                courseId={courseSelected?.courseid}
+                courseFee={courseSelected?.course_fee}
+              />
+            </Col>
+          </Row>
+        </div>
+      ) : null}
     </div>
   );
 };
