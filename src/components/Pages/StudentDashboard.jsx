@@ -7,11 +7,14 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import PurchaseCard from "./PurchaseCard";
 import CourseDetails from "./CourseDetails";
-
+import Title from "antd/es/typography/Title";
+import InstituteListForStudent from "./InstituteListForStudent";
+import CourseCardOuter from "./CourseCardOuter";
 const StudentDashboard = (props) => {
   const [studentData, setStudentData] = useState([]); // default is 'middle'
   const [purchase, setPurchase] = useState([]); // default is 'middle'
   const [viewCourseDetails, setViewCourseDetails] = useState("");
+
   React.useEffect(() => {
     getStudentDetails();
     getCourseDetailsForStudent();
@@ -67,6 +70,9 @@ const StudentDashboard = (props) => {
   return (
     <AuthLayout instituteData="" studentData={studentData}>
       {/* <PurchaseCard purchase={purchase} /> */}
+      <Title level={3} style={{ margin: 30, textAlign: "center" }}>
+        My Purchased Courses
+      </Title>
       {purchase?.map((data, id) => {
         return (
           <CourseCard
@@ -82,6 +88,12 @@ const StudentDashboard = (props) => {
       {viewCourseDetails === "" ? null : (
         <CourseDetails viewCourseDetails={viewCourseDetails}></CourseDetails>
       )}
+
+      <Divider />
+      <Title level={3} style={{ margin: 30, textAlign: "center" }}>
+        List Of Institutes For Online/Offline Courses
+      </Title>
+      <InstituteListForStudent handleSpinner={props?.handleSpinner} />
     </AuthLayout>
   );
 };

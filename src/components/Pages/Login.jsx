@@ -3,24 +3,19 @@ import { UserOutlined, BankOutlined } from "@ant-design/icons";
 import { Card, Button, Flex, Form, Input, Row, Col } from "antd";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
-const App = () => {
+const App = (props) => {
   const [size, setSize] = useState("large"); // default is 'middle'
   const [roleId, setRoleId] = React.useState("1");
   const navigate = useNavigate();
 
   const onFinish = (values) => {
     console.log("Success:", values);
-    //    [
-    //     {
-    //         "login_id": "sharma@gmail.com",
-    //         "password": "78655645332",
-    //         "roll_id": "1",
-    //         "logindate": "2025-12-15T18:30:00.000Z"
-    //     }
-    // ]
+
+    props?.handleSpinner(true);
     setSize(1);
-    // sessionStorage.getItem("roleId")
+
     if (values) {
       axios({
         method: "get",
@@ -35,12 +30,25 @@ const App = () => {
             sessionStorage.setItem("userId", response.data[0].login_id);
             sessionStorage.setItem("roleId", roleId);
             sessionStorage.setItem("active", "true");
-            if (roleId == 1) {
-              // window.location.href = "/institute-dashboard";
-              navigate("/institute-dashboard");
+
+            if (roleId === "1") {
+              Swal.fire({
+                icon: "success",
+                text: "You have successfully Login as Institute",
+                showConfirmButton: false,
+                timer: 2000,
+              }).then((result) => {
+                navigate("/institute-dashboard");
+              });
             } else {
-              // window.location.href = "/student-dashboard";
-              navigate("/student-dashboard");
+              Swal.fire({
+                icon: "success",
+                text: "You have successfully Login as Institute",
+                showConfirmButton: false,
+                timer: 2000,
+              }).then((result) => {
+                navigate("/student-dashboard");
+              });
             }
           } else {
             console.log("error===> Invalid Credentials");

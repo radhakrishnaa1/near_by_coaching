@@ -12,28 +12,28 @@ import {
 } from "@ant-design/icons";
 import CountUp from "react-countup";
 const formatter = (value) => <CountUp end={value} separator="," />;
-const DashboardCard = () => {
+const DashboardCard = (props) => {
   const stats = [
     {
-      title: "कुल पत्रों की संख्या",
-      value: 859,
+      title: "Total Institute Registered",
+      value: props?.countData?.instituteTotal || 0,
       icon: <FileTextOutlined style={{ fontSize: "30px", color: "#2196f3" }} />,
     },
     {
-      title: "लंबित पत्रों की संख्या",
-      value: "3521",
+      title: "Total Students Registered",
+      value: props?.countData?.studentTotal || 0,
       icon: (
         <ExceptionOutlined style={{ fontSize: "30px", color: "#ff5722" }} />
       ),
     },
     {
-      title: "निराकृत पत्रों की संख्या",
-      value: 562,
+      title: " Total Online Courses ",
+      value: props?.countData?.courseTotal || 0,
       icon: <FileDoneOutlined style={{ fontSize: "30px", color: "#4caf50" }} />,
     },
     {
-      title: "कुल काउंटर द्वारा लंबित आवेदन",
-      value: 353,
+      title: "Total Courses Purchased ",
+      value: props?.countData?.purchaseTotal || 0,
       icon: (
         <HistoryOutlined
           style={{ fontSize: "30px", color: "rgba(244, 67, 54, 1)" }}

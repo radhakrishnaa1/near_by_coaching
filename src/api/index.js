@@ -113,6 +113,31 @@ app.get("/getStudentByEMail/:email", (request, response) => {
   });
 });
 
+//    app.get("/filterHome", (request, response) => {
+//     const email = request.params.email;
+           
+//   let sql = "SELECT (SELECT institute_id ,  FROM institute_details) AS instituteTotal, (SELECT COUNT(*) FROM student_details) AS studentTotal, (SELECT COUNT(*) FROM course_details) AS courseTotal , (SELECT COUNT(*) FROM purchase_course) AS purchaseTotal";
+//   connection.query(sql, [email], (error, results) => {
+//     if (error) {
+//       return response.status(500).send("Error retrieving login from database.");
+//     } 
+//     response.json(results);
+//   });
+// });
+
+
+    app.get("/countHomepage", (request, response) => {
+    const email = request.params.email;
+           
+  let sql = "SELECT (SELECT COUNT(*) FROM institute_details) AS instituteTotal, (SELECT COUNT(*) FROM student_details) AS studentTotal, (SELECT COUNT(*) FROM course_details) AS courseTotal , (SELECT COUNT(*) FROM purchase_course) AS purchaseTotal";
+  connection.query(sql, [email], (error, results) => {
+    if (error) {
+      return response.status(500).send("Error retrieving login from database.");
+    } 
+    response.json(results);
+  });
+});
+
 
 app.get("/getDistrictsData", (request, response) => {
   let sql = "SELECT * from districts";

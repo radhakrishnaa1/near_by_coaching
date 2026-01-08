@@ -9,7 +9,7 @@ import Registration from "./Registration";
 const { Title } = Typography;
 
 const App = () => {
-  const [notesData, setNotesData] = React.useState([]);
+  const [countData, setCountData] = React.useState([]);
   const [notesDataPost, setNotesDataPost] = React.useState({
     id: "",
     title: "",
@@ -22,60 +22,22 @@ const App = () => {
   } = theme.useToken();
 
   React.useEffect(() => {
-    // getNotesData();
+    getCountHome();
     // postNotesData()
     // delNoteData();
   }, []);
   // notedata get api
-  const getNotesData = () => {
+  const getCountHome = () => {
     axios({
       method: "get",
-      url: `http://localhost:3003/`,
+      url: `http://localhost:3004/countHomepage`,
       headers: {
         "Content-Type": "application/json",
       },
     })
       .then(function (response) {
-        setNotesData(response.data);
+        setCountData(response.data[0]);
         console.log("notes data", response.data);
-      })
-      .catch(() => {});
-  };
-
-  const delNoteData = () => {
-    axios({
-      method: "get",
-      url: `http://localhost:3003/${2}`,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then(function (response) {
-        // setNotesData(response.data);
-        console.log("notes data", response);
-      })
-      .catch(() => {});
-  };
-
-  const postNotesData = () => {
-    const saveNoteData = {
-      id: 2,
-      title: "c++",
-      contents: "oops",
-      created: "2025-09-11",
-    };
-
-    axios({
-      method: "post",
-      url: "http://localhost:3003/",
-      data: saveNoteData,
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-        "Content-Type": "application/json",
-      },
-    })
-      .then(function (response) {
-        console.log(response);
       })
       .catch(() => {});
   };
@@ -130,7 +92,7 @@ const App = () => {
           borderRadius: borderRadiusLG,
         }}
       >
-        <HomeCard />
+        <HomeCard countData={countData} />
         <StudyModeCard />
       </div>
     </LayoutHome>

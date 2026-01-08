@@ -32,13 +32,14 @@ const Courses = (props) => {
   React.useEffect(() => {
     // Fetch courses from API if needed
     getCourseList();
-  }, []);
+  }, [props.instituteId]);
 
   const getCourseList = () => {
+    const instituteId = params.id ? params.id : props.instituteId;
     props.handleSpinner(true);
     axios({
       method: "get",
-      url: `http://localhost:3004/getCourseData/${params.id}`,
+      url: `http://localhost:3004/getCourseData/${instituteId}`,
       headers: {
         "Content-Type": "application/json",
       },

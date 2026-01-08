@@ -4,12 +4,34 @@ import BranchInfo from "./BranchInformation";
 import InstituteDetails from "./InstituteDetails";
 import { INSTITUTE_DETAILS } from "../../constants/Routes";
 import { useNavigate } from "react-router-dom";
-
+import Swal from "sweetalert2";
+import CourseCardOuter from "./CourseCardOuter";
 import axios from "axios";
 import React from "react";
-const CourseTable = (props) => {
+const InstituteListForStudent = (props) => {
   const navigate = useNavigate();
-  React.useEffect(() => {}, []);
+  const [instituteList, setInstituteList] = React.useState([]);
+  const [instituteId, setInstituteId] = React.useState("");
+  React.useEffect(() => {
+    getInstituteList();
+  }, []);
+
+  const getInstituteList = () => {
+    props.handleSpinner(true);
+    axios({
+      method: "get",
+      url: `http://localhost:3004/getInstituteList`,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then(function (response) {
+        setInstituteList(response.data);
+        Swal.close();
+        console.log("notes data", response.data);
+      })
+      .catch(() => {});
+  };
 
   const columns = [
     {
@@ -35,7 +57,7 @@ const CourseTable = (props) => {
       key: "status",
       render: (text, record) => (
         <div>
-          {record.state_name} / {record.city_name}
+          {record.state} / {record.city}
         </div>
       ),
     },
@@ -56,13 +78,21 @@ const CourseTable = (props) => {
 
   const handleClick = (institute_id) => {
     console.log("clicked", institute_id);
-    navigate(INSTITUTE_DETAILS + "/" + institute_id);
+    setInstituteId(institute_id);
+    // navigate(INSTITUTE_DETAILS + "/" + institute_id);
   };
 
   return (
-    <div style={{ width: "90%", margin: "40px auto" }}>
-      <Table columns={columns} dataSource={props?.instituteList} />
-    </div>
+    <>
+      <div style={{ width: "90%", margin: "40px auto" }}>
+        <Table columns={columns} dataSource={instituteList} />
+      </div>
+      {/* <InstituteDetails /> */}
+      <CourseCardOuter
+        handleSpinner={props.handleSpinner}
+        instituteId={instituteId}
+      />
+    </>
   );
 };
-export default CourseTable;
+export default InstituteListForStudent;

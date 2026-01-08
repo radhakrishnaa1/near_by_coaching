@@ -113,8 +113,8 @@ const Courseform = (props) => {
                   onChange={handleMedium}
                   name="course_medium"
                 >
-                  <option value="1">Hindi</option>
-                  <option value="2">English</option>
+                  <option value="Hindi">Hindi</option>
+                  <option value="English">English</option>
                 </Select>
               </Form.Item>
             </Col>
@@ -200,9 +200,9 @@ const Courseform = (props) => {
                   onChange={handlemode}
                   name="course_medium"
                 >
-                  <option value="1">Online</option>
-                  <option value="2">Offline</option>
-                  <option value="3">At Your Door</option>
+                  <option value="Online">Online</option>
+                  <option value="Offline">Offline</option>
+                  <option value="At_Your_Door">At Your Door</option>
                 </Select>
               </Form.Item>
             </Col>

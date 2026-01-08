@@ -28,7 +28,7 @@ import InstituteRegistration from './components/Pages/Registration';
 import InstituteDashboard from './components/Pages/InstituteDashboard';
 import MyCourses from './components/Pages/MyCourses';
 import Home from './components/Pages/Home';
-import CourseTable from './components/Pages/CourseTable';
+import CourseTable from './components/Pages/BranchInformation';
 import Faculty from './components/Pages/Faculty';
 import CourseDetails from './components/Pages/CourseDetails';
 import {HOME,
@@ -37,6 +37,7 @@ import {HOME,
 import InstituteDetails from "./components/Pages/InstituteDetails"
 import InstituteProfile from './components/Pages/InstituteProfile';
 import StudentDashboard from './components/Pages/StudentDashboard';
+// import BranchInfo from "./BranchInformation";
 
 
 function LandingPage(props) {
@@ -88,6 +89,7 @@ function LandingPage(props) {
       return (
         <Routes>
           <Route path={STUDENTDASHBOARD} element= {<StudentDashboard {...props} handleSpinner={handleSpinner}/> }/>
+          <Route path={INSTITUTE_DETAILS_ID} element= {<InstituteDetails {...props} handleSpinner={handleSpinner} /> }/>
        
           </Routes>
           )
