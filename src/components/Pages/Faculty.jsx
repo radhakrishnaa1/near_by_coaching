@@ -5,6 +5,7 @@ import AuthLayout from "../Layouts/AuthLayout";
 import BranchInfo from "./BranchInformation";
 import Teacherdetails from "./Teacherdetail";
 import { Avatar, List, Typography } from "antd";
+import axios from "axios";
 const { Title } = Typography;
 const data = [
   {
@@ -21,10 +22,6 @@ const data = [
   },
 ];
 const App = (props) => {
-  React.useEffect(() => {
-    // props.handleSpinner();
-  }, []);
-
   return (
     <AuthLayout>
       <div style={{ padding: "20px" }}>
@@ -70,7 +67,7 @@ const App = (props) => {
             md={12}
             style={{ borderLeft: "1px solid #f5f5f5d3", paddingLeft: "20px" }}
           >
-            <Teacherdetails />
+            {/* <Teacherdetails /> */}
           </Col>
         </Row>
       </div>

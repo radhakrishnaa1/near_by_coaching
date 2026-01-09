@@ -6,9 +6,10 @@ import HomeCard from "./HomeCard";
 import StudyModeCard from "./StudyModeCard";
 import axios from "axios";
 import Registration from "./Registration";
+import Faculty from "./Faculty";
 const { Title } = Typography;
 
-const App = () => {
+const App = (props) => {
   const [countData, setCountData] = React.useState([]);
   const [notesDataPost, setNotesDataPost] = React.useState({
     id: "",
@@ -77,10 +78,10 @@ const App = () => {
           </Col>
 
           <Col span={8}>
-            <Login></Login>
+            <Login handleSpinner={props?.handleSpinner}></Login>
           </Col>
           <Col span={8}>
-            <Registration />
+            <Registration handleSpinner={props?.handleSpinner} />
           </Col>
         </Row>
       </div>

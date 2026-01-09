@@ -2,6 +2,7 @@ import { Table, Divider, Tag, Button } from "antd";
 import LayoutHome from "../Layouts/LayoutHome";
 import BranchInfo from "./BranchInformation";
 import InstituteDetails from "./InstituteDetails";
+import TableWithSearch from "./TableWithSearch";
 import { INSTITUTE_DETAILS } from "../../constants/Routes";
 import { useNavigate } from "react-router-dom";
 
@@ -61,7 +62,8 @@ const CourseTable = (props) => {
 
   return (
     <div style={{ width: "90%", margin: "40px auto" }}>
-      <Table columns={columns} dataSource={props?.instituteList} />
+      {/* <Table columns={columns} dataSource={props?.instituteList} /> */}
+      <TableWithSearch dataSource={props?.instituteList} />
     </div>
   );
 };

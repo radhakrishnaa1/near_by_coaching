@@ -113,6 +113,18 @@ app.get("/getStudentByEMail/:email", (request, response) => {
   });
 });
 
+app.get("/getTutorByEMail/:institute_id/:email", (request, response) => {
+    const email = request.params.email;
+           
+  let sql = "SELECT * FROM home_teacher WHERE email = ? ";
+  connection.query(sql, [email], (error, results) => {
+    if (error) {
+      return response.status(500).send("Error retrieving login from database.");
+    } 
+    response.json(results);
+  });
+});
+
 //    app.get("/filterHome", (request, response) => {
 //     const email = request.params.email;
            
@@ -383,6 +395,46 @@ app.post('/registerInstitute',  (req, res) => {
 });
 
 
+
+
+app.post('/registerTutor',  (req, res) => {
+  const rollId ="3";
+  const {
+     name, email, contact, creation_date
+  } = req.body;
+
+  try {
+    // 1. Start a transaction (method depends on your library)
+     connection.beginTransaction();
+
+    // 2. Insert into the first table (e.g., 'orders')
+     const sql = `INSERT INTO home_teacher ( name, email, contact, creation_date) 
+    VALUES (?, ?, ?, ?)`;
+    const sqlResult = connection.query(sql, [ name, email, contact, creation_date]);
+    const sqlId = sqlResult.insertId; // Get the ID of the newly inserted order
+
+    const loginSql = `INSERT INTO login (login_id, password, roll_id, logindate) VALUES (?, ?, ?, ?)`
+
+    // 4. Insert multiple records into the second table
+     connection.query(loginSql, [email,contact,rollId,creation_date]);
+
+    // 5. Commit the transaction if all inserts were successful
+     connection.commit();
+
+    res.status(201).send({ message: 'Login Id created successfuly' ,sqlId});
+  } catch (error) {
+    // 6. Rollback the transaction in case of any error
+     connection.rollback();
+    console.error(error);
+    res.status(500).send({ message: 'Failed to register institute ', error: error.message });
+  }
+});
+
+
+
+
+
+
 app.post("/saveStudentData", (request, response) => {
   const {student_id, student_name, email, contact, address, state, city, student_class, student_pic, creation_date} = request.body;
 
@@ -442,9 +494,43 @@ app.post('/updateinstitute/:id', (req, res) => {
     vision,
     creation_date,entry_date, id], (err) => {
     if (err) throw err;
+    res.json({ message: 'Institute updated successfully' });
+  });
+});
+
+
+app.post('/updateTutorDetails/:id', (req, res) => {
+  const { id } = req.params;
+  const {name,
+      qualification,
+      discription,
+      address,
+      city,
+      city_name,
+      state,
+      state_name,
+      available_on,
+      experience,
+      creation_date,
+       } = req.body;
+  connection.query('UPDATE home_teacher SET  name = ?, qualification = ?, discription = ?, address = ?, city = ?, city_name = ?, state = ?, state_name = ?, available_on = ?, experience = ?, creation_date = ?  WHERE email = ?',
+     [name,
+      qualification,
+      discription,
+      address,
+      city,
+      city_name,
+      state,
+      state_name,
+      available_on,
+      experience,
+      creation_date,
+       id], (err) => {
+    if (err) throw err;
     res.json({ message: 'User updated successfully' });
   });
 });
+
 
 // app.post('/purchaseCourse',  (req, res) => {
 //   const rollId ="2";

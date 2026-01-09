@@ -61,6 +61,21 @@ const itemsForStudent = [
   },
 ];
 
+const itemsForTutor = [
+  {
+    key: "1",
+    label: "Dashboard",
+    icon: <AppstoreOutlined />,
+    routes: "/",
+  },
+  {
+    key: "2",
+    label: "Profile",
+    icon: <AppstoreOutlined />,
+    routes: FACULTY_DETAILS,
+  },
+];
+
 const items = [
   {
     key: "1",
@@ -186,7 +201,13 @@ const AuthLayout = (props) => {
             theme="dark"
             defaultSelectedKeys={["1"]}
             mode="inline"
-            items={roleId === "1" ? items : itemsForStudent}
+            items={
+              roleId === "1"
+                ? items
+                : roleId === "3"
+                ? itemsForTutor
+                : itemsForStudent
+            }
             onClick={handleMenuClick}
           />
         </Sider>

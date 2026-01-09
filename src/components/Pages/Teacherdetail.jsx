@@ -9,33 +9,131 @@ import {
   Row,
   Col,
   Space,
+  Select,
 } from "antd";
+import axios from "axios";
 import ImageUpload from "./ImageUpload";
+import AuthLayout from "../Layouts/AuthLayout";
 const { Title, Text } = Typography;
 const { TextArea } = Input;
 
 const Teacherdetails = () => {
   const [form] = Form.useForm();
-
+  const [teacherData, setTeacherData] = React.useState("");
+  const [stateData, setStateData] = useState([]);
+  const [districtData, setDistrictData] = useState([]);
   // 🧠 State to store form values
-  const [letterData, setLetterData] = useState({
-    name: "",
-    qualification: "",
-    address: "",
-    number: "",
-    contactNumber: "",
-    emailId: "",
-  });
 
   // Handle form submission
+
+  React.useEffect(() => {
+    getTeacherData();
+    getStateData();
+    getDistrictData();
+  }, []);
+  const getStateData = () => {
+    axios
+      .get("http://localhost:3004/getStateData")
+      .then((response) => {
+        setStateData(response.data);
+      })
+      .catch((error) => {
+        console.error("There was an error fetching the state data!", error);
+      });
+  };
+
+  const getDistrictData = () => {
+    axios
+      .get("http://localhost:3004/getDistrictsData")
+      .then((response) => {
+        setDistrictData(response.data);
+      })
+      .catch((error) => {
+        console.error("There was an error fetching the district data!", error);
+      });
+  };
+
+  const getTeacherData = () => {
+    const email = sessionStorage.getItem("userId");
+    console.log("email===>", email);
+    axios
+      .get(`http://localhost:3004/getTutorByEMail/0/${email}`)
+      .then((response) => {
+        console.log("tutor details===>", response.data);
+        if (response.data.length > 0) {
+          const data = response.data[0];
+          setTeacherData(data);
+          // console.log("data===>", districtData, stateData);
+          form.setFieldsValue({
+            address: data.address,
+            available_on: data.available_on,
+            city: data.city,
+            city_name: data.city_name,
+            contact: data.contact,
+            course_id: data.course_id,
+            creation_date: data.creation_date,
+            discription: data.discription,
+            email: data.email,
+            experience: data.experience,
+            institute_id: data.institute_id,
+            name: data.name,
+            photo: data.photo,
+            qualification: data.qualification,
+            state: data.state,
+            state_name: data.state_name,
+            teacher_id: data.teacher_id,
+          });
+        }
+      })
+      .catch((error) => {
+        console.error("There was an error fetching the district data!", error);
+      });
+  };
+
   const handleFinish = (values) => {
-    setLetterData({
-      ...values,
-    });
+    console.log("Form Values:", values);
+    const stateDataArray = values.state_name.split("/");
+    const cityDataArray = values.city_name.split("/");
+    const updateData = {
+      address: values.address,
+      available_on: values.available_on,
+      city: cityDataArray[0],
+      city_name: cityDataArray[1],
+      contact: values.contact,
+
+      creation_date: new Date().toISOString().split("T")[0],
+      discription: values.discription,
+      email: values.email,
+      experience: values.experience,
+
+      name: values.name,
+
+      qualification: values.qualification,
+      state: stateDataArray[0],
+      state_name: stateDataArray[1],
+    };
+    if (updateData) {
+      axios({
+        method: "post",
+        url: `http://localhost:3004/updateTutorDetails/${teacherData.teacher_id}`,
+        data: updateData,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+        .then(function (response) {
+          console.log("response===>", response);
+        })
+        .catch((error) => {
+          console.log("error===>", error);
+        });
+    } else {
+      console.log("error===> Please fill all the details");
+    }
   };
 
   return (
-    <>
+    <AuthLayout>
       <Title level={5} style={{ textAlign: "center" }}>
         Add Faculty Details
       </Title>
@@ -65,32 +163,77 @@ const Teacherdetails = () => {
         >
           <Input placeholder="Enter Qualification" />
         </Form.Item>
-
+        <Form.Item
+          label="Experience"
+          name="experience"
+          rules={[{ required: true }]}
+        >
+          <Input placeholder="Enter Experience" />
+        </Form.Item>
         <Form.Item
           label="Contact number"
-          name="contactNumber"
+          name="contact"
           rules={[{ required: true }]}
         >
           <Input placeholder="Enter your number" />
         </Form.Item>
-        <Form.Item label="Email ID" name="emailId" rules={[{ required: true }]}>
+        <Form.Item label="Email ID" name="email" rules={[{ required: true }]}>
           <Input placeholder="Enter your Emial Id" />
+        </Form.Item>
+        <Form.Item
+          label="Short Discription"
+          name="discription"
+          rules={[{ required: true }]}
+        >
+          <TextArea rows={6} placeholder="Enter discription" />
         </Form.Item>
         <Form.Item label="Address" name="address" rules={[{ required: true }]}>
           <TextArea rows={6} placeholder="Enter Address" />
         </Form.Item>
+
+        <Form.Item label="State" name="state_name" rules={[{ required: true }]}>
+          <Select
+            style={{ width: "100%" }}
+            // onChange={(value) => handleSelectChange(value, "state")}
+            name="state_name"
+          >
+            {stateData?.map((data, idd) => {
+              return (
+                <option key={idd} value={data.id + "/" + data.name}>
+                  {data.name}
+                </option>
+              );
+            })}
+          </Select>
+        </Form.Item>
+        <Form.Item label="City" name="city_name" rules={[{ required: true }]}>
+          <Select
+            style={{ width: "100%" }}
+            // onChange={(value) => handleSelectChange(value, "city")}
+            name="city_name"
+          >
+            {districtData?.map((data, idd) => {
+              return (
+                <option key={idd} value={data.city_code + "/" + data.name}>
+                  {data.name}
+                </option>
+              );
+            })}
+          </Select>
+        </Form.Item>
+
         <Space style={{ width: "100%", justifyContent: "space-between" }}>
           <Button
             type="primary"
             htmlType="submit"
-            onClick={console.log("Letter Data:", letterData)}
+            // onClick={console.log("Letter Data:", letterData)}
           >
-            Preview Letter
+            Update Profile
           </Button>
           <Button type="default">Print Letter</Button>
         </Space>
       </Form>
-    </>
+    </AuthLayout>
   );
 };
 

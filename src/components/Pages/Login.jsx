@@ -40,6 +40,15 @@ const App = (props) => {
               }).then((result) => {
                 navigate("/institute-dashboard");
               });
+            } else if (roleId === "3") {
+              Swal.fire({
+                icon: "success",
+                text: "You have successfully Login as Tutor",
+                showConfirmButton: false,
+                timer: 2000,
+              }).then((result) => {
+                navigate("/tutor-dashboard");
+              });
             } else {
               Swal.fire({
                 icon: "success",
@@ -122,6 +131,18 @@ const App = (props) => {
                   onClick={() => setRoleId("1")}
                 >
                   Institute
+                </Button>
+                <Button
+                  shape="round"
+                  icon={<UserOutlined />}
+                  size={size}
+                  onClick={() => setRoleId("3")}
+                  style={{
+                    backgroundColor: roleId === "3" ? "#1890ff" : "",
+                    color: roleId === "3" ? "#fff" : "",
+                  }}
+                >
+                  Tutor
                 </Button>
               </Flex>
             </Col>

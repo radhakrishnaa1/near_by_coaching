@@ -2,17 +2,20 @@ import React from "react";
 import { Divider, Card, Form, Input, Row, Col, Select, Button } from "antd";
 import LayoutHome from "../Layouts/LayoutHome";
 import axios from "axios";
+import Swal from "sweetalert2";
 
-const InstituteRegistration = () => {
+const InstituteRegistration = (props) => {
   const [registrationData, setRegistrationData] = React.useState({
     institute_name: "",
     contact: "",
     email: "",
   });
+  const [activeRegisterTab, setActiveRegisterTab] = React.useState("1");
 
   const handleSubmit = () => {
     const currentDateUTC = new Date().toISOString().split("T")[0];
-
+    console.log("registrationData===>", registrationData);
+    props?.handleSpinner(true);
     const registerData = {
       institute_id: 7,
       institute_name: registrationData.institute_name,
@@ -40,6 +43,12 @@ const InstituteRegistration = () => {
       })
         .then(function (response) {
           console.log("response===>", response);
+          Swal.fire({
+            icon: "success",
+            text: "You have successfully registered your institute Please login with  your registered email id and contact number",
+            showConfirmButton: false,
+            timer: 2000,
+          });
         })
         .catch((error) => {
           console.log("error===>", error);
@@ -48,6 +57,41 @@ const InstituteRegistration = () => {
       console.log("error===> Please fill all the details");
     }
   };
+
+  const registerHometutor = () => {
+    const registerData = {
+      name: registrationData.teacher_name,
+      contact: registrationData.contact,
+      email: registrationData.email,
+      entry_date: new Date().toISOString().split("T")[0],
+    };
+    props?.handleSpinner(true);
+    if (registrationData) {
+      axios({
+        method: "post",
+        url: "http://localhost:3004/registerTutor",
+        data: registerData,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+        .then(function (response) {
+          console.log("response===>", response);
+          Swal.fire({
+            icon: "success",
+            text: "You have successfully registered as home tuter Please login with  your registered email id and contact number",
+            showConfirmButton: false,
+            timer: 2000,
+          });
+        })
+        .catch((error) => {
+          console.log("error===>", error);
+        });
+    } else {
+      console.log("error===> Please fill all the details");
+    }
+  };
+
   const handleChange = (e) => {
     setRegistrationData({
       ...registrationData,
@@ -57,7 +101,31 @@ const InstituteRegistration = () => {
 
   return (
     <Card
-      title={<div style={{ fontSize: 20 }}>Institute Registration</div>}
+      title={
+        <div
+          style={{
+            fontSize: 14,
+            fontWeight: "bold",
+            display: "flex",
+            justifyContent: "space-around",
+          }}
+        >
+          <div
+            onClick={() => setActiveRegisterTab("1")}
+            style={{ color: activeRegisterTab === "1" ? "blue" : "gray" }}
+          >
+            Institute Registration{" "}
+          </div>
+          |
+          <div
+            onClick={() => setActiveRegisterTab("3")}
+            style={{ color: activeRegisterTab === "3" ? "blue" : "gray" }}
+          >
+            {" "}
+            Register As HomeTutor
+          </div>
+        </div>
+      }
       variant="borderless"
       style={{ textAlign: "center", marginLeft: 20 }}
     >
@@ -66,10 +134,16 @@ const InstituteRegistration = () => {
           <Col span={24}>
             <Form.Item
               layout="vertical"
-              label="Institute Name"
+              label={
+                activeRegisterTab === "1" ? "Institute Name" : "Teacher Name"
+              }
               rules={[{ required: true }]}
             >
-              <Input name="institute_name" onChange={handleChange} />
+              {activeRegisterTab === "1" ? (
+                <Input name={"institute_name"} onChange={handleChange} />
+              ) : (
+                <Input name={"teacher_name"} onChange={handleChange} />
+              )}
             </Form.Item>
           </Col>
         </Row>
@@ -98,9 +172,15 @@ const InstituteRegistration = () => {
           </Col>
         </Row>
 
-        <Button type="primary" onClick={handleSubmit}>
-          Submit
-        </Button>
+        {activeRegisterTab === "1" ? (
+          <Button type="primary" onClick={handleSubmit}>
+            Submit
+          </Button>
+        ) : (
+          <Button type="primary" onClick={registerHometutor}>
+            Submit
+          </Button>
+        )}
       </Form>
     </Card>
     // </LayoutHome>

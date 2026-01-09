@@ -6,7 +6,7 @@ import {
   MailOutlined,
 } from "@ant-design/icons";
 import LayoutHome from "../Layouts/LayoutHome";
-import CourseTable from "./CourseTable";
+import CourseTable from "./TableWithSearch";
 import axios from "axios";
 import Swal from "sweetalert2";
 
