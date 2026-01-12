@@ -15,6 +15,7 @@ import {
   Select,
   Space,
 } from "antd";
+import Swal from "sweetalert2";
 import ImageUpload from "./ImageUpload";
 const { Title, Text } = Typography;
 const { TextArea } = Input;
@@ -143,25 +144,26 @@ const InstituteProfile = () => {
 
   const handlePreviewData = () => {
     console.log(instituteData);
-    // console.log("city ", instituteData.values.city.split("/"))
+    // console.log("city ", instituteData?.values?.city.split("/"))
   };
   const handleSaveData = () => {
     console.log("Submitted Data:", instituteData);
-    // console.log("city ", instituteData.values.city.split("/"))
-    const stateDataArray = instituteData.values.state.split("/");
-    const cityDataArray = instituteData.values.city.split("/");
+    // console.log("city ", instituteData?.values?.city.split("/"))
+    const stateDataArray = instituteData?.values?.stateName.split("/");
+    const cityDataArray = instituteData?.values?.cityName.split("/");
 
+console.log(stateData,cityDataArray)
     const updateData = {
-      institute_name: instituteData.values.name,
-      institute_discription: instituteData.values.instituteDetails,
+      institute_name: instituteData?.values?.name,
+      institute_discription: instituteData?.values?.instituteDetails,
       institute_logo: null,
-      address: instituteData.values.instituteAddress,
+      address: instituteData?.values?.instituteAddress,
       state: stateDataArray[0],
       city_name: cityDataArray[1],
       state_name: stateDataArray[1],
       city: cityDataArray[0],
-      pincode: instituteData.values.pincode,
-      vision: instituteData.values.vision,
+      pincode: instituteData?.values?.pincode,
+      vision: instituteData?.values?.objective,
       creation_date: "2002-06-08",
       entry_date: new Date().toISOString().split("T")[0],
     };
@@ -178,6 +180,13 @@ const InstituteProfile = () => {
       })
         .then(function (response) {
           console.log("response===>", response);
+ Swal.fire({
+            icon: "success",
+            text: "Institute Details Updated successfully",
+            showConfirmButton: true,
+            timer: 6000,
+          });
+
         })
         .catch((error) => {
           console.log("error===>", error);
@@ -187,7 +196,7 @@ const InstituteProfile = () => {
     }
   };
   return (
-    <AuthLayout>
+    <AuthLayout instituteData={instituteData} studentData="">
       <Title level={3} style={{ textAlign: "center", paddingBottom: "20px" }}>
         Add Institute Details
       </Title>

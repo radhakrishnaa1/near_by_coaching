@@ -96,7 +96,7 @@ const Teacherdetails = () => {
     const cityDataArray = values.city_name.split("/");
     const updateData = {
       address: values.address,
-      available_on: values.available_on,
+      available_on: "evening",
       city: cityDataArray[0],
       city_name: cityDataArray[1],
       contact: values.contact,

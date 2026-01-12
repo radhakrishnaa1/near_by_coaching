@@ -13,7 +13,7 @@ const Courseform = (props) => {
   const navigate = useNavigate();
 
   const handleFinish = (values) => {
-    console.log("Success:", values);
+    console.log("Success:", props?.courseId);
 
     const purchaseData = {
       institute_id: props?.instituteId,

@@ -119,7 +119,7 @@ const Courses = (props) => {
               <PurchaseCourse
                 handleSpinner={props.handleSpinner}
                 instituteId={props?.instituteId}
-                courseId={courseSelected?.courseid}
+                courseId={courseSelected?.course_id}
                 courseFee={courseSelected?.course_fee}
               />
             </Col>

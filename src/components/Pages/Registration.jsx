@@ -46,8 +46,8 @@ const InstituteRegistration = (props) => {
           Swal.fire({
             icon: "success",
             text: "You have successfully registered your institute Please login with  your registered email id and contact number",
-            showConfirmButton: false,
-            timer: 2000,
+            showConfirmButton: true,
+            timer: 6000,
           });
         })
         .catch((error) => {
@@ -80,8 +80,8 @@ const InstituteRegistration = (props) => {
           Swal.fire({
             icon: "success",
             text: "You have successfully registered as home tuter Please login with  your registered email id and contact number",
-            showConfirmButton: false,
-            timer: 2000,
+            showConfirmButton: true,
+            timer: 6000,
           });
         })
         .catch((error) => {
@@ -137,7 +137,7 @@ const InstituteRegistration = (props) => {
               label={
                 activeRegisterTab === "1" ? "Institute Name" : "Teacher Name"
               }
-              rules={[{ required: true }]}
+              rules={[{ required: true , }]}
             >
               {activeRegisterTab === "1" ? (
                 <Input name={"institute_name"} onChange={handleChange} />
@@ -152,10 +152,18 @@ const InstituteRegistration = (props) => {
             <Form.Item
               layout="vertical"
               label="Contact Number"
-              name="vertical2"
-              rules={[{ required: true }]}
+              name="Contact number"
+              rules={[
+                { required: true, message: "Mobile number is required" },
+                 {
+                pattern: /^[6-9]\d{9}$/,
+                 message: "Enter valid mobile number",
+               },
+                 ]}
             >
-              <Input name="contact" onChange={handleChange} />
+              <Input name="contact" onChange={handleChange}  />
+                 {/* <Input maxLength={10} placeholder="Enter mobile number" /> */}
+
             </Form.Item>
           </Col>
         </Row>
@@ -165,7 +173,13 @@ const InstituteRegistration = (props) => {
             <Form.Item
               layout="vertical"
               label="Email id"
-              rules={[{ required: true }]}
+              rules={[
+    { required: true, message: "Email is required" },
+    {
+      pattern: /^[a-zA-Z0-9._%+-]+@gmail\.com$/,
+      message: "Please enter a valid Gmail address",
+    },
+  ]}
             >
               <Input name="email" onChange={handleChange} />
             </Form.Item>

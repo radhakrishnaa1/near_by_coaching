@@ -26,6 +26,7 @@ import {
   FACULTY_DETAILS,
   INSTITUTE_PROFILE,
   MYCOURSES,
+  TUTOR_DASHBOARD,
 } from "../../constants/Routes";
 
 const { Text } = Typography;
@@ -66,7 +67,7 @@ const itemsForTutor = [
     key: "1",
     label: "Dashboard",
     icon: <AppstoreOutlined />,
-    routes: "/",
+    routes: TUTOR_DASHBOARD,
   },
   {
     key: "2",
@@ -128,7 +129,7 @@ const AuthLayout = (props) => {
     navigate(e.item.props.routes);
   };
 
-  console.log("roleId===>", props?.instituteData);
+  // console.log("roleId===>", props?.instituteData);
   const handlelogOut = () => {
     sessionStorage.clear();
     navigate("/");
