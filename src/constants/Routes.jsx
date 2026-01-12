@@ -15,3 +15,4 @@ export const INSTITUTE_DETAILS_ID = "/institute-details/:id";
 export const INSTITUTE_PROFILE = "/institute-profile";
 export const STUDENTDASHBOARD = "/student-dashboard";
 export const TUTOR_DASHBOARD = "/tutor-dashboard";
+export const LIST_TUTOR = "/list-tutor";

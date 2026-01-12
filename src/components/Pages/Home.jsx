@@ -7,6 +7,7 @@ import StudyModeCard from "./StudyModeCard";
 import axios from "axios";
 import Registration from "./Registration";
 import Faculty from "./Faculty";
+import Swal from "sweetalert2";
 const { Title } = Typography;
 
 const App = (props) => {
@@ -29,6 +30,7 @@ const App = (props) => {
   }, []);
   // notedata get api
   const getCountHome = () => {
+    props?.handleSpinner(true);
     axios({
       method: "get",
       url: `http://localhost:3004/countHomepage`,
@@ -38,6 +40,7 @@ const App = (props) => {
     })
       .then(function (response) {
         setCountData(response.data[0]);
+        Swal.close();
         console.log("notes data", response.data);
       })
       .catch(() => {});
@@ -53,8 +56,8 @@ const App = (props) => {
           borderRadius: borderRadiusLG,
         }}
       >
-        <Row>
-          <Col span={8}>
+        <Row gutter={[16, 16]}>
+          <Col xs={24} sm={24} md={12} lg={8}>
             <div style={{ padding: "0px 40px" }}>
               <Title level={2} style={{ fontFamily: "Poppins" }}>
                 Near By Coaching
@@ -77,10 +80,10 @@ const App = (props) => {
             </div>
           </Col>
 
-          <Col span={8}>
+          <Col xs={24} sm={24} md={12} lg={8}>
             <Login handleSpinner={props?.handleSpinner}></Login>
           </Col>
-          <Col span={8}>
+          <Col xs={24} sm={24} md={12} lg={8}>
             <Registration handleSpinner={props?.handleSpinner} />
           </Col>
         </Row>

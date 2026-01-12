@@ -111,6 +111,9 @@ const Teacherdetails = () => {
       qualification: values.qualification,
       state: stateDataArray[0],
       state_name: stateDataArray[1],
+      medium: "English",
+      stream: "PCM",
+      max_hours: "2",
     };
     if (updateData) {
       axios({

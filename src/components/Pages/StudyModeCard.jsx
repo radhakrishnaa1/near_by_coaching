@@ -1,14 +1,14 @@
 import React from "react";
 import { Card, Row, Col, Button, Typography } from "antd";
 import "antd/dist/reset.css";
-import { COURSE_TABLE } from "../../constants/Routes";
+import { COURSE_TABLE, LIST_TUTOR } from "../../constants/Routes";
 import { useNavigate } from "react-router-dom";
 const { Title, Paragraph } = Typography;
 
 const StudyMode = () => {
   const navigate = useNavigate();
-  const handleNavigate = () => {
-    navigate(COURSE_TABLE);
+  const handleNavigate = (value) => {
+    navigate(value);
   };
 
   return (
@@ -83,7 +83,7 @@ const StudyMode = () => {
                 borderRadius: "8px",
                 padding: "0 24px",
               }}
-              onClick={() => handleNavigate()}
+              onClick={() => handleNavigate(COURSE_TABLE)}
             >
               Find a Centre Near You
             </Button>
@@ -116,6 +116,7 @@ const StudyMode = () => {
                 borderRadius: "8px",
                 padding: "0 24px",
               }}
+              onClick={() => handleNavigate(LIST_TUTOR)}
             >
               Call us at home
             </Button>

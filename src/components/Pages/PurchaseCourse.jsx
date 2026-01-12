@@ -107,21 +107,7 @@ const Courseform = (props) => {
               </Form.Item>
             </Col>
           </Row>
-          {/* <Row gutter={16}>
-            <Col span={24}>
-              <Form.Item
-                layout="vertical"
-                label="Select Class"
-                rules={[{ required: true }]}
-              >
-                <Select>
-                  <Option value={"Class 1"}>Class 1</Option>
 
-                  <Option value={"Class 2"}>Class 2</Option>
-                </Select>
-              </Form.Item>
-            </Col>
-          </Row> */}
           <Divider />
           <Title
             level={4}

@@ -33,12 +33,14 @@ import Faculty from './components/Pages/Faculty';
 import CourseDetails from './components/Pages/CourseDetails';
 import {HOME,
   COURSE_DETAILS, COURSE_TABLE, INSTITUTE_DETAILS,TUTOR_DASHBOARD,
-  FACULTY_DETAILS, INSTITUTE_DASHBOARD, STUDENT_REGISTRATION,MYCOURSES,INSTITUTE_DETAILS_ID, INSTITUTE_PROFILE,STUDENTDASHBOARD} from './constants/Routes';
+  FACULTY_DETAILS, INSTITUTE_DASHBOARD, STUDENT_REGISTRATION,MYCOURSES,
+  INSTITUTE_DETAILS_ID, INSTITUTE_PROFILE,STUDENTDASHBOARD,LIST_TUTOR} from './constants/Routes';
 import InstituteDetails from "./components/Pages/InstituteDetails"
 import InstituteProfile from './components/Pages/InstituteProfile';
 import StudentDashboard from './components/Pages/StudentDashboard';
 import TutorDashboard from './components/Pages/TutorDashboard';
 import Teacherdetails from './components/Pages/Teacherdetail';
+import ListOfTutor from './components/Pages/ListOfTutor';
 // import BranchInfo from "./BranchInformation";
 
 
@@ -115,7 +117,7 @@ function LandingPage(props) {
      <Route path={COURSE_TABLE} element= {<CourseTable {...props}  handleSpinner={handleSpinner}/> }/> 
           <Route path={INSTITUTE_DETAILS_ID} element= {<InstituteDetails {...props} handleSpinner={handleSpinner} /> }/>
           <Route path={COURSE_DETAILS} element= {<CourseDetails {...props} handleSpinner={handleSpinner}/> }/>
-
+<Route path={LIST_TUTOR} element={<ListOfTutor {...props} handleSpinner={handleSpinner} />} />
         </Routes>
     )
   }

@@ -110,18 +110,6 @@ const App = (props) => {
               <Flex gap="small" justify="space-around" wrap>
                 <Button
                   shape="round"
-                  icon={<UserOutlined />}
-                  size={size}
-                  onClick={() => setRoleId("2")}
-                  style={{
-                    backgroundColor: roleId === "2" ? "#1890ff" : "",
-                    color: roleId === "2" ? "#fff" : "",
-                  }}
-                >
-                  Student
-                </Button>
-                <Button
-                  shape="round"
                   icon={<BankOutlined />}
                   size={size}
                   style={{
@@ -143,6 +131,18 @@ const App = (props) => {
                   }}
                 >
                   Tutor
+                </Button>
+                <Button
+                  shape="round"
+                  icon={<UserOutlined />}
+                  size={size}
+                  onClick={() => setRoleId("2")}
+                  style={{
+                    backgroundColor: roleId === "2" ? "#1890ff" : "",
+                    color: roleId === "2" ? "#fff" : "",
+                  }}
+                >
+                  Student
                 </Button>
               </Flex>
             </Col>

@@ -3,13 +3,16 @@ import { Divider, Card, Form, Input, Row, Col, Select, Button } from "antd";
 import LayoutHome from "../Layouts/LayoutHome";
 import axios from "axios";
 import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 
 const InstituteRegistration = (props) => {
   const [registrationData, setRegistrationData] = React.useState({
     institute_name: "",
     contact: "",
+    teacher_name: "",
     email: "",
   });
+  const navigate = useNavigate();
   const [activeRegisterTab, setActiveRegisterTab] = React.useState("1");
 
   const handleSubmit = () => {
@@ -82,6 +85,8 @@ const InstituteRegistration = (props) => {
             text: "You have successfully registered as home tuter Please login with  your registered email id and contact number",
             showConfirmButton: true,
             timer: 6000,
+          }).then((result) => {
+            window.location.reload();
           });
         })
         .catch((error) => {
@@ -137,7 +142,14 @@ const InstituteRegistration = (props) => {
               label={
                 activeRegisterTab === "1" ? "Institute Name" : "Teacher Name"
               }
-              rules={[{ required: true , }]}
+              name="Name"
+              rules={[
+                { required: true },
+                {
+                  pattern: /^[a-zA-Z0-9 ]+$/,
+                  message: "Only alphanumeric characters allowed.",
+                },
+              ]}
             >
               {activeRegisterTab === "1" ? (
                 <Input name={"institute_name"} onChange={handleChange} />
@@ -152,18 +164,18 @@ const InstituteRegistration = (props) => {
             <Form.Item
               layout="vertical"
               label="Contact Number"
-              name="Contact number"
+              name="contact"
+              maxLength={10}
               rules={[
                 { required: true, message: "Mobile number is required" },
-                 {
-                pattern: /^[6-9]\d{9}$/,
-                 message: "Enter valid mobile number",
-               },
-                 ]}
+                {
+                  pattern: /^[6-9]\d{9}$/,
+                  message: "Enter valid mobile number",
+                },
+              ]}
             >
-              <Input name="contact" onChange={handleChange}  />
-                 {/* <Input maxLength={10} placeholder="Enter mobile number" /> */}
-
+              <Input name="contact" onChange={handleChange} />
+              {/* <Input maxLength={10} placeholder="Enter mobile number" /> */}
             </Form.Item>
           </Col>
         </Row>
@@ -171,15 +183,18 @@ const InstituteRegistration = (props) => {
         <Row gutter={16}>
           <Col span={24}>
             <Form.Item
-              layout="vertical"
-              label="Email id"
+              label="E-mail"
+              name="email"
               rules={[
-    { required: true, message: "Email is required" },
-    {
-      pattern: /^[a-zA-Z0-9._%+-]+@gmail\.com$/,
-      message: "Please enter a valid Gmail address",
-    },
-  ]}
+                {
+                  required: true,
+                  message: "Please input your E-mail!",
+                },
+                {
+                  type: "email",
+                  message: "The input is not valid E-mail!",
+                },
+              ]}
             >
               <Input name="email" onChange={handleChange} />
             </Form.Item>
