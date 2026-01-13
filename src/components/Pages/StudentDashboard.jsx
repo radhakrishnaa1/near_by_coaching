@@ -9,15 +9,18 @@ import PurchaseCard from "./PurchaseCard";
 import CourseDetails from "./CourseDetails";
 import Title from "antd/es/typography/Title";
 import InstituteListForStudent from "./InstituteListForStudent";
+import Faculty from "./Faculty";
 import CourseCardOuter from "./CourseCardOuter";
+import { InboxOutlined } from "@ant-design/icons";
 const StudentDashboard = (props) => {
   const [studentData, setStudentData] = useState([]); // default is 'middle'
   const [purchase, setPurchase] = useState([]); // default is 'middle'
   const [viewCourseDetails, setViewCourseDetails] = useState("");
-
+  const [tutorEnquery, setTutorEnquiry] = useState([]);
   React.useEffect(() => {
     getStudentDetails();
     getCourseDetailsForStudent();
+    enquiryTutorByStudent();
   }, []);
 
   const getStudentDetails = () => {
@@ -38,6 +41,27 @@ const StudentDashboard = (props) => {
       })
       .catch((error) => {
         console.error("There was an error fetching the district data!", error);
+      });
+  };
+
+  const enquiryTutorByStudent = () => {
+    const email = sessionStorage.getItem("userId");
+    console.log("email===>", email);
+
+    props.handleSpinner(true);
+    axios
+      .get(`http://localhost:3004/enquiryTutorByStudent/${email}`)
+      .then((response) => {
+        console.log("student details===>", response.data);
+        if (response.data.length > 0) {
+          // const data = response.data[0];
+          setTutorEnquiry(response.data);
+          Swal.close();
+          // console.log("data===>", districtData, stateData);
+        }
+      })
+      .catch((error) => {
+        console.error("There was an error fetching the tutor data!", error);
       });
   };
 
@@ -73,27 +97,37 @@ const StudentDashboard = (props) => {
       <Title level={3} style={{ margin: 30, textAlign: "center" }}>
         My Purchased Courses
       </Title>
-      {purchase?.map((data, id) => {
-        return (
-          <CourseCard
-            key={id}
-            courseData={data}
-            handleCardClick={handleCardClick}
-            img="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
-          />
-        );
-      })}
-
-      <Divider />
-      {viewCourseDetails === "" ? null : (
-        <CourseDetails viewCourseDetails={viewCourseDetails}></CourseDetails>
+      {purchase.length > 0 ? (
+        purchase?.map((data, id) => {
+          return (
+            <CourseCard
+              key={id}
+              courseData={data}
+              handleCardClick={handleCardClick}
+              img="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
+            />
+          );
+        })
+      ) : (
+        <div style={{ color: "gray", textAlign: "center" }}>
+          <InboxOutlined style={{ fontSize: 80 }} />
+          <div>No Data Added</div>
+        </div>
       )}
 
       <Divider />
       <Title level={3} style={{ margin: 30, textAlign: "center" }}>
+        Tutor Enquiry
+      </Title>
+      {viewCourseDetails === "" ? null : (
+        <CourseDetails viewCourseDetails={viewCourseDetails}></CourseDetails>
+      )}
+      <Faculty tutorList={tutorEnquery} />
+      <Divider />
+      {/* <Title level={3} style={{ margin: 30, textAlign: "center" }}>
         List Of Institutes For Online/Offline Courses
       </Title>
-      <InstituteListForStudent handleSpinner={props?.handleSpinner} />
+      <InstituteListForStudent handleSpinner={props?.handleSpinner} /> */}
     </AuthLayout>
   );
 };

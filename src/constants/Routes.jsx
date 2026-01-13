@@ -16,3 +16,5 @@ export const INSTITUTE_PROFILE = "/institute-profile";
 export const STUDENTDASHBOARD = "/student-dashboard";
 export const TUTOR_DASHBOARD = "/tutor-dashboard";
 export const LIST_TUTOR = "/list-tutor";
+export const COURSE_PURCHASE = "/course-purchase";
+export const STUDENT_PROFILE = "/student-profile";

@@ -14,20 +14,24 @@ import {
 import axios from "axios";
 import ImageUpload from "./ImageUpload";
 import AuthLayout from "../Layouts/AuthLayout";
+import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
+import { STUDENTDASHBOARD } from "../../constants/Routes";
 const { Title, Text } = Typography;
 const { TextArea } = Input;
 
-const Teacherdetails = () => {
+const StudentDetails = (props) => {
   const [form] = Form.useForm();
-  const [teacherData, setTeacherData] = React.useState("");
+  const [studentData, setStudentData] = React.useState("");
   const [stateData, setStateData] = useState([]);
   const [districtData, setDistrictData] = useState([]);
+  const navigate = useNavigate();
   // 🧠 State to store form values
 
   // Handle form submission
 
   React.useEffect(() => {
-    getTeacherData();
+    getStudentDetails();
     getStateData();
     getDistrictData();
   }, []);
@@ -52,37 +56,48 @@ const Teacherdetails = () => {
         console.error("There was an error fetching the district data!", error);
       });
   };
-
-  const getTeacherData = () => {
+  // {
+  //         "student_id": 6,
+  //         "student_name": "ada sharma",
+  //         "email": "ada@gmail.com",
+  //         "contact": null,
+  //         "address": null,
+  //         "state": null,
+  //         "city": null,
+  //         "student_class": null,
+  //         "student_pic": null,
+  //         "creation_date": "2026-01-12T18:30:00.000Z"
+  //     }
+  const getStudentDetails = () => {
     const email = sessionStorage.getItem("userId");
     console.log("email===>", email);
+
+    props.handleSpinner(true);
     axios
-      .get(`http://localhost:3004/getTutorByEMail/0/${email}`)
+      .get(`http://localhost:3004/getStudentByEMail/${email}`)
       .then((response) => {
-        console.log("tutor details===>", response.data);
+        console.log("student details===>", response.data);
         if (response.data.length > 0) {
           const data = response.data[0];
-          setTeacherData(data);
-          // console.log("data===>", districtData, stateData);
           form.setFieldsValue({
             address: data.address,
-            available_on: data.available_on,
+
             city: data.city,
             city_name: data.city_name,
             contact: data.contact,
-            course_id: data.course_id,
+
             creation_date: data.creation_date,
-            discription: data.discription,
+
             email: data.email,
-            experience: data.experience,
-            institute_id: data.institute_id,
-            name: data.name,
+            name: data.student_name,
             photo: data.photo,
-            qualification: data.qualification,
+            class: data.student_class,
             state: data.state,
             state_name: data.state_name,
-            teacher_id: data.teacher_id,
           });
+          setStudentData(response.data[0]);
+          Swal.close();
+          // console.log("data===>", districtData, stateData);
         }
       })
       .catch((error) => {
@@ -92,33 +107,21 @@ const Teacherdetails = () => {
 
   const handleFinish = (values) => {
     console.log("Form Values:", values);
-    const stateDataArray = values.state_name.split("/");
-    const cityDataArray = values.city_name.split("/");
+
     const updateData = {
-      address: values.address,
-      available_on: "evening",
-      city: cityDataArray[0],
-      city_name: cityDataArray[1],
+      student_name: values.name,
       contact: values.contact,
-
-      creation_date: new Date().toISOString().split("T")[0],
-      discription: values.discription,
-      email: values.email,
-      experience: values.experience,
-
-      name: values.name,
-
-      qualification: values.qualification,
-      state: stateDataArray[0],
-      state_name: stateDataArray[1],
-      medium: "English",
-      stream: "PCM",
-      max_hours: "2",
+      address: values.address,
+      state: values.state,
+      city: values.city,
+      student_class: values.class,
+      student_pic: "",
     };
+
     if (updateData) {
       axios({
         method: "post",
-        url: `http://localhost:3004/updateTutorDetails/${teacherData.teacher_id}`,
+        url: `http://localhost:3004/updateStudentProfile/${studentData?.email}`,
         data: updateData,
         headers: {
           "Content-Type": "application/json",
@@ -126,6 +129,14 @@ const Teacherdetails = () => {
       })
         .then(function (response) {
           console.log("response===>", response);
+          Swal.fire({
+            icon: "success",
+            text: "You have successfully Updated your profile",
+            showConfirmButton: true,
+            timer: 6000,
+          }).then((result) => {
+            navigate(STUDENTDASHBOARD);
+          });
         })
         .catch((error) => {
           console.log("error===>", error);
@@ -138,7 +149,7 @@ const Teacherdetails = () => {
   return (
     <AuthLayout>
       <Title level={5} style={{ textAlign: "center" }}>
-        Add Faculty Details
+        UpDate Profile
       </Title>
 
       <Form form={form} layout="vertical" onFinish={handleFinish}>
@@ -152,27 +163,17 @@ const Teacherdetails = () => {
           <ImageUpload />
         </div>
         <Form.Item
-          label="Name of faculty"
+          label="Name of Student"
           name="name"
           rules={[{ required: true }]}
         >
-          <Input placeholder="Enter facultyt name" />
+          <Input placeholder="Enter student name" />
         </Form.Item>
 
-        <Form.Item
-          label="Qualification"
-          name="qualification"
-          rules={[{ required: true }]}
-        >
-          <Input placeholder="Enter Qualification" />
+        <Form.Item label="Class " name="class" rules={[{ required: true }]}>
+          <Input placeholder="Enter Class" />
         </Form.Item>
-        <Form.Item
-          label="Experience"
-          name="experience"
-          rules={[{ required: true }]}
-        >
-          <Input placeholder="Enter Experience" />
-        </Form.Item>
+
         <Form.Item
           label="Contact number"
           name="contact"
@@ -183,33 +184,27 @@ const Teacherdetails = () => {
         <Form.Item label="Email ID" name="email" rules={[{ required: true }]}>
           <Input placeholder="Enter your Emial Id" />
         </Form.Item>
-        <Form.Item
-          label="Short Discription"
-          name="discription"
-          rules={[{ required: true }]}
-        >
-          <TextArea rows={6} placeholder="Enter discription" />
-        </Form.Item>
+
         <Form.Item label="Address" name="address" rules={[{ required: true }]}>
           <TextArea rows={6} placeholder="Enter Address" />
         </Form.Item>
 
-        <Form.Item label="State" name="state_name" rules={[{ required: true }]}>
+        <Form.Item label="State" name="state" rules={[{ required: true }]}>
           <Select
             style={{ width: "100%" }}
             // onChange={(value) => handleSelectChange(value, "state")}
-            name="state_name"
+            name="state"
           >
             {stateData?.map((data, idd) => {
               return (
-                <option key={idd} value={data.state_code + "/" + data.name}>
+                <option key={idd} value={data.state_code}>
                   {data.name}
                 </option>
               );
             })}
           </Select>
         </Form.Item>
-        <Form.Item label="City" name="city_name" rules={[{ required: true }]}>
+        <Form.Item label="City" name="city" rules={[{ required: true }]}>
           <Select
             style={{ width: "100%" }}
             // onChange={(value) => handleSelectChange(value, "city")}
@@ -217,7 +212,7 @@ const Teacherdetails = () => {
           >
             {districtData?.map((data, idd) => {
               return (
-                <option key={idd} value={data.city_code + "/" + data.name}>
+                <option key={idd} value={data.city_code}>
                   {data.name}
                 </option>
               );
@@ -240,4 +235,4 @@ const Teacherdetails = () => {
   );
 };
 
-export default Teacherdetails;
+export default StudentDetails;

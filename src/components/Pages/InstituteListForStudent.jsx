@@ -1,13 +1,13 @@
 import { Table, Divider, Tag, Button } from "antd";
-import LayoutHome from "../Layouts/LayoutHome";
-import BranchInfo from "./BranchInformation";
-import InstituteDetails from "./InstituteDetails";
-import { INSTITUTE_DETAILS } from "../../constants/Routes";
+
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import CourseCardOuter from "./CourseCardOuter";
 import axios from "axios";
 import React from "react";
+import AuthLayout from "../Layouts/AuthLayout";
+import Title from "antd/es/typography/Title";
+
 const InstituteListForStudent = (props) => {
   const navigate = useNavigate();
   const [instituteList, setInstituteList] = React.useState([]);
@@ -83,7 +83,10 @@ const InstituteListForStudent = (props) => {
   };
 
   return (
-    <>
+    <AuthLayout>
+      <Title level={3} style={{ margin: 30, textAlign: "center" }}>
+        List Of Institutes For Online/Offline Courses
+      </Title>
       <div style={{ width: "90%", margin: "40px auto" }}>
         <Table columns={columns} dataSource={instituteList} />
       </div>
@@ -92,7 +95,7 @@ const InstituteListForStudent = (props) => {
         handleSpinner={props.handleSpinner}
         instituteId={instituteId}
       />
-    </>
+    </AuthLayout>
   );
 };
 export default InstituteListForStudent;

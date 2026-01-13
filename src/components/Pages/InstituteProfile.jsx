@@ -152,7 +152,7 @@ const InstituteProfile = () => {
     const stateDataArray = instituteData?.values?.stateName.split("/");
     const cityDataArray = instituteData?.values?.cityName.split("/");
 
-console.log(stateData,cityDataArray)
+    console.log(stateData, cityDataArray);
     const updateData = {
       institute_name: instituteData?.values?.name,
       institute_discription: instituteData?.values?.instituteDetails,
@@ -180,13 +180,12 @@ console.log(stateData,cityDataArray)
       })
         .then(function (response) {
           console.log("response===>", response);
- Swal.fire({
+          Swal.fire({
             icon: "success",
             text: "Institute Details Updated successfully",
             showConfirmButton: true,
             timer: 6000,
           });
-
         })
         .catch((error) => {
           console.log("error===>", error);
@@ -259,7 +258,7 @@ console.log(stateData,cityDataArray)
           >
             {stateData.map((data, idd) => {
               return (
-                <option key={idd} value={data.id + "/" + data.name}>
+                <option key={idd} value={data.state_code + "/" + data.name}>
                   {data.name}
                 </option>
               );

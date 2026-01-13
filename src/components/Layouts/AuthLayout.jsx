@@ -25,8 +25,10 @@ import { Outlet, useNavigate } from "react-router-dom";
 import {
   FACULTY_DETAILS,
   INSTITUTE_PROFILE,
+  COURSE_PURCHASE,
   MYCOURSES,
   TUTOR_DASHBOARD,
+  STUDENT_PROFILE,
 } from "../../constants/Routes";
 
 const { Text } = Typography;
@@ -52,7 +54,13 @@ const itemsForStudent = [
     key: "2",
     label: "Profile",
     icon: <AppstoreOutlined />,
-    routes: "/",
+    routes: STUDENT_PROFILE,
+  },
+  {
+    key: "4",
+    label: "Buy Course",
+    icon: <AppstoreOutlined />,
+    routes: COURSE_PURCHASE,
   },
   {
     key: "3",

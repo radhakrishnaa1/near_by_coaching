@@ -88,8 +88,10 @@ const IconText = ({ icon, text }) => (
 );
 const App = (props) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedTutor, setSelectedTutor] = useState("");
   const showModal = (item) => {
     console.log(item);
+    setSelectedTutor(item);
     setIsModalOpen(true);
   };
   const handleOk = () => {
@@ -192,6 +194,7 @@ const App = (props) => {
         handleCancel={handleCancel}
         showModal={showModal}
         handleOk={handleOk}
+        selectedTutor={selectedTutor}
       />
     </>
   );

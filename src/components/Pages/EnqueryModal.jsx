@@ -1,10 +1,47 @@
 import React, { useState } from "react";
 import { Button, Modal, Input, Form, Col, Row } from "antd";
+import axios from "axios";
+import Swal from "sweetalert2";
 const App = (props) => {
-  const [postData, setPostData] = React.useState("");
   const handleFinish = (values) => {
     console.log(values);
+    const postData = {
+      name: values.studentName,
+      email: values.email,
+      constact: values?.phoneNumber,
+      password: values.passWord,
+      tutor_id: props?.selectedTutor?.teacher_id,
+      status: "Enquiry",
+      creation_date: new Date().toISOString().split("T")[0],
+    };
+
+    if (postData) {
+      axios({
+        method: "post",
+        url: `http://localhost:3004/studentEnquery`,
+        data: postData,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+        .then(function (response) {
+          Swal.fire({
+            icon: "success",
+            text: "You have successfully registered ",
+            showConfirmButton: true,
+            timer: 6000,
+          }).then((result) => {
+            props?.handleCancel();
+          });
+        })
+        .catch((error) => {
+          console.log("error===>", error);
+        });
+    } else {
+      console.log("error===> Please fill all the details");
+    }
   };
+
   return (
     <>
       {/* <Button type="primary" onClick={showModal}>
