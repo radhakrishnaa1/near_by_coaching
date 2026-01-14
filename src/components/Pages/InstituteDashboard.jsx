@@ -20,6 +20,7 @@ const InstituteDashboard = () => {
         console.log("institute details===>", response.data);
         if (response.data.length > 0) {
           const data = response.data[0];
+
           setInstituteData(data);
           // console.log("data===>", districtData, stateData);
         }

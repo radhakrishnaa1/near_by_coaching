@@ -34,6 +34,8 @@ const StudentDashboard = (props) => {
         console.log("student details===>", response.data);
         if (response.data.length > 0) {
           const data = response.data[0];
+          sessionStorage.setItem("userName", data?.student_name);
+
           setStudentData(data);
           Swal.close();
           // console.log("data===>", districtData, stateData);
@@ -54,7 +56,7 @@ const StudentDashboard = (props) => {
       .then((response) => {
         console.log("student details===>", response.data);
         if (response.data.length > 0) {
-          // const data = response.data[0];
+          const data = response.data[0];
           setTutorEnquiry(response.data);
           Swal.close();
           // console.log("data===>", districtData, stateData);
@@ -97,24 +99,25 @@ const StudentDashboard = (props) => {
       <Title level={3} style={{ margin: 30, textAlign: "center" }}>
         My Purchased Courses
       </Title>
-      {purchase.length > 0 ? (
-        purchase?.map((data, id) => {
-          return (
-            <CourseCard
-              key={id}
-              courseData={data}
-              handleCardClick={handleCardClick}
-              img="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
-            />
-          );
-        })
-      ) : (
-        <div style={{ color: "gray", textAlign: "center" }}>
-          <InboxOutlined style={{ fontSize: 80 }} />
-          <div>No Data Added</div>
-        </div>
-      )}
-
+      <div style={{ display: "flex", flexDirection: "row", flexWrap: "wrap" }}>
+        {purchase.length > 0 ? (
+          purchase?.map((data, id) => {
+            return (
+              <CourseCard
+                key={id}
+                courseData={data}
+                handleCardClick={handleCardClick}
+                img="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
+              />
+            );
+          })
+        ) : (
+          <div style={{ color: "gray", textAlign: "center" }}>
+            <InboxOutlined style={{ fontSize: 80 }} />
+            <div>No Data Added</div>
+          </div>
+        )}
+      </div>
       <Divider />
       <Title level={3} style={{ margin: 30, textAlign: "center" }}>
         Tutor Enquiry

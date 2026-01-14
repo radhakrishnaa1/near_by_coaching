@@ -60,6 +60,7 @@ const App = (props) => {
               });
             }
           } else {
+            Swal.close();
             console.log("error===> Invalid Credentials");
           }
         })

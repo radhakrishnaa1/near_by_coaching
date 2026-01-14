@@ -10,6 +10,7 @@ const InstituteDashboard = () => {
 
   React.useEffect(() => {
     getInstituteDetails();
+    getTutorEnwuiry();
   }, []);
   const getInstituteDetails = () => {
     const email = sessionStorage.getItem("userId");
@@ -20,6 +21,7 @@ const InstituteDashboard = () => {
         console.log("tutor details===>", response.data);
         if (response.data.length > 0) {
           const data = response.data[0];
+          sessionStorage.setItem("userName", data?.name);
           setInstituteData(data);
           // console.log("data===>", districtData, stateData);
         }
@@ -29,12 +31,24 @@ const InstituteDashboard = () => {
       });
   };
 
-  return (
-    <AuthLayout instituteData={instituteData} studentData="">
-      <HomeCard />
-      <Divider />
-      <CourseCard />
-    </AuthLayout>
-  );
+  const getTutorEnwuiry = () => {
+    const email = sessionStorage.getItem("userId");
+    console.log("email===>", email);
+    axios
+      .get(`http://localhost:3004/tutorEnquirybyteacher/${email}`)
+      .then((response) => {
+        console.log("tutor details===>", response.data);
+        if (response.data.length > 0) {
+          const data = response.data[0];
+          sessionStorage.setItem("userName", data?.name);
+          setInstituteData(data);
+          // console.log("data===>", districtData, stateData);
+        }
+      })
+      .catch((error) => {
+        console.error("There was an error fetching the district data!", error);
+      });
+  };
+  return <AuthLayout instituteData={instituteData} studentData=""></AuthLayout>;
 };
 export default InstituteDashboard;

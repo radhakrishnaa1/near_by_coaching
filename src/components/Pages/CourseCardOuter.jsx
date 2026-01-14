@@ -6,6 +6,7 @@ import PurchaseCourse from "./PurchaseCourse";
 import CourseDetails from "./CourseDetails";
 import axios from "axios";
 import Swal from "sweetalert2";
+import PurchaseCourseInside from "./PurchaseCourseInside";
 const { Title, Text } = Typography;
 const { Option } = Select;
 
@@ -28,7 +29,8 @@ const Courses = (props) => {
   const [coursesList, setCoursesList] = React.useState([]);
   const [courseSelected, setCourseSelected] = React.useState(null);
   const params = useParams();
-
+  const studentId = sessionStorage.getItem("userId");
+  console.log("userid", studentId);
   React.useEffect(() => {
     // Fetch courses from API if needed
     getCourseList();
@@ -116,12 +118,22 @@ const Courses = (props) => {
             </Col>
 
             <Col span={12}>
-              <PurchaseCourse
-                handleSpinner={props.handleSpinner}
-                instituteId={props?.instituteId}
-                courseId={courseSelected?.course_id}
-                courseFee={courseSelected?.course_fee}
-              />
+              {studentId ? (
+                <PurchaseCourseInside
+                  handleSpinner={props.handleSpinner}
+                  instituteId={props?.instituteId}
+                  courseId={courseSelected?.courseid}
+                  courseFee={courseSelected?.course_fee}
+                />
+              ) : (
+                <PurchaseCourse
+                  handleSpinner={props.handleSpinner}
+                  instituteId={props?.instituteId}
+                  courseId={courseSelected?.courseid}
+                  courseFee={courseSelected?.course_fee}
+                  discount={courseSelected?.discount}
+                />
+              )}
             </Col>
           </Row>
         </div>

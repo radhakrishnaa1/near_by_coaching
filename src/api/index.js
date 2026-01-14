@@ -118,6 +118,23 @@ app.get("/enquiryTutorByStudent/:email", (request, response) => {
   });
 });
 
+app.get("/tutorEnquirybyteacher/:email", (request, response) => {
+    const email = request.params.email;
+           
+  let sql = "SELECT e.enquiry_id, e.email, e.status, e.contact, e.tutor_id, e.creation_date, e.name, t.teacher_id, t.name, t.qualification, t.email, t.contact, t.discription, t.address, t.city, t.city_name, t.state, t.state_name, t.available_on, t.experience, t.creation_date, t.institute_id, t.course_id, t.medium, t.max_hours, t.stream, t.gender, t.fee , s.student_name , s.address , s.state ,s.city, s.student_class FROM tutor_enquiry e INNER JOIN home_teacher t ON e.tutor_id = t.teacher_id INNER JOIN student_details s ON e.email = s.email WHERE t.email = ?";
+  connection.query(sql, [email], (error, results) => {
+    if (error) {
+     console.error("SQL ERROR:", error);  // logs actual error
+        return response.status(500).json({
+          message: "Error saving institute_details to database",
+          error: error.message
+        });
+    } 
+    response.json(results);
+  });
+});
+
+
 app.get("/getStudentByEMail/:email", (request, response) => {
     const email = request.params.email;
            
@@ -574,6 +591,10 @@ app.post('/updateTutorDetails/:id', (req, response) => {
 });
 
 
+
+
+
+
 app.post('/updateStudentProfile/:id', (req, res) => {
   const { id } = req.params;
   const {student_name, 
@@ -591,69 +612,54 @@ app.post('/updateStudentProfile/:id', (req, res) => {
     state, 
     city, 
     student_class,
-       id], (error,results) => {
-   if (error) {
-     console.error("SQL ERROR:", error);  // logs actual error
-        return response.status(500).json({
-          message: "Error saving institute_details to database",
+       id], (error, results) => {
+      if (error) {
+        console.error("SQL ERROR:", error);  // logs actual error
+        return res.status(500).json({
+          message: "Error saving student_details to database",
           error: error.message
         });
-    } 
-     
-  }
+      }
+
+      res.status(201).send(`students added with ID: ${results.insertId}`);
+    }
+  )
+  })
+
+
+
+app.post('/purchaseCourseInside', (req, response) => {
+  const { id } = req.params;
+  const { institute_id, 
+      student_id,
+      course_id, 
+       purchase_date,
+      fee_paid, 
+       email, 
+       contact
+       } = req.body;
+  connection.query('INSERT INTO purchase_course (institute_id,student_id, email, course_id, contact, purchase_date, fee_paid) VALUES (?, ?, ?, ?, ?, ?,?)',
+     [institute_id, 
+      student_id,
+       email, 
+      course_id, 
+      contact,
+       purchase_date,
+      fee_paid, 
+       id], (error, results) => {
+      if (error) {
+        console.error("SQL ERROR:", error);  // logs actual error
+        return response.status(500).json({
+          message: "Error saving student_details to database",
+          error: error.message
+        });
+      }
+
+      response.status(201).send(`students added with ID: ${results.insertId}`);
+    }
 
 );
 });
-
-
-
-// app.post('/purchaseCourse',  (req, res) => {
-//   const rollId ="2";
-//   // purchase_id
-  
-//   const {
-//      institute_id,
-//      student_id,
-//      course_id,
-//       purchase_date, 
-//       fee_paid, 
-//      student_name, 
-//      email, 
-//      contact, 
-//     creation_date
-//   } = req.body;
-
-//   try {
-//     // 1. Start a transaction (method depends on your library)
-//      connection.beginTransaction();
-
-//     // 2. Insert into the first table (e.g., 'orders')
-//      const sql = `INSERT INTO purchase_course (institute_id,email,course_id,contact, purchase_date, fee_paid ) 
-//     VALUES (?, ?, ?, ?, ?, ?)`;
-//     const sqlResult = connection.query(sql, [institute_id,email ,course_id,contact, purchase_date, fee_paid]);
-//     const sqlId = sqlResult.insertId; // Get the ID of the newly inserted order
-
-//     const loginSql = `INSERT INTO login (login_id, password, roll_id, logindate) VALUES (?, ?, ?, ?)`
-
-//     // 4. Insert multiple records into the second table
-//      connection.query(loginSql, [email,contact,rollId,creation_date]);
-
-//  const studentSql = `INSERT INTO student_details (student_name, email, contact, creation_date) VALUES ( ?, ?, ?,?)`
-
-//     // 4. Insert multiple records into the second table
-//      connection.query(studentSql, [student_name, email,contact,creation_date]);
-
-//     // 5. Commit the transaction if all inserts were successful
-//      connection.commit();
-
-//     res.status(201).send({ message: 'Login Id created successfuly' ,sqlId});
-//   } catch (error) {
-//     // 6. Rollback the transaction in case of any error
-//      connection.rollback();
-//     console.error(error);
-//     res.status(500).send({ message: 'Failed to register institute ', error: error.message });
-//   }
-// });
 
 
 app.post('/purchaseCourse', (req, res) => {

@@ -29,6 +29,7 @@ import {
   MYCOURSES,
   TUTOR_DASHBOARD,
   STUDENT_PROFILE,
+  STUDENTDASHBOARD,
 } from "../../constants/Routes";
 
 const { Text } = Typography;
@@ -48,7 +49,7 @@ const itemsForStudent = [
     key: "1",
     label: "Dashboard",
     icon: <AppstoreOutlined />,
-    routes: "/",
+    routes: STUDENTDASHBOARD,
   },
   {
     key: "2",
@@ -62,12 +63,12 @@ const itemsForStudent = [
     icon: <AppstoreOutlined />,
     routes: COURSE_PURCHASE,
   },
-  {
-    key: "3",
-    label: "Payment Receipt",
-    icon: <AppstoreOutlined />,
-    routes: "/",
-  },
+  // {
+  //   key: "3",
+  //   label: "Payment Receipt",
+  //   icon: <AppstoreOutlined />,
+  //   routes: "/",
+  // },
 ];
 
 const itemsForTutor = [
@@ -200,7 +201,7 @@ const AuthLayout = (props) => {
                     className="main-title"
                     style={{ color: "#fff", marginTop: 10 }}
                   >
-                    {props?.studentData?.student_name}
+                    {sessionStorage.getItem("userName")}
                   </div>
                 </>
               )}

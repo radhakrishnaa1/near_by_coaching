@@ -32,7 +32,7 @@ const CourseCard = (props) => {
   return (
     <Card
       hoverable
-      style={{ width: 300 }}
+      style={{ width: 300, margin: 10 }}
       cover={<img draggable={false} alt="example" src={props?.img} />}
       actions={[
         <div onClick={() => props?.handleCardClick(props?.courseData)}>
