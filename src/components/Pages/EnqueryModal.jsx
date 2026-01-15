@@ -13,6 +13,7 @@ const App = (props) => {
       tutor_id: props?.selectedTutor?.teacher_id,
       status: "Enquiry",
       creation_date: new Date().toISOString().split("T")[0],
+      noOfStudents: values?.noOfstudents,
     };
 
     if (postData) {
@@ -101,7 +102,7 @@ const App = (props) => {
             </Col>
           </Row>
           <Row gutter={16}>
-            <Col span={24}>
+            <Col span={12}>
               <Form.Item
                 layout="vertical"
                 label="Enter Phone Number"
@@ -115,6 +116,22 @@ const App = (props) => {
                 ]}
               >
                 <Input name="phoneNumber" />
+              </Form.Item>
+            </Col>
+            <Col span={12}>
+              <Form.Item
+                layout="vertical"
+                label=" Number Of students Who study"
+                name="noOfstudents"
+                rules={[
+                  { required: true, message: "Number of students is required" },
+                  {
+                    pattern: /^[1-9]\d{0}$/,
+                    message: "Enter valid  number",
+                  },
+                ]}
+              >
+                <Input name="noOfstudent" />
               </Form.Item>
             </Col>
           </Row>

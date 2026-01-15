@@ -3,33 +3,16 @@ import AuthLayout from "../Layouts/AuthLayout";
 import HomeCard from "../Pages/HomeCard";
 import { Divider } from "antd";
 import CourseCard from "./CourseCard";
+import TutorEnquiry from "./TutorEnquiry";
 import axios from "axios";
 
 const InstituteDashboard = () => {
-  const [instituteData, setInstituteData] = useState(""); // default is 'middle'
-
+  const [tutorData, setTutorData] = useState(""); // default is 'middle'
+  const [tutorEnquiryList, setTutorEnquiryList] = useState([]);
   React.useEffect(() => {
-    getInstituteDetails();
+    // getInstituteDetails();
     getTutorEnwuiry();
   }, []);
-  const getInstituteDetails = () => {
-    const email = sessionStorage.getItem("userId");
-    console.log("email===>", email);
-    axios
-      .get(`http://localhost:3004/getTutorByEMail/0/${email}`)
-      .then((response) => {
-        console.log("tutor details===>", response.data);
-        if (response.data.length > 0) {
-          const data = response.data[0];
-          sessionStorage.setItem("userName", data?.name);
-          setInstituteData(data);
-          // console.log("data===>", districtData, stateData);
-        }
-      })
-      .catch((error) => {
-        console.error("There was an error fetching the district data!", error);
-      });
-  };
 
   const getTutorEnwuiry = () => {
     const email = sessionStorage.getItem("userId");
@@ -41,7 +24,8 @@ const InstituteDashboard = () => {
         if (response.data.length > 0) {
           const data = response.data[0];
           sessionStorage.setItem("userName", data?.name);
-          setInstituteData(data);
+          setTutorEnquiryList(response.data);
+          setTutorData(data);
           // console.log("data===>", districtData, stateData);
         }
       })
@@ -49,6 +33,10 @@ const InstituteDashboard = () => {
         console.error("There was an error fetching the district data!", error);
       });
   };
-  return <AuthLayout instituteData={instituteData} studentData=""></AuthLayout>;
+  return (
+    <AuthLayout instituteData={""} studentData="">
+      <TutorEnquiry tutorEnquiryList={tutorEnquiryList} tutorData={tutorData} />
+    </AuthLayout>
+  );
 };
 export default InstituteDashboard;
