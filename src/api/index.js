@@ -105,7 +105,7 @@ app.get("/purchasecoursebystudent/:email", (request, response) => {
 app.get("/enquiryTutorByStudent/:email", (request, response) => {
     const email = request.params.email;
            
-  let sql = "SELECT e.enquiry_id, e.email, e.status, e.contact, e.tutor_id, e.creation_date, e.name, e.number_of_student, t.teacher_id, t.name, t.qualification, t.email, t.contact, t.discription, t.address, t.city, t.city_name, t.state, t.state_name, t.available_on, t.experience, t.creation_date, t.institute_id, t.course_id, t.medium, t.max_hours, t.stream, t.gender, t.fee FROM tutor_enquiry e INNER JOIN home_teacher t ON e.tutor_id = t.teacher_id WHERE e.email = ?";
+  let sql = "SELECT e.enquiry_id, e.email, e.fee as tutor_fee, e.status, e.contact, e.tutor_id, e.creation_date, e.name, e.number_of_student, t.teacher_id, t.name, t.qualification, t.email, t.contact, t.discription, t.address, t.city, t.city_name, t.state, t.state_name, t.available_on, t.experience, t.creation_date, t.institute_id, t.course_id, t.medium, t.max_hours, t.stream, t.gender FROM tutor_enquiry e INNER JOIN home_teacher t ON e.tutor_id = t.teacher_id WHERE e.email = ?";
   connection.query(sql, [email], (error, results) => {
     if (error) {
      console.error("SQL ERROR:", error);  // logs actual error
@@ -121,7 +121,7 @@ app.get("/enquiryTutorByStudent/:email", (request, response) => {
 app.get("/tutorEnquirybyteacher/:email", (request, response) => {
     const email = request.params.email;
            
-  let sql = "SELECT e.enquiry_id, e.status, e.number_of_student, e.tutor_id, e.creation_date, e.name, e.number_of_student, t.teacher_id, t.name, t.qualification, t.email, t.contact, t.discription, t.address, t.city, t.city_name, t.state, t.state_name, t.available_on, t.experience, t.creation_date, t.institute_id, t.course_id, t.medium, t.max_hours, t.stream, t.gender, t.fee , s.student_name , s.email as student_email, s.address as student_add , s.state as student_state ,s.city as student_city, s.contact as student_contact, s.student_class FROM tutor_enquiry e INNER JOIN home_teacher t ON e.tutor_id = t.teacher_id INNER JOIN student_details s ON e.email = s.email WHERE t.email = ?";
+  let sql = "SELECT e.enquiry_id, e.status, e.number_of_student, e.tutor_id, e.fee as tutor_fee, e.creation_date, e.name, e.number_of_student, t.teacher_id, t.name, t.qualification, t.email, t.contact, t.discription, t.address, t.city, t.city_name, t.state, t.state_name, t.available_on, t.experience, t.creation_date, t.institute_id, t.course_id, t.medium, t.max_hours, t.stream, t.gender, t.fee , s.student_name , s.email as student_email, s.address as student_add , s.state as student_state ,s.city as student_city, s.contact as student_contact, s.student_class FROM tutor_enquiry e INNER JOIN home_teacher t ON e.tutor_id = t.teacher_id INNER JOIN student_details s ON e.email = s.email WHERE t.email = ?";
   connection.query(sql, [email], (error, results) => {
     if (error) {
      console.error("SQL ERROR:", error);  // logs actual error
@@ -542,16 +542,23 @@ app.post('/updateinstitute/:id', (req, res) => {
   });
 });
 
-app.post('/updateEnquiry/:enquiry_id', (req, res) => {
+app.post('/updateEnquiryFee/:enquiry_id', (req, res) => {
   const { enquiry_id } = req.params;
   const {
     fee,
-    status
+    status,
+    payment_date
    } = req.body;
-  connection.query('UPDATE institute_details SET  status = ?, fee =?  WHERE institute_id = ?', [fee,
-    status, enquiry_id], (err) => {
-    if (err) throw err;
-    res.json({ message: 'enquiry updated successfully' });
+  connection.query('UPDATE tutor_enquiry SET  fee = ? , status = ?, payment_date = ? WHERE enquiry_id = ?', [fee,
+    status,payment_date,enquiry_id], (error, results) => {
+      if (error) {
+        console.error("SQL ERROR:", error);  // logs actual error
+        return response.status(500).json({
+          message: "Error saving student_details to database",
+          error: error.message
+        });
+      }
+    res.json({ message: 'enquiry Fee updated successfully' });
   });
 });
 

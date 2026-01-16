@@ -78,6 +78,9 @@ import {
   PhoneOutlined,
   StarOutlined,
 } from "@ant-design/icons";
+import Swal from "sweetalert2";
+import axios from "axios";
+import { useLocation } from "react-router-dom";
 import { Avatar, Col, Row, List, Space, Button } from "antd";
 import EnqueryModal from "./EnqueryModal";
 const IconText = ({ icon, text }) => (
@@ -89,6 +92,8 @@ const IconText = ({ icon, text }) => (
 const App = (props) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedTutor, setSelectedTutor] = useState("");
+  const location = useLocation();
+  console.log(location.pathname);
   const showModal = (item) => {
     console.log(item);
     setSelectedTutor(item);
@@ -100,6 +105,45 @@ const App = (props) => {
   const handleCancel = () => {
     setIsModalOpen(false);
   };
+
+  const handlePay = (data) => {
+    const updateData = {
+      fee: data.tutor_fee,
+      status: "paid",
+      payment_date: new Date().toISOString().split("T")[0],
+    };
+    if (data.tutor_fee > 0) {
+      axios({
+        method: "post",
+        url: `http://localhost:3004/updateEnquiryFee/${data?.enquiry_id}`,
+        data: updateData,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+        .then(function (response) {
+          Swal.fire({
+            icon: "success",
+            text: "You have successfully Made Payment and hired tutor ",
+            showConfirmButton: true,
+            timer: 6000,
+          }).then((result) => {
+            handleCancel();
+          });
+        })
+        .catch((error) => {
+          console.log("error===>", error);
+        });
+    } else {
+      Swal.fire({
+        icon: "warning",
+        text: "Tutor did Not share Fee Details yet ",
+        showConfirmButton: true,
+        timer: 6000,
+      });
+    }
+  };
+
   return (
     <>
       <List
@@ -138,9 +182,36 @@ const App = (props) => {
               />,
             ]}
             extra={
-              <Button type="primary" style={{}} onClick={() => showModal(item)}>
-                Send Enquiry
-              </Button>
+              location.pathname === "/student-dashboard" ? (
+                <div>
+                  <div style={{ fontSize: 20, color: "#f3480a" }}>
+                    {" "}
+                    Fee :{" "}
+                    {item?.tutor_fee
+                      ? item.tutor_fee
+                      : "Not Updated By Tutor Yet"}
+                  </div>
+                  {item.status === "paid" ? (
+                    <b style={{ color: "green" }}>Tutor Allotted</b>
+                  ) : (
+                    <Button
+                      type="primary"
+                      danger
+                      onClick={() => handlePay(item)}
+                    >
+                      Pay Now To Hire Tutor
+                    </Button>
+                  )}
+                </div>
+              ) : (
+                <Button
+                  type="primary"
+                  style={{}}
+                  onClick={() => showModal(item)}
+                >
+                  Send Enquiry
+                </Button>
+              )
             }
           >
             <List.Item.Meta
@@ -158,14 +229,15 @@ const App = (props) => {
               description={item.discription}
             />
             <Row gutter={16}>
-              <Col span={6}>
-                <b>Qualification : </b>
-                {item.qualification}
-              </Col>
               <Col span={12}>
                 <b>Experience :</b>
                 {item.experience}
               </Col>
+              <Col span={6}>
+                <b>Qualification : </b>
+                {item.qualification}
+              </Col>
+
               <Col span={6}>
                 <b> teaching hour per subject : </b>
                 {item.max_hours} hours

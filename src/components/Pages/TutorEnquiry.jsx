@@ -24,7 +24,9 @@ import {
   EnvironmentFilled,
   EditOutlined,
 } from "@ant-design/icons";
-
+import axios from "axios";
+import Swal from "sweetalert2";
+import ListForStudent from "./ListForStudent";
 const { Content } = Layout;
 const { Title, Text, Paragraph } = Typography;
 
@@ -42,46 +44,45 @@ export default function ProfilePage(props) {
     setIsModalOpen(true);
   };
 
-  const handleOk = () => {
-    setIsModalOpen(false);
+  const handleFee = (values) => {
+    console.log(values);
+    // setFee(e.targe.value);
     const updateData = {
-      fee: fee,
+      fee: values.fee,
       status: "fee",
+      payment_date: null,
     };
 
-    // if (postData) {
-    //   axios({
-    //     method: "post",
-    //     url: `http://localhost:3004/studentEnquery`,
-    //     data: postData,
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //   })
-    //     .then(function (response) {
-    //       Swal.fire({
-    //         icon: "success",
-    //         text: "You have successfully registered ",
-    //         showConfirmButton: true,
-    //         timer: 6000,
-    //       }).then((result) => {
-    //         props?.handleCancel();
-    //       });
-    //     })
-    //     .catch((error) => {
-    //       console.log("error===>", error);
-    //     });
-    // } else {
-    //   console.log("error===> Please fill all the details");
-    // }
-  };
-  const handleFee = (e) => {
-    setFee(e.targe.value);
+    if (updateData) {
+      axios({
+        method: "post",
+        url: `http://localhost:3004/updateEnquiryFee/${selectedEnquiry?.enquiry_id}`,
+        data: updateData,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+        .then(function (response) {
+          Swal.fire({
+            icon: "success",
+            text: "You have successfully send fee details to user ",
+            showConfirmButton: true,
+            timer: 6000,
+          }).then((result) => {
+            handleCancel();
+          });
+        })
+        .catch((error) => {
+          console.log("error===>", error);
+        });
+    } else {
+      console.log("error===> Please fill all the details");
+    }
   };
   const handleCancel = () => {
     setIsModalOpen(false);
   };
-  console.log(props);
+
   return (
     <Layout style={{ background: "#f5f7fa", minHeight: "100vh" }}>
       <Content style={{ padding: 24 }}>
@@ -148,7 +149,7 @@ export default function ProfilePage(props) {
               <Text strong>Address: {props?.tutorData?.address}</Text>
             </Space>
           </Card>
-
+          {/* {console.log("enquiryList", props?.tutorEnquiryList)} */}
           {/* Conversations */}
           <Card title="My Enquiries">
             <List
@@ -156,15 +157,19 @@ export default function ProfilePage(props) {
               dataSource={props?.tutorEnquiryList}
               renderItem={(item) => (
                 <List.Item
-                  actions={[
-                    <Button
-                      type="primary"
-                      key="reply"
-                      onClick={() => handleUpdate(item)}
-                    >
-                      Send Fee Details
-                    </Button>,
-                  ]}
+                  actions={
+                    item?.tutor_fee > 0
+                      ? null
+                      : [
+                          <Button
+                            type="primary"
+                            key="reply"
+                            onClick={() => handleUpdate(item)}
+                          >
+                            Send Fee Details
+                          </Button>,
+                        ]
+                  }
                 >
                   <List.Item.Meta
                     avatar={
@@ -191,7 +196,15 @@ export default function ProfilePage(props) {
                   <div>
                     <ProfileRow
                       label="Number Of Students"
-                      value={props?.tutorData?.number_of_student}
+                      value={item?.number_of_student}
+                    />
+                    <SettingItem
+                      label="Fee"
+                      value={
+                        item?.tutor_fee
+                          ? item.tutor_fee
+                          : "Add Fee For this enquiry"
+                      }
                     />
                   </div>
                 </List.Item>
@@ -204,15 +217,16 @@ export default function ProfilePage(props) {
         title="Enter Fee For Teaching Students at home"
         closable={{ "aria-label": "Custom Close Button" }}
         open={isModalOpen}
-        onOk={handleOk}
+        onOk={handleFee}
         okText="Send"
         onCancel={handleCancel}
+        footer={false}
       >
-        <Form>
+        <Form onFinish={handleFee}>
           <Form.Item
             layout="vertical"
             label=" Enter Fee"
-            name="noOfstudents"
+            name="fee"
             rules={[
               { required: true, message: "Fee is required" },
               {
@@ -221,22 +235,23 @@ export default function ProfilePage(props) {
               },
             ]}
           >
-            <Input name="noOfstudent" onChange={handleFee} />
+            <Input name="fee" />
           </Form.Item>
+          <Button htmlType="submit" type="primary">
+            Send
+          </Button>
         </Form>
       </Modal>
+      <ListForStudent tutorEnquiryList={props?.tutorEnquiryList} />
     </Layout>
   );
 }
 
-function SettingItem({ label, icon }) {
+function SettingItem({ label, value }) {
   return (
-    <Space style={{ justifyContent: "space-between", width: "100%" }}>
-      <Text>
-        {icon}
-        {+" " + label}
-      </Text>
-      {/* <Switch defaultChecked={defaultChecked} /> */}
+    <Space style={{ width: "100%" }}>
+      <div>{label}</div>
+      <div>{value}</div>
     </Space>
   );
 }

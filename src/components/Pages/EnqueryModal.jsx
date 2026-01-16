@@ -8,7 +8,7 @@ const App = (props) => {
     const postData = {
       name: values.studentName,
       email: values.email,
-      constact: values?.phoneNumber,
+      contact: values?.phoneNumber,
       password: values.passWord,
       tutor_id: props?.selectedTutor?.teacher_id,
       status: "Enquiry",
