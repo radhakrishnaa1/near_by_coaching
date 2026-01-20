@@ -175,7 +175,7 @@ app.get("/getTutorByEMail/:institute_id/:email", (request, response) => {
     app.get("/countHomepage", (request, response) => {
     const email = request.params.email;
            
-  let sql = "SELECT (SELECT COUNT(*) FROM institute_details) AS instituteTotal, (SELECT COUNT(*) FROM student_details) AS studentTotal, (SELECT COUNT(*) FROM course_details) AS courseTotal , (SELECT COUNT(*) FROM purchase_course) AS purchaseTotal";
+  let sql = "SELECT (SELECT COUNT(*) FROM institute_details) AS instituteTotal, (SELECT COUNT(*) FROM student_details) AS studentTotal, (SELECT COUNT(*) FROM home_teacher) AS tutorCount , (SELECT COUNT(*) FROM course_details) AS courseTotal , (SELECT COUNT(*) FROM purchase_course) AS purchaseTotal";
   connection.query(sql, [email], (error, results) => {
     if (error) {
       return response.status(500).send("Error retrieving login from database.");
@@ -183,6 +183,52 @@ app.get("/getTutorByEMail/:institute_id/:email", (request, response) => {
     response.json(results);
   });
 });
+
+app.get("/reporthome/:status", (request, response) => {
+  let teachersql = "SELECT * from home_teacher";
+  let institutesql = "SELECT * from institute_details";
+  let studentsql = "SELECT * from student_details";
+  let coursesql = "SELECT c.course_details, c.course_name, c.course_duraton , c.timing , c.course_medium , c.mode , c.course_fee,  c.start_date, c.end_date, i.institute_name FROM course_details c INNER JOIN institute_details i ON c.institute_id = i.institute_id ";
+  const status = request.params.status;
+
+  if( status === "1")
+  {
+  connection.query(teachersql, (error, results) => {
+    if (error) {
+      return response.status(500).send("Error retrieving districts from database.");
+    } 
+    response.json(results);
+  });
+  }else if(status === "2")
+  {
+     connection.query(institutesql, (error, results) => {
+    if (error) {
+      return response.status(500).send("Error retrieving districts from database.");
+    } 
+    response.json(results);
+  });
+  }
+else if(status === "3")
+{
+   connection.query(studentsql, (error, results) => {
+    if (error) {
+      return response.status(500).send("Error retrieving students from database.");
+    } 
+  response.json(results);
+    });
+}
+else{
+   connection.query(coursesql, (error, results) => {
+    if (error) {
+      return response.status(500).send("Error retrieving districts from database.");
+    } 
+    response.json(results);
+    });
+}
+
+  
+});
+
 
 
 app.get("/getDistrictsData", (request, response) => {
@@ -562,6 +608,23 @@ app.post('/updateEnquiryFee/:enquiry_id', (req, res) => {
   });
 });
 
+
+app.post('/updatePassword/:email', (req, res) => {
+  const { email } = req.params;
+  const {
+    newpassword
+   } = req.body;
+  connection.query('UPDATE login SET  password = ? WHERE login_id = ?', [newpassword,email], (error, results) => {
+      if (error) {
+        console.error("SQL ERROR:", error);  // logs actual error
+        return response.status(500).json({
+          message: "Error saving student_details to database",
+          error: error.message
+        });
+      }
+    res.json({ message: 'Password updated successfully' });
+  });
+});
 
 
 app.post('/updateTutorDetails/:id', (req, response) => {
