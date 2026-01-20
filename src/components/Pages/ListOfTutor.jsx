@@ -11,8 +11,7 @@ import Swal from "sweetalert2";
 const { Title } = Typography;
 
 const App = (props) => {
- const [tutorList, setTutorList] = React.useState([]);
-
+  const [tutorList, setTutorList] = React.useState([]);
 
   const {
     token: { colorBgContainer, borderRadiusLG },
@@ -36,14 +35,12 @@ const App = (props) => {
       .then(function (response) {
         setTutorList(response.data);
         Swal.close();
-        
       })
       .catch(() => {});
   };
 
   return (
     <LayoutHome flagForSlider={true}>
-      
       <div
         style={{
           background: colorBgContainer,
@@ -52,9 +49,12 @@ const App = (props) => {
           borderRadius: borderRadiusLG,
         }}
       >
-<Title level={3} style={{textAlign:"center",color:"#f76b0eff"}}> List Of Home Tutor Available Here</Title>
+        <Title level={3} style={{ textAlign: "center", color: "#f76b0eff" }}>
+          {" "}
+          List Of Home Tutor Available Here
+        </Title>
 
-       <Faculty tutorList ={tutorList} />
+        <Faculty tutorList={tutorList} />
       </div>
     </LayoutHome>
   );

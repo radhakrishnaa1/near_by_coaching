@@ -29,7 +29,9 @@ import {
   MYCOURSES,
   TUTOR_DASHBOARD,
   STUDENT_PROFILE,
+  CHANGE_PASSWORD,
   STUDENTDASHBOARD,
+  INSTITUTE_DASHBOARD,
 } from "../../constants/Routes";
 
 const { Text } = Typography;
@@ -63,12 +65,12 @@ const itemsForStudent = [
     icon: <AppstoreOutlined />,
     routes: COURSE_PURCHASE,
   },
-  // {
-  //   key: "3",
-  //   label: "Payment Receipt",
-  //   icon: <AppstoreOutlined />,
-  //   routes: "/",
-  // },
+  {
+    key: "5",
+    label: "Change Password",
+    icon: <TeamOutlined />,
+    routes: CHANGE_PASSWORD,
+  },
 ];
 
 const itemsForTutor = [
@@ -84,6 +86,12 @@ const itemsForTutor = [
     icon: <AppstoreOutlined />,
     routes: FACULTY_DETAILS,
   },
+  {
+    key: "4",
+    label: "Change Password",
+    icon: <TeamOutlined />,
+    routes: CHANGE_PASSWORD,
+  },
 ];
 
 const items = [
@@ -91,7 +99,7 @@ const items = [
     key: "1",
     label: "Dashboard",
     icon: <AppstoreOutlined />,
-    routes: "/",
+    routes: INSTITUTE_DASHBOARD,
   },
   {
     key: "6",
@@ -108,9 +116,9 @@ const items = [
   { key: "3", label: "Offers", icon: <FileOutlined /> },
   {
     key: "4",
-    label: "Faculties",
+    label: "Change Password",
     icon: <TeamOutlined />,
-    routes: FACULTY_DETAILS,
+    routes: CHANGE_PASSWORD,
   },
   {
     key: "5",
@@ -182,7 +190,7 @@ const AuthLayout = (props) => {
                     className="main-title"
                     style={{ color: "#fff", marginTop: 10 }}
                   >
-                    {props?.instituteData?.institute_name}
+                    {sessionStorage.getItem("userName")}
                   </div>
                   <div
                     style={{

@@ -32,9 +32,10 @@ import CourseTable from './components/Pages/BranchInformation';
 import Faculty from './components/Pages/Faculty';
 import CourseDetails from './components/Pages/CourseDetails';
 import {HOME,
-  COURSE_DETAILS, COURSE_TABLE, INSTITUTE_DETAILS,TUTOR_DASHBOARD,STUDENT_PROFILE,
+  COURSE_DETAILS, COURSE_TABLE, INSTITUTE_DETAILS,TUTOR_DASHBOARD,STUDENT_PROFILE,REPORT_OUTSIDE_STATUS,
   FACULTY_DETAILS, INSTITUTE_DASHBOARD, STUDENT_REGISTRATION,MYCOURSES,COURSE_PURCHASE,
-  INSTITUTE_DETAILS_ID, INSTITUTE_PROFILE,STUDENTDASHBOARD,LIST_TUTOR} from './constants/Routes';
+  INSTITUTE_DETAILS_ID, INSTITUTE_PROFILE,STUDENTDASHBOARD,LIST_TUTOR,
+  CHANGE_PASSWORD} from './constants/Routes';
 import InstituteDetails from "./components/Pages/InstituteDetails"
 import InstituteProfile from './components/Pages/InstituteProfile';
 import StudentDashboard from './components/Pages/StudentDashboard';
@@ -43,6 +44,8 @@ import Teacherdetails from './components/Pages/Teacherdetail';
 import ListOfTutor from './components/Pages/ListOfTutor';
 import InstituteListForStudent from "./components/Pages/InstituteListForStudent"
 import StudentProfile from "./components/Pages/StudentProfile"
+import ChangePassword from './components/Pages/ChangePassword';
+import ReportOutSide from "./components/Pages/Reports/ReportOutside"
 // import BranchInfo from "./BranchInformation";
 
 
@@ -87,6 +90,7 @@ function LandingPage(props) {
           <Route path={STUDENT_REGISTRATION} element={ <StudentRegistration  {...props}  handleSpinner={handleSpinner}/>} />
           <Route path={MYCOURSES}  element={ <MyCourses {...props} handleSpinner={handleSpinner} />} />
           <Route path={INSTITUTE_PROFILE}  element={ <InstituteProfile {...props} handleSpinner={handleSpinner}/>} />
+          <Route path={CHANGE_PASSWORD} element= {<ChangePassword {...props} handleSpinner={handleSpinner} /> }/>
           
           </Routes>
       )
@@ -98,6 +102,7 @@ function LandingPage(props) {
           <Route path={INSTITUTE_DETAILS_ID} element= {<InstituteDetails {...props} handleSpinner={handleSpinner} /> }/>
           <Route path={STUDENT_PROFILE} element= {<StudentProfile {...props} handleSpinner={handleSpinner} /> }/>
           <Route path={COURSE_PURCHASE} element= {<InstituteListForStudent {...props} handleSpinner={handleSpinner} /> }/>
+          <Route path={CHANGE_PASSWORD} element= {<ChangePassword {...props} handleSpinner={handleSpinner} /> }/>
 
           </Routes>
           )
@@ -109,6 +114,7 @@ function LandingPage(props) {
 
            <Route path={FACULTY_DETAILS} element= {<Teacherdetails {...props} handleSpinner={handleSpinner} /> }/>
           <Route path={INSTITUTE_DETAILS_ID} element= {<InstituteDetails {...props} handleSpinner={handleSpinner} /> }/>
+          <Route path={CHANGE_PASSWORD} element= {<ChangePassword {...props} handleSpinner={handleSpinner} /> }/>
        
           </Routes>
           )
@@ -117,11 +123,13 @@ function LandingPage(props) {
   else if (sessionStorage.getItem("active") !== "true") {
     return (
       <Routes>
-        <Route path={HOME} element= {<Home {...props} handleSpinner={handleSpinner} /> }/>
-     <Route path={COURSE_TABLE} element= {<CourseTable {...props}  handleSpinner={handleSpinner}/> }/> 
+          <Route path={HOME} element= {<Home {...props} handleSpinner={handleSpinner} /> }/>
+          <Route path={COURSE_TABLE} element= {<CourseTable {...props}  handleSpinner={handleSpinner}/> }/> 
           <Route path={INSTITUTE_DETAILS_ID} element= {<InstituteDetails {...props} handleSpinner={handleSpinner} /> }/>
           <Route path={COURSE_DETAILS} element= {<CourseDetails {...props} handleSpinner={handleSpinner}/> }/>
-<Route path={LIST_TUTOR} element={<ListOfTutor {...props} handleSpinner={handleSpinner} />} />
+          <Route path={LIST_TUTOR} element={<ListOfTutor {...props} handleSpinner={handleSpinner} />} />
+          <Route path={REPORT_OUTSIDE_STATUS} element={<ReportOutSide {...props} handleSpinner={handleSpinner} />} />
+
         </Routes>
     )
   }
@@ -147,12 +155,12 @@ function App() {
 
 
   return (
-    <Router>
+   
   
         <LandingPage width={width} height={height} />
 
       
-    </Router>
+  
 
   );
 }

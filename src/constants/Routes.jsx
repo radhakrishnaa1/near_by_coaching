@@ -18,3 +18,6 @@ export const TUTOR_DASHBOARD = "/tutor-dashboard";
 export const LIST_TUTOR = "/list-tutor";
 export const COURSE_PURCHASE = "/course-purchase";
 export const STUDENT_PROFILE = "/student-profile";
+export const CHANGE_PASSWORD = "/change_password";
+export const REPORT_OUTSIDE = "/report-home";
+export const REPORT_OUTSIDE_STATUS = "/report-home/:status";

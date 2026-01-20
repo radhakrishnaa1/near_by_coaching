@@ -20,7 +20,7 @@ const InstituteDashboard = () => {
         console.log("institute details===>", response.data);
         if (response.data.length > 0) {
           const data = response.data[0];
-
+          sessionStorage.setItem("userName", data?.institute_name);
           setInstituteData(data);
           // console.log("data===>", districtData, stateData);
         }
