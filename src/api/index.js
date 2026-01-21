@@ -184,10 +184,22 @@ app.get("/getTutorByEMail/:institute_id/:email", (request, response) => {
   });
 });
 
+ app.get("/countInstituteData", (request, response) => {
+    const email = request.params.email;
+           
+  let sql = " SELECT (SELECT COUNT(DISTINCT student_id) FROM purchase_course where institute_id =2) AS studentEnrolled,(SELECT COUNT(*) FROM course_details WHERE institute_id =2 AND mode = 'offline') AS courseTotalOffline,(SELECT COUNT(*) FROM course_details WHERE institute_id =2 AND mode = 'online') AS courseTotalOnline , (SELECT COUNT(*) FROM purchase_course where institute_id =2) AS purchaseTotal ;  ";
+  connection.query(sql, [email], (error, results) => {
+    if (error) {
+      return response.status(500).send("Error retrieving login from database.");
+    } 
+    response.json(results);
+  });
+});
+
 app.get("/reporthome/:status", (request, response) => {
   let teachersql = "SELECT * from home_teacher";
   let institutesql = "SELECT * from institute_details";
-  let studentsql = "SELECT * from student_details";
+  let studentsql = "SELECT s.student_id, s.student_name, c.name  AS city_name, st.name AS state_name, s.student_class, s.creation_date FROM student_details s LEFT JOIN districts c  ON s.city = c.city_code LEFT JOIN states st ON s.state = st.state_code";
   let coursesql = "SELECT c.course_details, c.course_name, c.course_duraton , c.timing , c.course_medium , c.mode , c.course_fee,  c.start_date, c.end_date, i.institute_name FROM course_details c INNER JOIN institute_details i ON c.institute_id = i.institute_id ";
   const status = request.params.status;
 

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import AuthLayout from "../Layouts/AuthLayout";
-import HomeCard from "../Pages/HomeCard";
+import HomeCard from "../Pages/CardCountInstitute";
 import { Divider } from "antd";
 import CourseCard from "./CourseCard";
 import axios from "axios";

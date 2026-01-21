@@ -123,6 +123,26 @@ const InstituteListForStudent = (props) => {
     },
   ];
 
+  const columnsForStudent = [
+    {
+      title: "Student Name",
+      dataIndex: "student_name",
+      key: "student_name",
+      render: (text) => <a>{text}</a>,
+    },
+
+    {
+      title: "City",
+      dataIndex: "city_name",
+      key: "city_name",
+    },
+    {
+      title: "State",
+      dataIndex: "state_name",
+      key: "state_name",
+    },
+  ];
+
   const columnsForTutor = [
     {
       title: "Tutor Name",
@@ -186,6 +206,8 @@ const InstituteListForStudent = (props) => {
               ? columns
               : status === "1"
               ? columnsForTutor
+              : status === "3"
+              ? columnsForStudent
               : columnsForCourse
           }
           dataSource={listData}
