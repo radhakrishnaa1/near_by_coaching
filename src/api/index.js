@@ -184,13 +184,16 @@ app.get("/getTutorByEMail/:institute_id/:email", (request, response) => {
   });
 });
 
- app.get("/countInstituteData", (request, response) => {
-    const email = request.params.email;
+ app.get("/countInstituteData/:institute_id", (request, response) => {
+    const institute_id = request.params.institute_id;
            
-  let sql = " SELECT (SELECT COUNT(DISTINCT student_id) FROM purchase_course where institute_id =2) AS studentEnrolled,(SELECT COUNT(*) FROM course_details WHERE institute_id =2 AND mode = 'offline') AS courseTotalOffline,(SELECT COUNT(*) FROM course_details WHERE institute_id =2 AND mode = 'online') AS courseTotalOnline , (SELECT COUNT(*) FROM purchase_course where institute_id =2) AS purchaseTotal ;  ";
-  connection.query(sql, [email], (error, results) => {
+  let sql = " SELECT (SELECT COUNT(DISTINCT student_id ) FROM purchase_course where institute_id = ?) AS studentEnrolled,(SELECT COUNT(*) FROM course_details WHERE institute_id = ? AND mode = 'offline') AS courseTotalOffline,(SELECT COUNT(*) FROM course_details WHERE institute_id = ? AND mode = 'online') AS courseTotalOnline , (SELECT COUNT(*) FROM purchase_course where institute_id = ?) AS purchaseTotal ;  ";
+  connection.query(sql,  [institute_id, institute_id, institute_id, institute_id], (error, results) => {
     if (error) {
-      return response.status(500).send("Error retrieving login from database.");
+      return response.status(500).json({
+          message: "Error saving student_details to database",
+          error: error.message
+        });
     } 
     response.json(results);
   });
@@ -241,6 +244,66 @@ else{
   
 });
 
+
+
+app.get("/listForDashboardCount/:institute_id/:status", (request, response) => {
+  const institute_id = request.params.institute_id;
+  const status = request.params.status;
+
+  let onlineCourse = "SELECT * from course_details WHERE institute_id = ? AND mode = 'online'";
+  let offlineCourse = "SELECT * from course_details WHERE institute_id = ? AND mode = 'offline'";
+  let studentList = "SELECT * FROM student_details s INNER JOIN purchase_course i ON s.student_id = i.student_id where i.institute_id = ?";
+  let purchaselist = "SELECT * from institute_details c INNER JOIN purchase_course i ON c.institute_id = i.institute_id  where i.institute_id = ? ";
+
+  if( status === "1")
+  {
+  connection.query(onlineCourse,[institute_id], (error, results) => {
+    if (error) {
+      return response.status(500).json({
+          message: "Error saving institute_details to database",
+          error: error.message
+        });
+    } 
+    response.json(results);
+  });
+  }else if(status === "2")
+  {
+     connection.query(offlineCourse,[institute_id], (error, results) => {
+    if (error) {
+      return response.status(500).json({
+          message: "Error saving institute_details to database",
+          error: error.message
+        });
+    } 
+    response.json(results);
+  });
+  }
+else if(status === "3")
+{
+   connection.query(studentList,[institute_id], (error, results) => {
+    if (error) {
+      return response.status(500).json({
+          message: "Error saving institute_details to database",
+          error: error.message
+        });
+    } 
+  response.json(results);
+    });
+}
+else{
+   connection.query(purchaselist,[institute_id], (error, results) => {
+    if (error) {
+      return response.status(500).json({
+          message: "Error saving institute_details to database",
+          error: error.message
+        });
+    } 
+    response.json(results);
+    });
+}
+
+  
+});
 
 
 app.get("/getDistrictsData", (request, response) => {

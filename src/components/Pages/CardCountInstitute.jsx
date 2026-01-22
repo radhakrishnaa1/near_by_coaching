@@ -22,30 +22,29 @@ const CardCountInstitute = (props) => {
 
   const stats = [
     {
-      title: "Total Course Added",
-      value: props?.countData?.instituteTotal || 0,
-      route: REPORT_OUTSIDE + "/2",
-      icon: <FileTextOutlined style={{ fontSize: "30px", color: "#2196f3" }} />,
-    },
-
-    {
       title: " Online Courses ",
-      value: props?.countData?.tutorCount || 0,
-      route: REPORT_OUTSIDE + "/1",
+      value: props?.countData?.courseTotalOnline || 0,
+      status: 1,
       icon: <FileDoneOutlined style={{ fontSize: "30px", color: "#4caf50" }} />,
     },
     {
       title: "Offline Courses",
-      value: props?.countData?.studentTotal || 0,
-      route: REPORT_OUTSIDE + "/3",
+      value: props?.countData?.courseTotalOffline || 0,
+      status: 2,
       icon: (
         <ExceptionOutlined style={{ fontSize: "30px", color: "#ff5722" }} />
       ),
     },
     {
+      title: "Total Course Purchsed",
+      value: props?.countData?.purchaseTotal || 0,
+      status: 3,
+      icon: <FileTextOutlined style={{ fontSize: "30px", color: "#2196f3" }} />,
+    },
+    {
       title: "Total Students Enrolled ",
-      value: props?.countData?.courseTotal || 0,
-      route: REPORT_OUTSIDE + "/4",
+      value: props?.countData?.studentEnrolled || 0,
+      status: 4,
       icon: (
         <HistoryOutlined
           style={{ fontSize: "30px", color: "rgba(244, 67, 54, 1)" }}
@@ -56,7 +55,8 @@ const CardCountInstitute = (props) => {
 
   const handleClick = (data) => {
     console.log(data);
-    navigate(data.route);
+    props?.getAllList(data);
+    // navigate(data.route);
   };
 
   return (
