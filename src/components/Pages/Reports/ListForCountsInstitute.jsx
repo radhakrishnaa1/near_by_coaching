@@ -15,64 +15,32 @@ const InstituteListForStudent = (props) => {
     // getAllList();
   }, []);
 
-  const getAllList = (institute_id, status) => {
-    props.handleSpinner(true);
-    console.log(status);
-    axios({
-      method: "get",
-      url: `http://localhost:3004/listForDashboardCount/${institute_id}/${status}`,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then(function (response) {
-        setlistData(response.data);
-        Swal.close();
-        console.log("notes data", response.data);
-      })
-      .catch(() => {});
-  };
-
-  const columns = [
+  const columnsForPurchase = [
     {
-      title: "Institute Name",
-      dataIndex: "institute_name",
-      key: "institute_name",
+      title: "Course Name",
+      dataIndex: "course_name",
+      key: "course_name",
       render: (text) => <a>{text}</a>,
     },
-
     {
-      title: "Address",
-      dataIndex: "address",
-      key: "add",
+      title: "Duration",
+      key: "course_duraton",
+      render: (text, record) => <div>{record.course_duraton}</div>,
     },
     {
-      title: "Contact Details",
-      dataIndex: "contact",
-      key: "contact",
+      title: "Course Details",
+      dataIndex: "course_details",
+      key: "course_details",
     },
     {
-      title: "State/City",
-
-      key: "status",
-      render: (text, record) => (
-        <div>
-          {record.state} / {record.city}
-        </div>
-      ),
+      title: "Student Name",
+      dataIndex: "student_name",
+      key: "student_name",
     },
     {
-      title: "Action",
-      key: "action",
-      render: (text, record) => (
-        <Button
-          type="primary"
-          onClick={() => handleClick(record.institute_id)}
-          danger
-        >
-          View Courses
-        </Button>
-      ),
+      title: "Student Email",
+      dataIndex: "email",
+      key: "email",
     },
   ];
 
@@ -84,9 +52,9 @@ const InstituteListForStudent = (props) => {
       render: (text) => <a>{text}</a>,
     },
     {
-      title: "Institute Name",
-      key: "institute_name",
-      render: (text, record) => <div>{record.institute_name}</div>,
+      title: "Duration",
+      key: "course_duraton",
+      render: (text, record) => <div>{record.course_duraton}</div>,
     },
     {
       title: "Course Details",
@@ -110,6 +78,16 @@ const InstituteListForStudent = (props) => {
       ),
     },
     {
+      title: "Start and End Date",
+      key: "status",
+      render: (text, record) => (
+        <div>
+          <div>{record.start_date}</div>
+          {record.end_date}
+        </div>
+      ),
+    },
+    {
       title: "Fee and timing",
       key: "status",
       render: (text, record) => (
@@ -117,7 +95,6 @@ const InstituteListForStudent = (props) => {
           <div>
             {record.course_fee}/{record?.timing}
           </div>
-          {record.course_duraton}
         </div>
       ),
     },
@@ -130,16 +107,31 @@ const InstituteListForStudent = (props) => {
       key: "student_name",
       render: (text) => <a>{text}</a>,
     },
+    {
+      title: "Email",
+      dataIndex: "email",
+      key: "email",
+    },
 
     {
-      title: "City",
-      dataIndex: "city_name",
-      key: "city_name",
+      title: "Contact",
+      dataIndex: "contact",
+      key: "contact",
     },
     {
-      title: "State",
+      title: "Address",
+      dataIndex: "address",
+      key: "address",
+    },
+    {
+      title: "City/State",
       dataIndex: "state_name",
       key: "state_name",
+      render: (text, record) => (
+        <div>
+          {record.city_name} / {record.state_name}
+        </div>
+      ),
     },
   ];
 
@@ -194,24 +186,22 @@ const InstituteListForStudent = (props) => {
     // setInstituteId(institute_id);
     // navigate(INSTITUTE_DETAILS + "/" + institute_id);
   };
-
+  console.log("props list data===>", props?.status);
   return (
     <>
       <Title level={3} style={{ margin: 30, textAlign: "center" }}>
-        List Of Institutes For Online/Offline Courses
+        Count Result
       </Title>
       <div style={{ width: "90%", margin: "40px auto" }}>
         <Table
           columns={
-            status === "2"
-              ? columns
-              : status === "1"
-              ? columnsForTutor
-              : status === "3"
+            props?.status === 3
               ? columnsForStudent
+              : props?.status === 4
+              ? columnsForPurchase
               : columnsForCourse
           }
-          dataSource={listData}
+          dataSource={props?.listData}
         />
       </div>
     </>

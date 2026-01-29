@@ -35,21 +35,22 @@ const CardCountInstitute = (props) => {
         <ExceptionOutlined style={{ fontSize: "30px", color: "#ff5722" }} />
       ),
     },
-    {
-      title: "Total Course Purchsed",
-      value: props?.countData?.purchaseTotal || 0,
-      status: 3,
-      icon: <FileTextOutlined style={{ fontSize: "30px", color: "#2196f3" }} />,
-    },
+
     {
       title: "Total Students Enrolled ",
       value: props?.countData?.studentEnrolled || 0,
-      status: 4,
+      status: 3,
       icon: (
         <HistoryOutlined
           style={{ fontSize: "30px", color: "rgba(244, 67, 54, 1)" }}
         />
       ),
+    },
+    {
+      title: "Total Course Purchsed By Students",
+      value: props?.countData?.purchaseTotal || 0,
+      status: 4,
+      icon: <FileTextOutlined style={{ fontSize: "30px", color: "#2196f3" }} />,
     },
   ];
 

@@ -10,6 +10,8 @@ const InstituteDashboard = (props) => {
   const [instituteData, setInstituteData] = useState(""); // default is 'middle'
   const [countData, setCountData] = useState([]); // default is 'middle'
   const [listData, setlistData] = useState([]);
+  const [statusCount, setStatus] = useState(1);
+
   React.useEffect(() => {
     getInstituteDetails();
   }, []);
@@ -50,12 +52,12 @@ const InstituteDashboard = (props) => {
       });
   };
 
-  const getAllList = (status) => {
+  const getAllList = (data) => {
     props.handleSpinner(true);
-    console.log(status);
+    // console.log("status", data);
     axios({
       method: "get",
-      url: `http://localhost:3004/listForDashboardCount/${instituteData?.institute_id}/${status}`,
+      url: `http://localhost:3004/listForDashboardCount/${instituteData?.institute_id}/${data.status}`,
       headers: {
         "Content-Type": "application/json",
       },
@@ -63,6 +65,7 @@ const InstituteDashboard = (props) => {
       .then(function (response) {
         setlistData(response.data);
         Swal.close();
+        setStatus(data.status);
         console.log("notes data", response.data);
       })
       .catch(() => {});
@@ -73,7 +76,8 @@ const InstituteDashboard = (props) => {
       <HomeCard countData={countData} getAllList={getAllList} />
       <ListForCountsInstitute
         handleSpinner={props?.handleSpinner}
-        instituteData={instituteData}
+        listData={listData}
+        status={statusCount}
       />
       {/* <Divider />
       <CourseCard /> */}

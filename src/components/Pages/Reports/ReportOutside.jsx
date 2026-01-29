@@ -52,28 +52,28 @@ const InstituteListForStudent = (props) => {
       key: "contact",
     },
     {
-      title: "State/City",
+      title: "City/State",
 
       key: "status",
       render: (text, record) => (
         <div>
-          {record.state} / {record.city}
+          {record.city_name} / {record.state_name}
         </div>
       ),
     },
-    {
-      title: "Action",
-      key: "action",
-      render: (text, record) => (
-        <Button
-          type="primary"
-          onClick={() => handleClick(record.institute_id)}
-          danger
-        >
-          View Courses
-        </Button>
-      ),
-    },
+    // {
+    //   title: "Action",
+    //   key: "action",
+    //   render: (text, record) => (
+    //     <Button
+    //       type="primary"
+    //       onClick={() => handleClick(record.institute_id)}
+    //       danger
+    //     >
+    //       View Courses
+    //     </Button>
+    //   ),
+    // },
   ];
 
   const columnsForCourse = [
