@@ -159,17 +159,21 @@ app.get("/getTutorByEMail/:institute_id/:email", (request, response) => {
   });
 });
 
-//    app.get("/filterHome", (request, response) => {
-//     const email = request.params.email;
+
+ app.get("/countTutorDashboard/:tutorId", (request, response) => {
+    const tutorId = request.params.tutorId;
            
-//   let sql = "SELECT (SELECT institute_id ,  FROM institute_details) AS instituteTotal, (SELECT COUNT(*) FROM student_details) AS studentTotal, (SELECT COUNT(*) FROM course_details) AS courseTotal , (SELECT COUNT(*) FROM purchase_course) AS purchaseTotal";
-//   connection.query(sql, [email], (error, results) => {
-//     if (error) {
-//       return response.status(500).send("Error retrieving login from database.");
-//     } 
-//     response.json(results);
-//   });
-// });
+  let sql = "SELECT (SELECT COUNT(*) FROM tutor_enquiry Where tutor_id = 1) AS total , (SELECT COUNT(*) FROM tutor_enquiry where status = 'paid' AND tutor_id = 1) AS totalPaid, (SELECT COUNT(*) FROM tutor_enquiry WHERE status = 'fee' AND tutor_id = 1) AS feetopay , (SELECT COUNT(*) FROM tutor_enquiry Where status = 'Enquiry' AND tutor_id = 1) AS totalenquiry";
+  connection.query(sql, [tutorId,tutorId,tutorId,tutorId], (error, results) => {
+    if (error) {
+      return response.status(500).json({
+          message: "Error retriving tutor_enquiry to database",
+          error: error.message
+        });
+    } 
+    response.json(results);
+  });
+});
 
 
     app.get("/countHomepage", (request, response) => {
@@ -246,14 +250,15 @@ else{
 
 
 
+
 app.get("/listForDashboardCount/:institute_id/:status", (request, response) => {
   const institute_id = request.params.institute_id;
   const status = request.params.status;
 
   let onlineCourse = "SELECT * from course_details WHERE institute_id = ? AND mode = 'online'";
   let offlineCourse = "SELECT * from course_details WHERE institute_id = ? AND mode = 'offline'";
-  let studentList = "SELECT * FROM student_details s INNER JOIN purchase_course i ON s.student_id = i.student_id where i.institute_id = ?";
-  let purchaselist = "SELECT * from institute_details c INNER JOIN purchase_course i ON c.institute_id = i.institute_id  where i.institute_id = ? ";
+  let studentList = "SELECT DISTINCT s.email , s.contact , s.student_name , s.address , c.name as city_name , st.name as state_name FROM student_details s INNER JOIN purchase_course i ON s.student_id = i.student_id LEFT JOIN districts c  ON s.city = c.city_code LEFT JOIN states st ON s.state = st.state_code where i.institute_id = ?";
+  let purchaselist = "SELECT c.course_name, c.course_duraton, c.course_details, s.email , s.contact , s.student_name from course_details c  INNER JOIN purchase_course i ON c.courseid = i.course_id  INNER JOIN student_details s ON s.student_id = i.student_id  where i.institute_id = ? ";
 
   if( status === "1")
   {
@@ -399,21 +404,7 @@ app.get("/userlogin/:login_id/:password/:roll_id", (req, response) => {
   });
 });
 
-    //   app.get('/userlogin/:login_id/:password/:roll_id', async (req, res) => {
-    //     try {
-
-    //         const [rows] =  connection.execute('SELECT * FROM login WHERE login_id = ? AND password = ? AND roll_id = ?', [login_id,password,roleId]);
-
-    //         if (rows.length === 0) {
-    //             return res.status(404).json({ message: 'User Not Found' });
-    //         }
-
-    //         res.json(rows[0]); // Return file metadata
-    //     } catch (error) {
-    //         console.error('Error fetching login data:', error);
-    //         res.status(500).json({ message: 'Internal server error' });
-    //     }
-    // });
+   
    
 app.post("/saveCourseData", (request, response) => {
   const {courseid, 
