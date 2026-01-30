@@ -26,13 +26,15 @@ import {
 } from "@ant-design/icons";
 import axios from "axios";
 import Swal from "sweetalert2";
+import TutorCardDashboard from "./TutorCardDashboard";
 import ListForStudent from "./ListForStudent";
 const { Content } = Layout;
 const { Title, Text, Paragraph } = Typography;
 
-export default function ProfilePage(props) {
+const TutorEnquiry = (props) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedEnquiry, setSelectedEnquiry] = useState({});
+  const [filterData, setFilterData] = useState([]);
   const [fee, setFee] = useState(0);
 
   const handleUpdate = (enquiries) => {
@@ -45,7 +47,6 @@ export default function ProfilePage(props) {
   };
 
   const handleFee = (values) => {
-    console.log(values);
     // setFee(e.targe.value);
     const updateData = {
       fee: values.fee,
@@ -81,6 +82,10 @@ export default function ProfilePage(props) {
   };
   const handleCancel = () => {
     setIsModalOpen(false);
+  };
+
+  const handleClick = (data) => {
+    console.log(data);
   };
 
   return (
@@ -152,63 +157,9 @@ export default function ProfilePage(props) {
           {/* {console.log("enquiryList", props?.tutorEnquiryList)} */}
           {/* Conversations */}
           <Card title="My Enquiries">
-            <List
-              itemLayout="horizontal"
-              dataSource={props?.tutorEnquiryList}
-              renderItem={(item) => (
-                <List.Item
-                  actions={
-                    item?.tutor_fee > 0
-                      ? null
-                      : [
-                          <Button
-                            type="primary"
-                            key="reply"
-                            onClick={() => handleUpdate(item)}
-                          >
-                            Send Fee Details
-                          </Button>,
-                        ]
-                  }
-                >
-                  <List.Item.Meta
-                    avatar={
-                      <Avatar
-                        src={`https://i.pravatar.cc/150?u=${item.name}`}
-                      />
-                    }
-                    title={
-                      item.student_name +
-                      " | " +
-                      item.student_email +
-                      " | " +
-                      item.student_contact
-                    }
-                    description={
-                      " Address : " +
-                      item.student_add +
-                      " City : " +
-                      item.student_city +
-                      "  State : " +
-                      item.student_state
-                    }
-                  />
-                  <div>
-                    <ProfileRow
-                      label="Number Of Students"
-                      value={item?.number_of_student}
-                    />
-                    <SettingItem
-                      label="Fee"
-                      value={
-                        item?.tutor_fee
-                          ? item.tutor_fee
-                          : "Add Fee For this enquiry"
-                      }
-                    />
-                  </div>
-                </List.Item>
-              )}
+            <TutorCardDashboard
+              tutorCountData={props?.tutorCountData}
+              handleClick={handleClick}
             />
           </Card>
         </div>
@@ -242,10 +193,15 @@ export default function ProfilePage(props) {
           </Button>
         </Form>
       </Modal>
-      <ListForStudent tutorEnquiryList={props?.tutorEnquiryList} />
+      <ListForStudent
+        tutorEnquiryList={props?.tutorEnquiryList}
+        handleUpdate={handleUpdate}
+      />
     </Layout>
   );
-}
+};
+
+export default TutorEnquiry;
 
 function SettingItem({ label, value }) {
   return (

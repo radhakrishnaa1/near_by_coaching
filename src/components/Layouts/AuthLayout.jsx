@@ -255,7 +255,8 @@ const AuthLayout = (props) => {
             {props?.children}
           </Content>
           <Footer style={{ textAlign: "center" }}>
-            Ant Design ©{new Date().getFullYear()} Created by Ant UED
+            Near By Coaching ©{new Date().getFullYear()} Created by Sagar sahu
+            BCA 3rd Year
           </Footer>
         </Layout>
       </Layout>

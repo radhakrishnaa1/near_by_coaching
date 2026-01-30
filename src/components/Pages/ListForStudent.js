@@ -1,6 +1,6 @@
 import React from "react";
-import { Table, Avatar, Tag, Space, Typography, Tooltip } from "antd";
-import { DeleteOutlined } from "@ant-design/icons";
+import { Table, Avatar, Tag, Space, Typography, Tooltip ,Button} from "antd";
+import { DeleteOutlined, PlusCircleOutlined, PlusOutlined, PlusSquareOutlined } from "@ant-design/icons";
 
 const { Text } = Typography;
 
@@ -10,35 +10,7 @@ const statusColorMap = {
   Open: "green",
 };
 
-const dataSource = [
-  {
-    key: "1",
-    id: 1,
-    title: "Sed ut perspiciatis unde omnis iste",
-    description: "ab illo inventore veritatis et quasi...",
-    assignee: { name: "Liam", avatar: "https://i.pravatar.cc/40?img=1" },
-    status: "Closed",
-    date: "Fri, Dec 5",
-  },
-  {
-    key: "2",
-    id: 2,
-    title: "Consequuntur magni dolores eos qui ratione",
-    description: "ab illo inventore veritatis et quasi...",
-    assignee: { name: "Steve", avatar: "https://i.pravatar.cc/40?img=2" },
-    status: "Pending",
-    date: "Fri, Oct 6",
-  },
-  {
-    key: "3",
-    id: 3,
-    title: "Exercitationem ullam corporis",
-    description: "ab illo inventore veritatis et quasi...",
-    assignee: { name: "Jack", avatar: "https://i.pravatar.cc/40?img=3" },
-    status: "Open",
-    date: "Mon, Mar 22",
-  },
-];
+
 
 // address
 // : 
@@ -139,71 +111,103 @@ const dataSource = [
 // tutor_id
 // : 
 // 1
-
+const TicketTable = (props) => {
 const columns = [
      {
     title: "Assigned To",
     dataIndex: "student_name",
+    width: 250,
     render: (_, record) => (
-      <Space>
+      <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
         <Avatar>{record.student_name.charAt(0).toUpperCase()}</Avatar>
-        <Text>{record.student_name}</Text>
-         <div>{record.student_email}</div>
-      </Space>
-    ),
-  },
-  {
-    title: "Email id",
-    dataIndex: "student_email",
-    width: 60,
-  },
-  {
-    title: "Contact",
-    dataIndex: "contact",
-    render: (_, record) => (
-      <div>
-        <Text strong>{record.student_add}</Text>
-        <br />
-        <Text type="secondary" style={{ fontSize: 12 }}>
-          {record.student_contact}
-        </Text>
+        <div><div>{record.student_name}</div>
+         <div>{record.student_email}  {record.contact}</div></div>
       </div>
     ),
   },
- 
+  
+  {
+    title: "Address",
+    dataIndex: "address",
+    width: 250,
+    render: (_, record) => (
+      <div>
+        <Text strong>{record.student_add}</Text>
+        <Text> {record.city_name} , {record.state_name} </Text>
+      
+      </div>
+    ),
+  },
+ {
+    title: "Number Of Students",
+    dataIndex: "number_of_student",
+    render: (_,record) => (
+      <Text color={"orange"} style={{ borderRadius: 12 }}>
+        {record.number_of_student}
+      </Text>
+    ),
+  },
+  
+  {
+    title: "Payment Details",
+    dataIndex: "tutor_fee",
+      render: (_, record) => (
+      <div>
+        <Text strong>{record.tutor_fee>0?record.tutor_fee:"Add Fee For This Enquiry"}</Text>
+      
+      </div>
+    ),
+  },
+  {
+    title: "Class Timing",
+    dataIndex: "available_on",
+    key: "available_on",
+
+    
+  },
   {
     title: "Status",
     dataIndex: "status",
     render: (status) => (
       <Tag color={"orange"} style={{ borderRadius: 12 }}>
-        {status}
+        {status === "fee"?"Fee Details Sent":status}
       </Tag>
     ),
   },
   {
-    title: "Date",
-    dataIndex: "creation_date",
-  },
-  {
     title: "Action",
     align: "center",
-    render: () => (
-      <Tooltip title="Delete">
-        <DeleteOutlined style={{ color: "#8c8c8c", cursor: "pointer" }} />
+    render: (_, record) => (
+      <Tooltip title="Send Fee Details">
+         <Button
+                                    type="primary"
+                                    key="reply"
+                                    onClick={() => handleUpdate(record)}
+                                  >
+                                    <PlusOutlined style={{color:"#ffffff"}}/>
+                                   Add Fee
+                                  </Button>,
       </Tooltip>
     ),
   },
 ];
 
-const TicketTable = (props) => {
+const handleUpdate = (item) => {
+  if (props.handleUpdate) {
+    props.handleUpdate(item);
+  }
+};
   return (
     <Table
       columns={columns}
       dataSource={props?.tutorEnquiryList}
       pagination={false}
       bordered={false}
+      handleUpdate={props.handleUpdate}
     />
   );
 };
 
 export default TicketTable;
+
+
