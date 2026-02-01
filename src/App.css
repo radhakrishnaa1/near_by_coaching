@@ -40,3 +40,6 @@
   white-space: normal;
   font-weight: 600;
 }
+.ant-layout-footer {
+display: none !important;
+}

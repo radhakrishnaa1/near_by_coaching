@@ -99,10 +99,12 @@ const Courses = (props) => {
                 {course.course_name}
               </Title>
               <Text type="secondary">{course.videos}</Text>
-              <div style={{ marginTop: 10 }}>
+              <div style={{ marginTop: 10,display:'flex',justifyContent:"space-between" }}>
                 <Title level={4} style={{ margin: 0 }}>
                   {course.course_fee}
+                   
                 </Title>
+                <div>{course.mode}</div>
                 <Text type="success">{course.course_duraton}</Text>
               </div>
             </Card>

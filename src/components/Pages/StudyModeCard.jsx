@@ -11,6 +11,10 @@ const StudyMode = () => {
     navigate(value);
   };
 
+  const handleClick =()=>{
+    navigate(COURSE_TABLE)
+  }
+
   return (
     <div
       style={{
@@ -49,6 +53,7 @@ const StudyMode = () => {
                 borderRadius: "8px",
                 padding: "0 24px",
               }}
+              onClick={()=>handleClick()}
             >
               Start Online Preparation
             </Button>

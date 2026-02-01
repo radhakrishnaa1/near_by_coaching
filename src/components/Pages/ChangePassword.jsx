@@ -102,6 +102,7 @@ const ChangePassword = (props) => {
       >
         Password Policy
       </Title>
+      <div>hii</div>
     </AuthLayout>
   );
 };

@@ -1,6 +1,6 @@
 export const HOME = "/";
 export const COURSE_DETAILS = "/course-details";
-export const COURSE_TABLE = "/course-table";
+export const COURSE_TABLE = "/institute-table";
 export const FACULTY_DETAILS = "/faculty-details";
 export const INSTITUTE_DASHBOARD = "/institute-dashboard";
 

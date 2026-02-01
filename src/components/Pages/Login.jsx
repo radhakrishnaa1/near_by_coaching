@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { UserOutlined, BankOutlined } from "@ant-design/icons";
-import { Card, Button, Flex, Form, Input, Row, Col } from "antd";
+import { Card, Button, Flex, Form, Input, Row, Col  } from "antd";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
@@ -155,7 +155,8 @@ const App = (props) => {
                 name="login_id"
                 layout="vertical"
                 rules={[
-                  { required: true, message: "Please input your username!" },
+                  { required: true, message: "Please input your email!" },
+                  { type : "email", message: "Please enter a valid email address"}
                 ]}
               >
                 <Input name="login_id" />
@@ -170,6 +171,7 @@ const App = (props) => {
                 layout="vertical"
                 rules={[
                   { required: true, message: "Please input your password!" },
+                  
                 ]}
               >
                 <Input.Password name="password" />
