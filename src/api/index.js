@@ -675,6 +675,17 @@ app.post('/updateEnquiryFee/:enquiry_id', (req, res) => {
 });
 
 
+
+app.get("/getLoginData", (request, response) => {
+  let sql = "SELECT login_id from login";
+  connection.query(sql, (error, results) => {
+    if (error) {
+      return response.status(500).send("Error retrieving course from database.");
+    } 
+    response.json(results);
+  });
+});
+
 app.post('/updatePassword/:email', (req, res) => {
   const { email } = req.params;
   const {
