@@ -27,14 +27,35 @@ const { Option } = Select;
 
 const Courses = (props) => {
   const [coursesList, setCoursesList] = React.useState([]);
+  const [coursesListFilter, setCoursesListFilter] = React.useState([]);
+
   const [courseSelected, setCourseSelected] = React.useState(null);
   const params = useParams();
   const studentId = sessionStorage.getItem("userId");
+  const [emailData, setEmailData] = React.useState([]);
+
   console.log("userid", studentId);
   React.useEffect(() => {
     // Fetch courses from API if needed
     getCourseList();
+    getEmailId();
   }, [props.instituteId]);
+
+  const getEmailId = () => {
+    axios({
+      method: "get",
+      url: `http://localhost:3004/getLoginData`,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then(function (response) {
+        setEmailData(response.data);
+        Swal.close();
+        // console.log("notes data", response.data);
+      })
+      .catch(() => {});
+  };
 
   const getCourseList = () => {
     const instituteId = params.id ? params.id : props.instituteId;
@@ -48,6 +69,7 @@ const Courses = (props) => {
     })
       .then(function (response) {
         setCoursesList(response.data);
+        setCoursesListFilter(response.data);
         Swal.close();
       })
       .catch(() => {});
@@ -59,19 +81,35 @@ const Courses = (props) => {
     // Implement further actions based on selected course
   };
 
+  const handleChange = (value) => {
+    console.log(`selected ${value}`);
+
+    if (value === "all") {
+      setCoursesListFilter(coursesList);
+    } else {
+      setCoursesListFilter(
+        coursesList.filter((course) => course.mode === value)
+      );
+    }
+  };
+
   return (
     <div style={{ padding: "40px" }}>
       <Row justify="space-between" align="middle" style={{ marginBottom: 20 }}>
         <Title level={3}>Courses Offered by Our Institute</Title>
-        <Select defaultValue="Relevance" style={{ width: 150 }}>
-          <Option value="Relevance">Relevance</Option>
-          <Option value="PriceLow">Price: Low to High</Option>
-          <Option value="PriceHigh">Price: High to Low</Option>
+        <Select
+          defaultValue="All"
+          style={{ width: 150 }}
+          onChange={handleChange}
+        >
+          <Option value="all">All</Option>
+          <Option value="online">Online Classes</Option>
+          <Option value="offline">Offline Classes</Option>
         </Select>
       </Row>
 
       <Row gutter={[24, 24]}>
-        {coursesList.map((course, id) => (
+        {coursesListFilter.map((course, id) => (
           <Col xs={24} sm={12} md={12} lg={6} key={id}>
             <Card
               hoverable
@@ -99,10 +137,15 @@ const Courses = (props) => {
                 {course.course_name}
               </Title>
               <Text type="secondary">{course.videos}</Text>
-              <div style={{ marginTop: 10,display:'flex',justifyContent:"space-between" }}>
+              <div
+                style={{
+                  marginTop: 10,
+                  display: "flex",
+                  justifyContent: "space-between",
+                }}
+              >
                 <Title level={4} style={{ margin: 0 }}>
                   {course.course_fee}
-                   
                 </Title>
                 <div>{course.mode}</div>
                 <Text type="success">{course.course_duraton}</Text>
@@ -129,6 +172,7 @@ const Courses = (props) => {
                 />
               ) : (
                 <PurchaseCourse
+                  emailData={emailData}
                   handleSpinner={props.handleSpinner}
                   instituteId={props?.instituteId}
                   courseId={courseSelected?.courseid}

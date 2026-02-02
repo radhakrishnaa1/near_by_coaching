@@ -15,49 +15,93 @@ const InstituteRegistration = (props) => {
   const navigate = useNavigate();
   const [activeRegisterTab, setActiveRegisterTab] = React.useState("1");
 
+  const [emailData, setEmailData] = React.useState([]);
+  React.useEffect(() => {
+    getEmailId();
+  }, []);
+  const getEmailId = () => {
+    axios({
+      method: "get",
+      url: `http://localhost:3004/getLoginData`,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then(function (response) {
+        setEmailData(response.data);
+        Swal.close();
+        // console.log("notes data", response.data);
+      })
+      .catch(() => {});
+  };
+
   const handleSubmit = () => {
     const currentDateUTC = new Date().toISOString().split("T")[0];
     console.log("registrationData===>", registrationData);
-    props?.handleSpinner(true);
-    const registerData = {
-      institute_id: 7,
-      institute_name: registrationData.institute_name,
-      institute_discription: null,
-      institute_logo: null,
-      email: registrationData.email,
-      contact: registrationData.contact,
-      address: null,
-      state: null,
-      city: null,
-      pincode: null,
-      vision: null,
-      creation_date: null,
-      entry_date: currentDateUTC,
-    };
 
-    if (registrationData) {
-      axios({
-        method: "post",
-        url: "http://localhost:3004/registerInstitute",
-        data: registerData,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-        .then(function (response) {
-          console.log("response===>", response);
-          Swal.fire({
-            icon: "success",
-            text: "You have successfully registered your institute Please login with  your registered email id and contact number",
-            showConfirmButton: true,
-            timer: 6000,
-          });
+    const result = emailData.find(
+      ({ login_id }) => login_id === registrationData.email
+    );
+
+    if (!result) {
+      const registerData = {
+        institute_id: 7,
+        institute_name: registrationData.institute_name,
+        institute_discription: null,
+        institute_logo: null,
+        email: registrationData.email,
+        contact: registrationData.contact,
+        address: null,
+        state: null,
+        city: null,
+        pincode: null,
+        vision: null,
+        creation_date: null,
+        entry_date: currentDateUTC,
+      };
+
+      if (
+        registrationData?.email &&
+        registerData?.contact &&
+        registerData?.institute_name
+      ) {
+        props?.handleSpinner(true);
+        axios({
+          method: "post",
+          url: "http://localhost:3004/registerInstitute",
+          data: registerData,
+          headers: {
+            "Content-Type": "application/json",
+          },
         })
-        .catch((error) => {
-          console.log("error===>", error);
+          .then(function (response) {
+            console.log("response===>", response);
+            Swal.fire({
+              icon: "success",
+              text: "You have successfully registered your institute Please login with  your registered email id and contact number",
+              showConfirmButton: true,
+              timer: 6000,
+            }).then((result) => {
+              window.location.reload();
+            });
+          })
+          .catch((error) => {
+            console.log("error===>", error);
+          });
+      } else {
+        Swal.fire({
+          icon: "warning",
+          text: "Please fill all the details",
+          showConfirmButton: true,
         });
+      }
     } else {
-      console.log("error===> Please fill all the details");
+      Swal.fire({
+        icon: "warning",
+        text: "Email id Already exist",
+        showConfirmButton: true,
+      });
+      return;
     }
   };
 
@@ -68,32 +112,53 @@ const InstituteRegistration = (props) => {
       email: registrationData.email,
       entry_date: new Date().toISOString().split("T")[0],
     };
-    props?.handleSpinner(true);
-    if (registrationData) {
-      axios({
-        method: "post",
-        url: "http://localhost:3004/registerTutor",
-        data: registerData,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-        .then(function (response) {
-          console.log("response===>", response);
-          Swal.fire({
-            icon: "success",
-            text: "You have successfully registered as home tuter Please login with  your registered email id and contact number",
-            showConfirmButton: true,
-            timer: 6000,
-          }).then((result) => {
-            window.location.reload();
-          });
+
+    const result = emailData.find(
+      ({ login_id }) => login_id === registrationData.email
+    );
+
+    if (!result) {
+      if (
+        registrationData?.email &&
+        registerData?.contact &&
+        registerData?.name
+      ) {
+        props?.handleSpinner(true);
+        axios({
+          method: "post",
+          url: "http://localhost:3004/registerTutor",
+          data: registerData,
+          headers: {
+            "Content-Type": "application/json",
+          },
         })
-        .catch((error) => {
-          console.log("error===>", error);
+          .then(function (response) {
+            console.log("response===>", response);
+            Swal.fire({
+              icon: "success",
+              text: "You have successfully registered as home tuter Please login with  your registered email id and contact number",
+              showConfirmButton: true,
+              timer: 6000,
+            }).then((result) => {
+              window.location.reload();
+            });
+          })
+          .catch((error) => {
+            console.log("error===>", error);
+          });
+      } else {
+        Swal.fire({
+          icon: "warning",
+          text: "Please fill all the details for tutor registration",
+          showConfirmButton: true,
         });
+      }
     } else {
-      console.log("error===> Please fill all the details");
+      Swal.fire({
+        icon: "warning",
+        text: "Email id Already exist for tutor registration",
+        showConfirmButton: true,
+      });
     }
   };
 
@@ -217,7 +282,6 @@ const InstituteRegistration = (props) => {
 };
 export default InstituteRegistration;
 
-
 // import React from "react";
 // import { Divider, Card, Form, Input, Row, Col, Select, Button } from "antd";
 // import LayoutHome from "../Layouts/LayoutHome";
@@ -226,7 +290,7 @@ export default InstituteRegistration;
 // import { useNavigate } from "react-router-dom";
 
 // const InstituteRegistration = (props) => {
-//   const [emailData,setEmailData] = React.useState([]) 
+//   const [emailData,setEmailData] = React.useState([])
 //   const [registrationData, setRegistrationData] = React.useState({
 //     institute_name: "",
 //     contact: "",
@@ -237,7 +301,6 @@ export default InstituteRegistration;
 // getEmailId()
 //   },[])
 //  const  getEmailId =()=>{
-    
 
 // axios({
 //       method: "get",
@@ -279,12 +342,11 @@ export default InstituteRegistration;
 
 //     const result = emailData.find(({ login_id }) =>login_id === registerData.email);
 
-
 //     console.log(result)
 
 //     if(result)
 //     {
-    
+
 //     if (registrationData?.email && registerData?.contact && registerData?.institute_name) {
 //       axios({
 //         method: "post",
@@ -315,9 +377,9 @@ export default InstituteRegistration;
 //             icon: "warning",
 //             text: "Email id Already exist",
 //             showConfirmButton: true,
-            
+
 //           });
-    
+
 //   }
 //   };
 
@@ -480,5 +542,5 @@ export default InstituteRegistration;
 // loop ==> array ineration [2,0,9]
 // map ===> object array [{name:"radhika",id:1},{...}]
 
-// find : single value match 
-// filter : multiple value search 
+// find : single value match
+// filter : multiple value search

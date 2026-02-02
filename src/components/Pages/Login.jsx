@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { UserOutlined, BankOutlined } from "@ant-design/icons";
-import { Card, Button, Flex, Form, Input, Row, Col  } from "antd";
+import { Card, Button, Flex, Form, Input, Row, Col } from "antd";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
@@ -16,7 +16,7 @@ const App = (props) => {
     props?.handleSpinner(true);
     setSize(1);
 
-    if (values) {
+    if (values?.login_id && values?.password && roleId) {
       axios({
         method: "get",
         url: `http://localhost:3004/userlogin/${values.login_id}/${values.password}/${roleId}`,
@@ -34,7 +34,7 @@ const App = (props) => {
             if (roleId === "1") {
               Swal.fire({
                 icon: "success",
-                text: "You have successfully Login as Institute",
+                text: "You have successfully Logined as Institute",
                 showConfirmButton: false,
                 timer: 2000,
               }).then((result) => {
@@ -43,7 +43,7 @@ const App = (props) => {
             } else if (roleId === "3") {
               Swal.fire({
                 icon: "success",
-                text: "You have successfully Login as Tutor",
+                text: "You have successfully Logined as Tutor",
                 showConfirmButton: false,
                 timer: 2000,
               }).then((result) => {
@@ -52,7 +52,7 @@ const App = (props) => {
             } else {
               Swal.fire({
                 icon: "success",
-                text: "You have successfully Login as Institute",
+                text: "You have successfully Logined as Student",
                 showConfirmButton: false,
                 timer: 2000,
               }).then((result) => {
@@ -60,7 +60,12 @@ const App = (props) => {
               });
             }
           } else {
-            Swal.close();
+            // Swal.close();
+            Swal.fire({
+              icon: "warning",
+              text: "Please select login type correctly",
+              showConfirmButton: true,
+            });
             console.log("error===> Invalid Credentials");
           }
         })
@@ -68,7 +73,11 @@ const App = (props) => {
           console.log("error===>", error);
         });
     } else {
-      console.log("error===> Please fill all the details");
+      Swal.fire({
+        icon: "warning",
+        text: "Please fill all the details and select login type correctly",
+        showConfirmButton: true,
+      });
     }
   };
   const onFinishFailed = (errorInfo) => {
@@ -156,7 +165,10 @@ const App = (props) => {
                 layout="vertical"
                 rules={[
                   { required: true, message: "Please input your email!" },
-                  { type : "email", message: "Please enter a valid email address"}
+                  {
+                    type: "email",
+                    message: "Please enter a valid email address",
+                  },
                 ]}
               >
                 <Input name="login_id" />
@@ -171,7 +183,6 @@ const App = (props) => {
                 layout="vertical"
                 rules={[
                   { required: true, message: "Please input your password!" },
-                  
                 ]}
               >
                 <Input.Password name="password" />

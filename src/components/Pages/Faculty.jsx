@@ -93,7 +93,7 @@ const App = (props) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedTutor, setSelectedTutor] = useState("");
   const location = useLocation();
-  console.log(location.pathname);
+
   const showModal = (item) => {
     console.log(item);
     setSelectedTutor(item);
@@ -267,6 +267,7 @@ const App = (props) => {
         showModal={showModal}
         handleOk={handleOk}
         selectedTutor={selectedTutor}
+        emailData={props?.emailData}
       />
     </>
   );

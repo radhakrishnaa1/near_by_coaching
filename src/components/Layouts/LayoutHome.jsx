@@ -96,7 +96,7 @@ const FloatingAppBar = (props) => {
       >
         {/* Left Section: Logo or Title */}
         <Title level={4} style={{ margin: 0, color: "#333", fontWeight: 600 }}>
-          NEAR BY COACHING
+          {/* NEAR BY COACHING */}
         </Title>
 
         {/* Right Section: Action Buttons */}
@@ -127,7 +127,8 @@ const FloatingAppBar = (props) => {
         {props?.children}
       </Content>
       <Footer style={{ textAlign: "center" }}>
-        Near by Coaching ©{new Date().getFullYear()} Created by Sagar Sahu Bca 3rd
+        Near by Coaching ©{new Date().getFullYear()} Created by Sagar Sahu Bca
+        3rd
       </Footer>
     </Layout>
   );

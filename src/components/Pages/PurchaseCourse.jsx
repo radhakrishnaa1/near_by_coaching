@@ -25,36 +25,50 @@ const Courseform = (props) => {
       contact: values.phoneNumber,
       creation_date: new Date().toISOString().split("T")[0],
     };
-    props?.handleSpinner(true);
-    if (
-      purchaseData.student_name &&
-      purchaseData.email &&
-      purchaseData.contact
-    ) {
-      axios({
-        method: "post",
-        url: "http://localhost:3004/purchaseCourse",
-        data: purchaseData,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-        .then(function (response) {
-          console.log("response===>", response);
-          Swal.fire({
-            icon: "success",
-            text: "You have successfully purchased the course Please Login with  your registered email id and phone number",
-            showConfirmButton: false,
-            timer: 2000,
-          }).then((result) => {
-            navigate("/");
-          });
+
+    const result = props?.emailData.find(
+      ({ login_id }) => login_id === values.emailId
+    );
+
+    if (!result) {
+      if (values?.studentName && values?.emailId && values?.phoneNumber) {
+        props?.handleSpinner(true);
+        axios({
+          method: "post",
+          url: "http://localhost:3004/purchaseCourse",
+          data: purchaseData,
+          headers: {
+            "Content-Type": "application/json",
+          },
         })
-        .catch((error) => {
-          console.log("error===>", error);
+          .then(function (response) {
+            console.log("response===>", response);
+            Swal.fire({
+              icon: "success",
+              text: "You have successfully purchased the course Please Login with your registered email id and phone number",
+              showConfirmButton: false,
+              timer: 2000,
+            }).then((result) => {
+              navigate("/");
+            });
+          })
+          .catch((error) => {
+            console.log("error===>", error);
+          });
+      } else {
+        // console.log("error===> Please fill all the details");
+        Swal.fire({
+          icon: "warning",
+          text: "Please fill all the details",
+          showConfirmButton: true,
         });
+      }
     } else {
-      console.log("error===> Please fill all the details");
+      Swal.fire({
+        icon: "warning",
+        text: "Email Id already registered, Please use another email id",
+        showConfirmButton: true,
+      });
     }
   };
 

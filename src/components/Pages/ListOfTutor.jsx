@@ -12,6 +12,7 @@ const { Title } = Typography;
 
 const App = (props) => {
   const [tutorList, setTutorList] = React.useState([]);
+  const [emailData, setEmailData] = React.useState([]);
 
   const {
     token: { colorBgContainer, borderRadiusLG },
@@ -19,10 +20,29 @@ const App = (props) => {
 
   React.useEffect(() => {
     getTutorList();
+    getEmailId();
+
     // postNotesData()
     // delNoteData();
   }, []);
   // notedata get api
+
+  const getEmailId = () => {
+    axios({
+      method: "get",
+      url: `http://localhost:3004/getLoginData`,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then(function (response) {
+        setEmailData(response.data);
+        Swal.close();
+        // console.log("notes data", response.data);
+      })
+      .catch(() => {});
+  };
+
   const getTutorList = () => {
     props?.handleSpinner(true);
     axios({
@@ -54,7 +74,7 @@ const App = (props) => {
           List Of Home Tutor Available Here
         </Title>
 
-        <Faculty tutorList={tutorList} />
+        <Faculty tutorList={tutorList} emailData={emailData} />
       </div>
     </LayoutHome>
   );

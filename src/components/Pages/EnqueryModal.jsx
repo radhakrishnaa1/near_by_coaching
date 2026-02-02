@@ -4,7 +4,11 @@ import axios from "axios";
 import Swal from "sweetalert2";
 const App = (props) => {
   const handleFinish = (values) => {
-    console.log(values);
+    const result = props?.emailData.find(
+      ({ login_id }) => login_id === values.email
+    );
+
+    console.log(result);
     const postData = {
       name: values.studentName,
       email: values.email,
@@ -16,30 +20,48 @@ const App = (props) => {
       noOfStudents: values?.noOfstudents,
     };
 
-    if (postData) {
-      axios({
-        method: "post",
-        url: `http://localhost:3004/studentEnquery`,
-        data: postData,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-        .then(function (response) {
-          Swal.fire({
-            icon: "success",
-            text: "You have successfully registered ",
-            showConfirmButton: true,
-            timer: 6000,
-          }).then((result) => {
-            props?.handleCancel();
-          });
+    if (!result) {
+      if (
+        values?.studentName &&
+        values?.email &&
+        values?.phoneNumber &&
+        values?.passWord &&
+        values?.noOfstudents
+      ) {
+        axios({
+          method: "post",
+          url: `http://localhost:3004/studentEnquery`,
+          data: postData,
+          headers: {
+            "Content-Type": "application/json",
+          },
         })
-        .catch((error) => {
-          console.log("error===>", error);
+          .then(function (response) {
+            Swal.fire({
+              icon: "success",
+              text: "You have successfully registered ",
+              showConfirmButton: true,
+              timer: 6000,
+            }).then((result) => {
+              props?.handleCancel();
+            });
+          })
+          .catch((error) => {
+            console.log("error===>", error);
+          });
+      } else {
+        Swal.fire({
+          icon: "warning",
+          text: "Please fill all the details correctly",
+          showConfirmButton: true,
         });
+      }
     } else {
-      console.log("error===> Please fill all the details");
+      Swal.fire({
+        icon: "warning",
+        text: "Email Id already registered, Please use another email id",
+        showConfirmButton: true,
+      });
     }
   };
 
