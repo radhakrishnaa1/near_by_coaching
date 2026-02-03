@@ -120,18 +120,18 @@ const items = [
     icon: <TeamOutlined />,
     routes: CHANGE_PASSWORD,
   },
-  {
-    key: "5",
-    label: "Reports",
-    icon: <PieChartOutlined />,
-    children: [
-      {
-        key: "51",
-        label: "Report1",
-        routes: "",
-      },
-    ],
-  },
+  // {
+  //   key: "5",
+  //   label: "Reports",
+  //   icon: <PieChartOutlined />,
+  //   children: [
+  //     {
+  //       key: "51",
+  //       label: "Report1",
+  //       routes: "",
+  //     },
+  //   ],
+  // },
 ];
 
 const AuthLayout = (props) => {

@@ -7,6 +7,7 @@ import CourseCard from "./CourseCard";
 import CourseDetails from "./CourseDetails";
 import { PlusOutlined } from "@ant-design/icons";
 import axios from "axios";
+import EditCourseData from "./EditCourseData";
 
 const MyCourses = () => {
   const [size, setSize] = useState("large");
@@ -37,7 +38,6 @@ const MyCourses = () => {
   };
 
   const handleCardClick = (data) => {
-    console.log("card clicked", data);
     setViewCourseDetails(data);
   };
 
@@ -73,14 +73,24 @@ const MyCourses = () => {
             style={{ backgroundColor: "#fde3cf", color: "#f56a00" }}
             size={64}
             icon={<PlusOutlined />}
-          />
+          ></Avatar>
           <p style={{ paddingTop: 20, fontFamily: "poppins" }}>Add Courses</p>
         </Card>
       </div>
-      {showCourseForm ? <CourseForm cancel={addCourseFormShow} /> : null}
+      {showCourseForm ? (
+        <CourseForm
+          cancel={addCourseFormShow}
+          viewCourseDetails={viewCourseDetails}
+        />
+      ) : null}
 
       {viewCourseDetails == "" ? null : (
-        <CourseDetails viewCourseDetails={viewCourseDetails}></CourseDetails>
+        <>
+          <CourseDetails viewCourseDetails={viewCourseDetails}></CourseDetails>
+          <EditCourseData
+            viewCourseDetails={viewCourseDetails}
+          ></EditCourseData>
+        </>
       )}
     </AuthLayout>
   );

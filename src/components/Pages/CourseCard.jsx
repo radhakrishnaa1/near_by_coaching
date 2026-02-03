@@ -49,7 +49,9 @@ const CourseCard = (props) => {
     >
       <Meta
         avatar={
-          <Avatar src="https://api.dicebear.com/7.x/miniavs/svg?seed=8" />
+          <Avatar style={{ backgroundColor: "#f56a00" }}>
+            {props?.courseData?.max_student}
+          </Avatar>
         }
         title={
           props?.courseData?.course_name +

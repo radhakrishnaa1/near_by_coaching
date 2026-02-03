@@ -247,7 +247,7 @@ const Teacherdetails = (props) => {
           >
             Update Profile
           </Button>
-          <Button type="default">Print Letter</Button>
+          {/* <Button type="default">Print Letter</Button> */}
         </Space>
       </Form>
     </AuthLayout>
