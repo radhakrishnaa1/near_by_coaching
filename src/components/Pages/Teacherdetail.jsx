@@ -12,16 +12,20 @@ import {
   Select,
 } from "antd";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { TUTOR_DASHBOARD } from "../../constants/Routes";
 import ImageUpload from "./ImageUpload";
 import AuthLayout from "../Layouts/AuthLayout";
+import Swal from "sweetalert2";
 const { Title, Text } = Typography;
 const { TextArea } = Input;
 
-const Teacherdetails = () => {
+const Teacherdetails = (props) => {
   const [form] = Form.useForm();
   const [teacherData, setTeacherData] = React.useState("");
   const [stateData, setStateData] = useState([]);
   const [districtData, setDistrictData] = useState([]);
+  const navigator = useNavigate();
   // 🧠 State to store form values
 
   // Handle form submission
@@ -107,7 +111,7 @@ const Teacherdetails = () => {
       experience: values.experience,
 
       name: values.name,
-
+      contact: values.contact,
       qualification: values.qualification,
       state: stateDataArray[0],
       state_name: stateDataArray[1],
@@ -116,6 +120,7 @@ const Teacherdetails = () => {
       max_hours: "2",
     };
     if (updateData) {
+      props?.handleSpinner(true);
       axios({
         method: "post",
         url: `http://localhost:3004/updateTutorDetails/${teacherData.teacher_id}`,
@@ -125,7 +130,16 @@ const Teacherdetails = () => {
         },
       })
         .then(function (response) {
-          console.log("response===>", response);
+          if (response) {
+            Swal.fire({
+              icon: "success",
+              text: "You have successfully updated faculty details ",
+              showConfirmButton: true,
+              timer: 6000,
+            }).then((result) => {
+              navigator(TUTOR_DASHBOARD);
+            });
+          }
         })
         .catch((error) => {
           console.log("error===>", error);
@@ -181,7 +195,7 @@ const Teacherdetails = () => {
           <Input placeholder="Enter your number" />
         </Form.Item>
         <Form.Item label="Email ID" name="email" rules={[{ required: true }]}>
-          <Input placeholder="Enter your Emial Id" />
+          <Input placeholder="Enter your Emial Id" disabled />
         </Form.Item>
         <Form.Item
           label="Short Discription"

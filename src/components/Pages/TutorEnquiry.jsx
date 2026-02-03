@@ -26,6 +26,7 @@ import {
 } from "@ant-design/icons";
 import axios from "axios";
 import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 import TutorCardDashboard from "./TutorCardDashboard";
 import ListForStudent from "./ListForStudent";
 const { Content } = Layout;
@@ -35,6 +36,7 @@ const TutorEnquiry = (props) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedEnquiry, setSelectedEnquiry] = useState({});
   const [filterData, setFilterData] = useState([]);
+  const navigator = useNavigate();
   const [fee, setFee] = useState(0);
 
   const handleUpdate = (enquiries) => {
@@ -86,6 +88,15 @@ const TutorEnquiry = (props) => {
 
   const handleClick = (data) => {
     console.log(data);
+    const filtered = props?.tutorEnquiryList.filter((enquiry) => {
+      return enquiry.status === data.status;
+    });
+    console.log("filtered data", filtered);
+    setFilterData(filtered);
+  };
+
+  const handleEdit = () => {
+    navigator("/faculty-details");
   };
 
   return (
@@ -108,7 +119,9 @@ const TutorEnquiry = (props) => {
               <ProfileRow label="Contact" value={props?.tutorData?.contact} />
               <ProfileRow label="Email" value={props?.tutorData?.email} />
 
-              <Button icon={<EditOutlined />}>Edit</Button>
+              <Button onClick={() => handleEdit()} icon={<EditOutlined />}>
+                Edit
+              </Button>
             </Space>
           </Space>
         </Card>
@@ -194,7 +207,9 @@ const TutorEnquiry = (props) => {
         </Form>
       </Modal>
       <ListForStudent
-        tutorEnquiryList={props?.tutorEnquiryList}
+        tutorEnquiryList={
+          filterData?.length > 0 ? filterData : props?.tutorEnquiryList
+        }
         handleUpdate={handleUpdate}
       />
     </Layout>

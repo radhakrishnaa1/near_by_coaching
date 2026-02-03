@@ -587,10 +587,6 @@ app.post('/registerTutor',  (req, res) => {
 });
 
 
-
-
-
-
 app.post("/saveStudentData", (request, response) => {
   const {student_id, student_name, email, contact, address, state, city, student_class, student_pic, creation_date} = request.body;
 
@@ -707,6 +703,7 @@ app.post('/updatePassword/:email', (req, res) => {
 app.post('/updateTutorDetails/:id', (req, response) => {
   const { id } = req.params;
   const {name,
+    contact,
       qualification,
       discription,
       address,
@@ -721,8 +718,9 @@ app.post('/updateTutorDetails/:id', (req, response) => {
       stream ,
       max_hours
        } = req.body;
-  connection.query('UPDATE home_teacher SET  name = ?, qualification = ?, discription = ?, address = ?, city = ?, city_name = ?, state = ?, state_name = ?, available_on = ?, experience = ?, creation_date = ? , medium = ? , stream = ? , max_hours = ? WHERE email = ?',
+  connection.query('UPDATE home_teacher SET  name = ?, contact = ?, qualification = ?, discription = ?, address = ?, city = ?, city_name = ?, state = ?, state_name = ?, available_on = ?, experience = ?, creation_date = ? , medium = ? , stream = ? , max_hours = ? WHERE teacher_id = ?',
      [name,
+      contact,
       qualification,
       discription,
       address,
@@ -740,12 +738,12 @@ app.post('/updateTutorDetails/:id', (req, response) => {
       if (error) {
         console.error("SQL ERROR:", error);  // logs actual error
         return response.status(500).json({
-          message: "Error saving student_details to database",
+          message: "Error saving tutor to database",
           error: error.message
         });
       }
 
-      response.status(201).send(`students added with ID: ${results.insertId}`);
+      response.status(201).send(`tutor added with ID: ${results.insertId}`);
     }
 
 );
