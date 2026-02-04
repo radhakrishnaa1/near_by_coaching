@@ -9,18 +9,52 @@ import { PlusOutlined } from "@ant-design/icons";
 import axios from "axios";
 import EditCourseData from "./EditCourseData";
 
-const MyCourses = () => {
+const MyCourses = (props) => {
   const [size, setSize] = useState("large");
   const [courseList, setCourseList] = useState([]); // default is 'middle'
   const [showCourseForm, setShowForm] = useState(false); // default is 'middle'
   const [viewCourseDetails, setViewCourseDetails] = useState(""); // default is 'middle'
+  const [purchaseCount, setPurchaseCount] = useState([]); // default is 'middle'
   React.useEffect(() => {
-    getCourseList();
+    getInstituteDetails();
   }, []);
-  const getCourseList = () => {
+
+  const getInstituteDetails = () => {
+    const email = sessionStorage.getItem("userId");
+    console.log("email===>", email);
+    axios
+      .get(`http://localhost:3004/getInstituteDetails/0/${email}`)
+      .then((response) => {
+        console.log("institute details===>", response.data);
+        if (response.data.length > 0) {
+          const data = response.data[0];
+          getCourseList(data?.institute_id);
+          getCoursePurchaseList(data?.institute_id);
+          // console.log("data===>", districtData, stateData);
+        }
+      })
+      .catch((error) => {
+        console.error("There was an error fetching the district data!", error);
+      });
+  };
+  const getCoursePurchaseList = (id) => {
     axios({
       method: "get",
-      url: `http://localhost:3004/getCourseDetails`,
+      url: `http://localhost:3004/countCoursepurchased/${id}`,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then(function (response) {
+        setPurchaseCount(response.data);
+        // console.log("notes data", response.data);
+      })
+      .catch(() => {});
+  };
+  const getCourseList = (id) => {
+    axios({
+      method: "get",
+      url: `http://localhost:3004/getCourseData/${id}`,
       headers: {
         "Content-Type": "application/json",
       },
@@ -58,6 +92,9 @@ const MyCourses = () => {
           return (
             <CourseCard
               key={id}
+              countPurchased={purchaseCount?.filter(
+                (item) => item.course_id === data.courseid
+              )}
               courseData={data}
               handleCardClick={handleCardClick}
               img="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
@@ -81,6 +118,7 @@ const MyCourses = () => {
         <CourseForm
           cancel={addCourseFormShow}
           viewCourseDetails={viewCourseDetails}
+          handleSpinner={props?.handleSpinner}
         />
       ) : null}
 
@@ -89,6 +127,7 @@ const MyCourses = () => {
           <CourseDetails viewCourseDetails={viewCourseDetails}></CourseDetails>
           <EditCourseData
             viewCourseDetails={viewCourseDetails}
+            handleSpinner={props?.handleSpinner}
           ></EditCourseData>
         </>
       )}

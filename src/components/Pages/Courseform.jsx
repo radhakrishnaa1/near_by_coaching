@@ -12,7 +12,9 @@ import {
   Space,
 } from "antd";
 import axios from "axios";
-
+import Swal from "sweetalert2";
+import { INSTITUTE_DASHBOARD } from "../../constants/Routes";
+import { useNavigate } from "react-router-dom";
 import LayoutHome from "../Layouts/LayoutHome";
 // import dayjs from "dayjs";
 const Courseform = (props) => {
@@ -31,7 +33,7 @@ const Courseform = (props) => {
     course_details: "",
     max_student: "",
   });
-
+  const navigate = useNavigate();
   const handleMedium = (e) => {
     setCourseData({
       ...courseData,
@@ -64,6 +66,7 @@ const Courseform = (props) => {
     // const currentDateUTC = new Date().toISOString().split("T")[0];
 
     if (courseData) {
+      props?.handleSpinner(true);
       axios({
         method: "post",
         url: "http://localhost:3004/saveCourseData",
@@ -73,8 +76,19 @@ const Courseform = (props) => {
         },
       })
         .then(function (response) {
-          console.log("response===>", response);
+          if (response) {
+            Swal.fire({
+              position: "top-end",
+              icon: "success",
+              title: "Course Added Successfully",
+              showConfirmButton: false,
+              timer: 1500,
+            }).then((result) => {
+              navigate(INSTITUTE_DASHBOARD);
+            });
+          }
         })
+
         .catch((error) => {
           console.log("error===>", error);
         });

@@ -176,6 +176,22 @@ app.get("/getTutorByEMail/:institute_id/:email", (request, response) => {
 });
 
 
+app.get("/countCoursepurchased/:institute_id", (request, response) => {
+    const institute_id = request.params.institute_id;
+           
+  let sql = "SELECT course_id , COUNT(course_id) as totalpurchase FROM purchase_course WhERE institute_id = ? GROUP BY course_id";
+  connection.query(sql, [institute_id], (error, results) => {
+    if (error) {
+     return response.status(500).json({
+          message: "Error retriving tutor_enquiry to database",
+          error: error.message
+        });
+    } 
+    response.json(results);
+  });
+});
+
+
     app.get("/countHomepage", (request, response) => {
     const email = request.params.email;
            
@@ -649,6 +665,74 @@ app.post('/updateinstitute/:id', (req, res) => {
     res.json({ message: 'Institute updated successfully' });
   });
 });
+
+
+app.post('/updateCourseData/:id', (req, res) => {
+  const { id } = req.params;
+
+  const {
+    course_name,
+    course_duraton,
+    course_fee,
+    status,
+    mode,
+    timing,
+    course_medium,
+    start_date,
+    end_date,
+    discount,
+    course_details,
+    max_student,
+    avail_seat
+  } = req.body;
+
+  const sql = `
+    UPDATE course_details SET
+      course_name = ?,
+      course_duraton = ?,
+      course_fee = ?,
+      status = ?,
+      mode = ?,
+      timing = ?,
+      course_medium = ?,
+      start_date = ?,
+      end_date = ?,
+      discount = ?,
+      course_details = ?,
+      max_student = ?,
+      avail_seat = ?
+    WHERE courseid = ?
+  `;
+
+  connection.query(sql, [
+    course_name,
+    course_duraton,
+    course_fee,
+    status,
+    mode,
+    timing,
+    course_medium,
+    start_date,
+    end_date,
+    discount,
+    course_details,
+    max_student,
+    avail_seat,
+    id
+  ], (error, results) => {
+    if (error) {
+      console.error("SQL ERROR:", error);
+      return res.status(500).json({ error: error.message });
+    }
+
+    res.status(200).json({
+      message: "Course updated successfully",
+      affectedRows: results.affectedRows
+    });
+  });
+});
+
+
 
 app.post('/updateEnquiryFee/:enquiry_id', (req, res) => {
   const { enquiry_id } = req.params;

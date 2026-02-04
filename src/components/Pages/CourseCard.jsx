@@ -28,7 +28,7 @@ const CourseCard = (props) => {
   //         "max_student": null,
   //         "institute_id": "2"
   //     },
-
+  console.log(props?.countPurchased);
   return (
     <Card
       hoverable
@@ -49,9 +49,25 @@ const CourseCard = (props) => {
     >
       <Meta
         avatar={
-          <Avatar style={{ backgroundColor: "#f56a00" }}>
-            {props?.courseData?.max_student}
-          </Avatar>
+          <Avatar.Group>
+            <Avatar style={{ backgroundColor: "#f56a00" }}>
+              {props?.courseData?.max_student}{" "}
+            </Avatar>
+
+            <Avatar style={{ backgroundColor: "red" }}>
+              {" "}
+              {props?.countPurchased[0]?.totalpurchase
+                ? props?.countPurchased[0]?.totalpurchase
+                : 0}{" "}
+            </Avatar>
+
+            <Avatar style={{ backgroundColor: "#51bd23ff" }}>
+              {props?.countPurchased[0]?.totalpurchase
+                ? props?.courseData?.max_student -
+                  props?.countPurchased[0]?.totalpurchase
+                : props?.courseData?.max_student}
+            </Avatar>
+          </Avatar.Group>
         }
         title={
           props?.courseData?.course_name +
@@ -65,30 +81,7 @@ const CourseCard = (props) => {
 };
 export default CourseCard;
 
-// course_details;
-
-// course_duraton;
-
-// course_fee;
-
-// course_medium;
-
-// course_name;
-
-// courseid;
-
-// creation_date;
-
-// discount;
-
-// end_date;
-
-// max_student;
-
-// mode;
-
-// start_date;
-
-// status;
-
-// timing;
+//  <Avatar style={{ backgroundColor: "#f56a00" }}>
+//             {props?.courseData?.max_student}{" "}
+//             {props?.countPurchased[0]?.totalpurchase}
+//           </Avatar>

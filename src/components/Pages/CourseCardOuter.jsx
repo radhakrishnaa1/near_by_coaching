@@ -1,5 +1,5 @@
 import React from "react";
-import { Row, Col, Card, Typography, Select, Button } from "antd";
+import { Row, Col, Card, Typography, Select, Button, Avatar } from "antd";
 import { HeartOutlined } from "@ant-design/icons";
 import { useParams } from "react-router-dom";
 import PurchaseCourse from "./PurchaseCourse";
@@ -7,6 +7,7 @@ import CourseDetails from "./CourseDetails";
 import axios from "axios";
 import Swal from "sweetalert2";
 import PurchaseCourseInside from "./PurchaseCourseInside";
+
 const { Title, Text } = Typography;
 const { Option } = Select;
 
@@ -33,12 +34,13 @@ const Courses = (props) => {
   const params = useParams();
   const studentId = sessionStorage.getItem("userId");
   const [emailData, setEmailData] = React.useState([]);
-
+  const [purchaseCount, setPurchaseCount] = React.useState([]);
   console.log("userid", studentId);
   React.useEffect(() => {
     // Fetch courses from API if needed
     getCourseList();
     getEmailId();
+    getCoursePurchaseList();
   }, [props.instituteId]);
 
   const getEmailId = () => {
@@ -56,7 +58,21 @@ const Courses = (props) => {
       })
       .catch(() => {});
   };
-
+  const getCoursePurchaseList = () => {
+    const instituteId = params.id ? params.id : props.instituteId;
+    axios({
+      method: "get",
+      url: `http://localhost:3004/countCoursepurchased/${instituteId}`,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then(function (response) {
+        setPurchaseCount(response.data);
+        // console.log("notes data", response.data);
+      })
+      .catch(() => {});
+  };
   const getCourseList = () => {
     const instituteId = params.id ? params.id : props.instituteId;
     props.handleSpinner(true);
@@ -125,7 +141,33 @@ const Courses = (props) => {
                 />
               }
               onClick={() => handleCourseselect(course)}
-              actions={[<HeartOutlined key="like" />]}
+              actions={[
+                <Avatar.Group>
+                  <Avatar style={{ backgroundColor: "#f56a00" }}>
+                    {course?.max_student}{" "}
+                  </Avatar>
+
+                  <Avatar style={{ backgroundColor: "red" }}>
+                    {purchaseCount?.filter(
+                      (item) => item.course_id === course.courseid
+                    )[0]?.totalpurchase
+                      ? purchaseCount?.filter(
+                          (item) => item.course_id === course.courseid
+                        )[0]?.totalpurchase
+                      : 0}
+                  </Avatar>
+                  <Avatar style={{ backgroundColor: "#51bd23ff" }}>
+                    {purchaseCount?.filter(
+                      (item) => item.course_id === course.courseid
+                    )[0]?.totalpurchase
+                      ? course?.max_student -
+                        purchaseCount?.filter(
+                          (item) => item.course_id === course.courseid
+                        )[0]?.totalpurchase
+                      : course?.max_student}
+                  </Avatar>
+                </Avatar.Group>,
+              ]}
             >
               <div style={{ marginBottom: 8 }}>
                 <Text type="secondary">{course.course_medium}</Text>

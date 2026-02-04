@@ -14,6 +14,9 @@ import {
 import axios from "axios";
 import dayjs from "dayjs";
 import LayoutHome from "../Layouts/LayoutHome";
+import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
+import { INSTITUTE_DASHBOARD } from "../../constants/Routes";
 // import dayjs from "dayjs";
 const EditCourseData = (props) => {
   const [courseData, setCourseData] = useState({
@@ -31,7 +34,7 @@ const EditCourseData = (props) => {
     course_details: "",
     max_student: "",
   });
-
+  const navigator = useNavigate();
   React.useEffect(() => {
     if (props?.viewCourseDetails) {
       setInitialState(props?.viewCourseDetails);
@@ -40,6 +43,7 @@ const EditCourseData = (props) => {
 
   const setInitialState = (data) => {
     setCourseData({
+      course_id: data?.courseid,
       course_name: data?.course_name,
       course_duraton: data?.course_duraton,
       course_fee: data?.course_fee,
@@ -83,20 +87,29 @@ const EditCourseData = (props) => {
     });
   };
   const handleSubmit = () => {
-    // console.log("course data", courseData);
+    console.log("course data", courseData);
     // const currentDateUTC = new Date().toISOString().split("T")[0];
 
     if (courseData) {
       axios({
         method: "post",
-        url: "http://localhost:3004/updateCourseData",
+        url: `http://localhost:3004/updateCourseData/${courseData?.course_id}`,
         data: courseData,
         headers: {
           "Content-Type": "application/json",
         },
       })
         .then(function (response) {
-          console.log("response===>", response);
+          if (response) {
+            Swal.fire({
+              icon: "success",
+              title: "Course Data Updated Successfully",
+              showConfirmButton: false,
+              timer: 1500,
+            }).then(() => {
+              navigator(INSTITUTE_DASHBOARD);
+            });
+          }
         })
         .catch((error) => {
           console.log("error===>", error);
@@ -105,7 +118,7 @@ const EditCourseData = (props) => {
       console.log("error===> Please fill all the details");
     }
   };
-  console.log("course data", courseData);
+
   return (
     <>
       <Card
@@ -172,7 +185,7 @@ const EditCourseData = (props) => {
             <Col span={12}>
               <Form.Item layout="vertical" label="MaxLimit">
                 <Input
-                  value={courseData?.course_details}
+                  value={courseData?.max_student}
                   name="max_student"
                   onChange={(e) => handleChange(e)}
                 />
