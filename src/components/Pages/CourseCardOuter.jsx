@@ -92,9 +92,37 @@ const Courses = (props) => {
   };
 
   const handleCourseselect = (data) => {
-    console.log("Selected course ID:", data);
-    setCourseSelected(data);
+    // console.log("Selected course ID:", data);
+    // console.log("purchaseCount:", purchaseCount);
+    // setCourseSelected(data);
+    getCoursePurchaseFlag(data);
     // Implement further actions based on selected course
+  };
+
+  const getCoursePurchaseFlag = (data) => {
+    props.handleSpinner(true);
+    axios({
+      method: "get",
+      url: `http://localhost:3004/getPurchaseCourseData/${studentId}/${data?.courseid}`,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then(function (response) {
+        // console.log("Course purchase flag:", response.data);
+        if (response.data.length > 0) {
+          Swal.fire({
+            icon: "info",
+            title: "You have already purchased this course.",
+          });
+        } else {
+          Swal.close();
+          setCourseSelected(data);
+        }
+      })
+      .catch(() => {
+        Swal.close();
+      });
   };
 
   const handleChange = (value) => {
@@ -211,6 +239,16 @@ const Courses = (props) => {
                   instituteId={props?.instituteId}
                   courseId={courseSelected?.courseid}
                   courseFee={courseSelected?.course_fee}
+                  availableSeats={
+                    courseSelected?.max_student -
+                    (purchaseCount?.filter(
+                      (item) => item.course_id === courseSelected.courseid
+                    )[0]?.totalpurchase
+                      ? purchaseCount?.filter(
+                          (item) => item.course_id === courseSelected.courseid
+                        )[0]?.totalpurchase
+                      : 0)
+                  }
                 />
               ) : (
                 <PurchaseCourse

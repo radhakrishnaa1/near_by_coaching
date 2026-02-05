@@ -88,48 +88,52 @@ const Courseform = (props) => {
 
   return (
     <>
-      <Card variant="borderless" style={{ textAlign: "center" }}>
-        <Title
-          level={4}
-          style={{
-            textAlign: "center",
-            backgroundColor: "#fc7d15ff",
-            padding: "10px",
-          }}
-        >
-          Course Fee Details
-        </Title>
-        <Row gutter={16}>
-          <Col span={8}>
-            <Title level={5}>Course Fee</Title>
-          </Col>
+      {props?.availableSeats > 0 ? (
+        <Card variant="borderless" style={{ textAlign: "center" }}>
+          <Title
+            level={4}
+            style={{
+              textAlign: "center",
+              backgroundColor: "#fc7d15ff",
+              padding: "10px",
+            }}
+          >
+            Course Fee Details{" "}
+          </Title>
+          <Row gutter={16}>
+            <Col span={8}>
+              <Title level={5}>Course Fee</Title>
+            </Col>
 
-          <Col span={8}>{props?.courseFee}</Col>
-        </Row>
-        <Row gutter={16}>
-          <Col span={8}>
-            <Title level={5}> Discount</Title>
-          </Col>
+            <Col span={8}>{props?.courseFee}</Col>
+          </Row>
+          <Row gutter={16}>
+            <Col span={8}>
+              <Title level={5}> Discount</Title>
+            </Col>
 
-          <Col span={8}>{props.discount ? props?.discount : 0}</Col>
-        </Row>
-        <Divider />
-        <Row gutter={16}>
-          <Col span={8}>
-            <Title level={5}>Pay Amount</Title>
-          </Col>
+            <Col span={8}>{props.discount ? props?.discount : 0}</Col>
+          </Row>
+          <Divider />
+          <Row gutter={16}>
+            <Col span={8}>
+              <Title level={5}>Pay Amount</Title>
+            </Col>
 
-          <Col span={8}>{props?.courseFee}</Col>
-        </Row>
+            <Col span={8}>{props?.courseFee}</Col>
+          </Row>
 
-        <Button
-          type="primary"
-          onClick={() => handleFinish()}
-          style={{ width: "100%" }}
-        >
-          PAY NOW
-        </Button>
-      </Card>
+          <Button
+            type="primary"
+            onClick={() => handleFinish()}
+            style={{ width: "100%" }}
+          >
+            PAY NOW
+          </Button>
+        </Card>
+      ) : (
+        <div>Course Available Seats Filled </div>
+      )}
     </>
   );
 };
