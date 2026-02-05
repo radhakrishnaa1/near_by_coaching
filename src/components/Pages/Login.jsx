@@ -4,6 +4,11 @@ import { Card, Button, Flex, Form, Input, Row, Col } from "antd";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import {
+  INSTITUTE_DASHBOARD,
+  STUDENTDASHBOARD,
+  TUTOR_DASHBOARD,
+} from "../../constants/Routes";
 
 const App = (props) => {
   const [size, setSize] = useState("large"); // default is 'middle'
@@ -38,7 +43,7 @@ const App = (props) => {
                 showConfirmButton: false,
                 timer: 2000,
               }).then((result) => {
-                navigate("/institute-dashboard");
+                navigate(INSTITUTE_DASHBOARD);
               });
             } else if (roleId === "3") {
               Swal.fire({
@@ -47,7 +52,7 @@ const App = (props) => {
                 showConfirmButton: false,
                 timer: 2000,
               }).then((result) => {
-                navigate("/tutor-dashboard");
+                navigate(TUTOR_DASHBOARD);
               });
             } else {
               Swal.fire({
@@ -56,7 +61,7 @@ const App = (props) => {
                 showConfirmButton: false,
                 timer: 2000,
               }).then((result) => {
-                navigate("/student-dashboard");
+                navigate(STUDENTDASHBOARD);
               });
             }
           } else {

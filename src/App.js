@@ -49,7 +49,7 @@ import ReportOutSide from "./components/Pages/Reports/ReportOutside"
 // import BranchInfo from "./BranchInformation";
 
 
-function LandingPage(props) {
+const LandingPage=(props) =>{
 
   const width = props.width
   const height = props.height
@@ -153,15 +153,9 @@ function App() {
   };
 
 
-
   return (
    
-  
         <LandingPage width={width} height={height} />
-
-      
-  
-
   );
 }
 

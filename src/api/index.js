@@ -48,6 +48,20 @@ app.get("/getCourseData/:id", (request, response) => {
 });
 
 
+app.get("/getPurchaseCourseData/:email/:course_id", (request, response) => {
+   const course_id = request.params.course_id;
+   const email = request.params.email;
+
+           
+  let sql = "SELECT * FROM purchase_course WHERE course_id = ? AND email = ?";
+  connection.query(sql, [course_id,email], (error, results) => {
+    if (error) {
+      return response.status(500).send("Error retrieving login from database.");
+    } 
+    response.json(results);
+});
+});
+
 
 app.get("/getInstituteList", (request, response) => {
   let sql = "SELECT * from institute_details";
