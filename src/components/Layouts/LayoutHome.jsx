@@ -96,7 +96,7 @@ const FloatingAppBar = (props) => {
       >
         {/* Left Section: Logo or Title */}
         <Title level={4} style={{ margin: 0, color: "#333", fontWeight: 600 }}>
-          {/* NEAR BY COACHING */}
+          NEAR BY COACHING
         </Title>
 
         {/* Right Section: Action Buttons */}

@@ -80,7 +80,7 @@ const CourseCard = (props) => {
 };
 export default CourseCard;
 
-//  <Avatar style={{ backgroundColor: "#f56a00" }}>
-//             {props?.courseData?.max_student}{" "}
-//             {props?.countPurchased[0]?.totalpurchase}
-//           </Avatar>
+// https://img.freepik.com/free-photo/book-with-green-board-background_1150-3837.jpg?semt=ais_hybrid&w=740&q=80
+// https://media.istockphoto.com/id/1886650963/photo/graduation-cap-with-a-lightbulb-on-the-book-and-globe-in-the-classroom-education-learning.jpg?s=612x612&w=0&k=20&c=CoK5Bsr5aMj5_79N9tJC3xNZJ3VG7GypB-kiWk3Gkg4=
+
+// https://www.shutterstock.com/image-photo/glowing-lightbulb-over-book-inspiring-260nw-2356246941.jpg

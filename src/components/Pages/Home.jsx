@@ -60,7 +60,7 @@ const App = (props) => {
           <Col xs={24} sm={24} md={12} lg={8}>
             <div style={{ padding: "0px 40px" }}>
               <Title level={2} style={{ fontFamily: "Poppins" }}>
-                {/* Near By Coaching */}
+                Near By Coaching
               </Title>
               <div
                 style={{

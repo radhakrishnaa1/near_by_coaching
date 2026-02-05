@@ -132,7 +132,15 @@ const Courseform = (props) => {
           </Button>
         </Card>
       ) : (
-        <div>Course Available Seats Filled </div>
+        <Card
+          title={<div style={{ fontSize: 20 }}>Course Unavailable</div>}
+          variant="borderless"
+          style={{ textAlign: "center" }}
+        >
+          <Title level={4} style={{ color: "red" }}>
+            Sorry, no seats are available for this course.
+          </Title>
+        </Card>
       )}
     </>
   );

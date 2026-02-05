@@ -258,6 +258,16 @@ const Courses = (props) => {
                   courseId={courseSelected?.courseid}
                   courseFee={courseSelected?.course_fee}
                   discount={courseSelected?.discount}
+                  availableSeats={
+                    courseSelected?.max_student -
+                    (purchaseCount?.filter(
+                      (item) => item.course_id === courseSelected.courseid
+                    )[0]?.totalpurchase
+                      ? purchaseCount?.filter(
+                          (item) => item.course_id === courseSelected.courseid
+                        )[0]?.totalpurchase
+                      : 0)
+                  }
                 />
               )}
             </Col>
