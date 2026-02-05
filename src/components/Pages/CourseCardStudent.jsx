@@ -48,26 +48,7 @@ const CourseCard = (props) => {
       ]}
     >
       <Meta
-        avatar={
-          <Avatar.Group>
-            <Avatar style={{ backgroundColor: "#f56a00" }}>
-              {props?.courseData?.max_student}
-            </Avatar>
-
-            <Avatar style={{ backgroundColor: "red" }}>
-              {props?.countPurchased[0]?.totalpurchase
-                ? props?.countPurchased[0]?.totalpurchase
-                : 0}
-            </Avatar>
-
-            <Avatar style={{ backgroundColor: "#51bd23ff" }}>
-              {props?.countPurchased[0]?.totalpurchase
-                ? props?.courseData?.max_student -
-                  props?.countPurchased[0]?.totalpurchase
-                : props?.courseData?.max_student}
-            </Avatar>
-          </Avatar.Group>
-        }
+        avatar={[]}
         title={
           props?.courseData?.course_name +
           " " +

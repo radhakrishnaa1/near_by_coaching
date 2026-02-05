@@ -35,7 +35,7 @@ const Courses = (props) => {
   const studentId = sessionStorage.getItem("userId");
   const [emailData, setEmailData] = React.useState([]);
   const [purchaseCount, setPurchaseCount] = React.useState([]);
-  console.log("userid", studentId);
+  // console.log("userid", studentId);
   React.useEffect(() => {
     // Fetch courses from API if needed
     getCourseList();

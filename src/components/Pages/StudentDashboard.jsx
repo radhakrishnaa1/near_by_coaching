@@ -2,7 +2,7 @@ import React, { use, useState } from "react";
 import AuthLayout from "../Layouts/AuthLayout";
 import HomeCard from "../Pages/HomeCard";
 import { Divider } from "antd";
-import CourseCard from "./CourseCard";
+import CourseCard from "./CourseCardStudent";
 import axios from "axios";
 import Swal from "sweetalert2";
 import PurchaseCard from "./PurchaseCard";
