@@ -10,10 +10,11 @@ const InstituteDashboard = () => {
   const [tutorData, setTutorData] = useState(""); // default is 'middle'
   const [tutorEnquiryList, setTutorEnquiryList] = useState([]);
   const [tutorCountData, setTutorCountData] = useState({});
-
+  const [tutorprofileData, setTutorprofileData] = useState({});
   React.useEffect(() => {
     // getInstituteDetails();
     getTutorEnwuiry();
+    getTutorProfile();
   }, []);
 
   const gettutorCount = (tutorData) => {
@@ -26,6 +27,27 @@ const InstituteDashboard = () => {
           const data = response.data[0];
 
           setTutorCountData(data);
+        }
+      })
+      .catch((error) => {
+        console.error("There was an error fetching the district data!", error);
+      });
+  };
+
+  const getTutorProfile = () => {
+    const email = sessionStorage.getItem("userId");
+    console.log("email===>", email);
+    axios
+      .get(`http://localhost:3004/getTutorByEMail/0/${email}`)
+      .then((response) => {
+        console.log("tutor details===>", response.data);
+        if (response.data.length > 0) {
+          const data = response.data[0];
+          sessionStorage.setItem("userName", data?.name);
+
+          setTutorprofileData(data);
+
+          // console.log("data===>", districtData, stateData);
         }
       })
       .catch((error) => {
@@ -57,7 +79,7 @@ const InstituteDashboard = () => {
     <AuthLayout instituteData={""} studentData="">
       <TutorEnquiry
         tutorEnquiryList={tutorEnquiryList}
-        tutorData={tutorData}
+        tutorData={tutorData ? tutorData : tutorprofileData}
         tutorCountData={tutorCountData}
       />
     </AuthLayout>

@@ -3,12 +3,14 @@ import { connection } from "./database.js";
 import cors from 'cors';
 import multer from "multer";
 import fs from "fs-extra"; 
+import path from "path";
 const app = express ();
 app.use(express.json());
 app.use(cors())
+app.use(express.static('uploads')); // Serve uploaded files statically
 const PORT = 3004;
 
-const upload = multer({ dest: 'uploads/' }); 
+// const upload = multer({ dest: 'uploads/' }); 
 
 app.listen(PORT, () => {
   console.log("Server Listening on PORT:", PORT);
@@ -22,6 +24,42 @@ connection.connect((err) => {
     }
 });
 });
+
+// ************************************************** File Upload Configuration *
+
+const storage = multer.diskStorage({
+  destination:  (req, file, cb) => {
+    cb(null, 'uploads/');
+  },
+  filename:  (req, file, cb)=> {cb(null, file.fieldname + "_"+ Date.now()+path.extname(file.originalname)); 
+  }
+});
+
+const upload = multer({ storage: storage });
+
+app.use('/uploads/:id',upload.single('image'),(req,res)=>{
+  const image = req.file.filename;
+  const sql = 'UPDATE user SET profile_image = ? WHERE id = ?';
+  connection.query(sql, [image, req.params.id], (err, result) => {
+    if (err) {
+      return res.status(500).send('Error updating image in database.');
+    }
+    res.send('Image uploaded and database updated successfully.');
+  });
+
+}) // Serve uploaded files statically
+
+app.get('/getimage', (req, response) => {
+
+  let sql = "SELECT * from user";
+  connection.query(sql, (error, results) => {
+    if (error) {
+      return response.status(500).send("Error retrieving course from database.");
+    } 
+    response.json(results);
+  });
+});
+// ****************************************** API Endpoints *************************
 
 
 
@@ -662,19 +700,23 @@ app.post('/updateinstitute/:id', (req, res) => {
     institute_logo,
     address,
     state,
+    state_name,
     city,
+    city_name,
     pincode,
     vision,
-    creation_date,entry_date } = req.body;
-  connection.query('UPDATE institute_details SET  institute_name = ?, institute_discription = ?, institute_logo = ?, address = ?, state = ?, city = ?, pincode = ?, vision = ?, creation_date  = ? , entry_date = ? WHERE institute_id = ?', [institute_name,
+    creation_date } = req.body;
+  connection.query('UPDATE institute_details SET  institute_name = ?, institute_discription = ?, institute_logo = ?, address = ?, state = ?, state_name = ?, city = ?, city_name = ? , pincode = ?, vision = ?, creation_date  = ? WHERE institute_id = ?', [institute_name,
     institute_discription,
     institute_logo,
     address,
     state,
+    state_name,
     city,
+    city_name,
     pincode,
     vision,
-    creation_date,entry_date, id], (err) => {
+    creation_date, id], (err) => {
     if (err) throw err;
     res.json({ message: 'Institute updated successfully' });
   });

@@ -99,6 +99,9 @@ const InstituteProfile = () => {
             emailId: data.email,
             objective: data.vision,
             stateName: data.state_name,
+            state: data.state,
+            city: data.city,
+            pincode: data.pincode,
             cityName: data.city_name,
           });
           // console.log("data===>", districtData, stateData);
@@ -152,21 +155,38 @@ const InstituteProfile = () => {
     const stateDataArray = instituteData?.values?.stateName.split("/");
     const cityDataArray = instituteData?.values?.cityName.split("/");
 
-    console.log(stateData, cityDataArray);
+    // console.log(stateDataArray.length, cityDataArray);
     const updateData = {
       institute_name: instituteData?.values?.name,
       institute_discription: instituteData?.values?.instituteDetails,
       institute_logo: null,
       address: instituteData?.values?.instituteAddress,
-      state: stateDataArray[0],
-      city_name: cityDataArray[1],
-      state_name: stateDataArray[1],
-      city: cityDataArray[0],
+      state: stateDataArray
+        ? stateDataArray.length > 1
+          ? stateDataArray[0]
+          : instituteData?.state
+        : instituteData?.state,
+      state_name: stateDataArray
+        ? stateDataArray.length > 1
+          ? stateDataArray[1]
+          : instituteData?.stateName
+        : instituteData?.stateName,
+      city_name: cityDataArray
+        ? cityDataArray.length > 1
+          ? cityDataArray[1]
+          : instituteData?.cityName
+        : instituteData?.cityName,
+      city: cityDataArray
+        ? cityDataArray.length > 1
+          ? cityDataArray[0]
+          : instituteData?.city
+        : instituteData?.city,
       pincode: instituteData?.values?.pincode,
       vision: instituteData?.values?.objective,
-      creation_date: "2002-06-08",
+      creation_date: "2001-06-11",
       entry_date: new Date().toISOString().split("T")[0],
     };
+    // console.log(updateData);
 
     // Here, you can send 'letterData' to your backend or perform other actions
     if (updateData) {
@@ -249,6 +269,13 @@ const InstituteProfile = () => {
           rules={[{ required: true }]}
         >
           <TextArea rows={6} placeholder="Enter Institute Address" />
+        </Form.Item>
+        <Form.Item
+          label="Institute Pincode "
+          name="pincode"
+          rules={[{ required: true }]}
+        >
+          <Input placeholder="Enter Pincode" />
         </Form.Item>
         <Form.Item label="State" name="stateName" rules={[{ required: true }]}>
           <Select

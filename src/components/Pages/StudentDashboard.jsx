@@ -118,13 +118,14 @@ const StudentDashboard = (props) => {
           </div>
         )}
       </div>
-      <Divider />
-      <Title level={3} style={{ margin: 30, textAlign: "center" }}>
-        Tutor Enquiry
-      </Title>
+
       {viewCourseDetails === "" ? null : (
         <CourseDetails viewCourseDetails={viewCourseDetails}></CourseDetails>
       )}
+      <Divider />
+      <Title level={3} style={{ margin: 30, textAlign: "center" }}>
+        Tutor Enquiry By Me
+      </Title>
       <Faculty tutorList={tutorEnquery} />
       <Divider />
       {/* <Title level={3} style={{ margin: 30, textAlign: "center" }}>

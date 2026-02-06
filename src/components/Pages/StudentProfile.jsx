@@ -182,7 +182,7 @@ const StudentDetails = (props) => {
           <Input placeholder="Enter your number" />
         </Form.Item>
         <Form.Item label="Email ID" name="email" rules={[{ required: true }]}>
-          <Input placeholder="Enter your Emial Id" />
+          <Input placeholder="Enter your Emial Id" disabled />
         </Form.Item>
 
         <Form.Item label="Address" name="address" rules={[{ required: true }]}>
@@ -228,7 +228,7 @@ const StudentDetails = (props) => {
           >
             Update Profile
           </Button>
-          <Button type="default">Print Letter</Button>
+          {/* <Button type="default"></Button> */}
         </Space>
       </Form>
     </AuthLayout>
