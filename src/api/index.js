@@ -62,6 +62,56 @@ app.get('/getimage', (req, response) => {
 // ****************************************** API Endpoints *************************
 
 
+app.use('/uploadsaddinstitute/:status',upload.single('image'),(req,res)=>{
+  const image = req.file.filename;
+  const sql = 'INSERT INTO user ( profile_image, status_type) VALUES (?,?)' 
+  connection.query(sql, [image, req.params.status], (err, result) => {
+    if (err) {
+      return res.status(500).send('Error insert image in database.');
+    }
+    res.send('Image uploaded and database updated successfully.');
+  });
+
+})
+
+// app.post("/saveCourseData", (request, response) => {
+//   const {courseid, 
+//     course_name, 
+//     course_duraton, 
+//     course_fee, 
+//     status, 
+//     mode, timing, 
+//     course_medium, 
+//     start_date, 
+//     end_date, 
+//     discount,
+//     max_student, 
+//     course_details,
+//     creation_date} = request.body;
+//   let sql = "INSERT INTO course_details ( course_name, course_duraton, course_fee, status, mode, timing, course_medium, start_date, end_date, discount,max_student,course_details, creation_date) VALUES (?, ?, ?, ?,?,?,?,?,?,?,?,?,?)";   
+//   connection.query(sql, [
+//     course_name, 
+//     course_duraton, 
+//     course_fee, 
+//     status, 
+//     mode, timing, 
+//     course_medium, 
+//     start_date, 
+//     end_date, 
+//     discount,
+//      max_student, 
+//     course_details, 
+//     creation_date], (error, results) => {
+//     if (error) {
+//       return response.status(500).send("Error saving course_details to database.");
+//     } 
+//     response.status(201).send(`Note added with ID: ${results.insertId}`);
+//   });
+// });
+
+
+
+// ******************************************************
 
 app.get("/getCourseDetails", (request, response) => {
   let sql = "SELECT * from course_details";
