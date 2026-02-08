@@ -1,14 +1,54 @@
 import React, { useState } from 'react';
-import { Upload, message } from 'antd';
-
+import { Button, Upload, message } from 'antd';
+import axios from 'axios';
+import Swal from 'sweetalert2';
 const App = () => {
   const [fileList, setFileList] = useState([
    
   ]);
+  const [file,setFile] = useState("")
+
+const uploadImage = ()=>{
+  console.log(file)
+  const formData = new FormData();
+  // fileList.forEach(file => {
+  //     formData.append('files', file);
+  //   });
+
+      formData.append('image', file);
+
+  const id ="2"
+   if (formData) {
+      axios({
+        method: "post",
+        url: `http://localhost:3004/uploads/${id}`,
+        data: formData,
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+        .then(function (response) {
+          console.log("response===>", response);
+          Swal.fire({
+            icon: "success",
+            text: "Institute Details Updated successfully",
+            showConfirmButton: true,
+            timer: 6000,
+          });
+        })
+        .catch((error) => {
+          console.log("error===>", error);
+        });
+    } else {
+      console.log("error===> Please fill all the details");
+    }
+}
+
 
   const onChange = ({ fileList: newFileList }) => {
     // Keep only the latest file (single upload)
     setFileList(newFileList.slice(-1));
+    setFile(newFileList[0].originFileObj)
   };
 
   const onPreview = async file => {
@@ -36,6 +76,7 @@ const App = () => {
   };
 
   return (
+    <>
     <Upload
       action="https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload"
        listType="picture-circle"
@@ -47,8 +88,14 @@ const App = () => {
       style={{justifyContent: 'center', alignItems: 'center'}}
     >
       {fileList.length >= 1 ? null : '+ Upload'}
+
+      
     </Upload>
+    <Button onClick={()=>uploadImage()}> Upload</Button>
+    </>
   );
 };
 
 export default App;
+
+
