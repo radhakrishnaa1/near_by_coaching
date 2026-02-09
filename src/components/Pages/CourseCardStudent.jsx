@@ -33,7 +33,13 @@ const CourseCard = (props) => {
     <Card
       hoverable
       style={{ width: 300, margin: 10 }}
-      cover={<img draggable={false} alt="example" src={props?.img} />}
+      cover={
+        <img
+          draggable={false}
+          alt="example"
+          src={"http://localhost:3004/" + props?.courseData?.course_pic}
+        />
+      }
       actions={[
         <div onClick={() => props?.handleCardClick(props?.courseData)}>
           <ClockCircleOutlined key="setting"> </ClockCircleOutlined>{" "}

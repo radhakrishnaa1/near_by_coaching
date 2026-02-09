@@ -14,7 +14,7 @@ import {
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { TUTOR_DASHBOARD } from "../../constants/Routes";
-import ImageUpload from "./ImageUpload";
+import ImageUpload from "./ImageuploadTutor";
 import AuthLayout from "../Layouts/AuthLayout";
 import Swal from "sweetalert2";
 const { Title, Text } = Typography;
@@ -163,7 +163,10 @@ const Teacherdetails = (props) => {
             marginBottom: "20px",
           }}
         >
-          <ImageUpload />
+          <ImageUpload
+            image={teacherData?.photo}
+            id={teacherData?.teacher_id}
+          />
         </div>
         <Form.Item
           label="Name of faculty"

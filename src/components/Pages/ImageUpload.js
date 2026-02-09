@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Button, Upload, message } from 'antd';
 import axios from 'axios';
 import Swal from 'sweetalert2';
-const App = () => {
+const App = (props) => {
   const [fileList, setFileList] = useState([
    
   ]);
@@ -17,11 +17,11 @@ const uploadImage = ()=>{
 
       formData.append('image', file);
 
-  const id ="2"
+  const id =props?.id
    if (formData) {
       axios({
         method: "post",
-        url: `http://localhost:3004/uploads/${id}`,
+        url: `http://localhost:3004/uploadsaddinstitute/${id}`,
         data: formData,
         headers: {
           "Content-Type": "multipart/form-data",
@@ -87,11 +87,13 @@ const uploadImage = ()=>{
       maxCount={1} // ensures only one file
       style={{justifyContent: 'center', alignItems: 'center'}}
     >
-      {fileList.length >= 1 ? null : '+ Upload'}
+      {fileList.length >= 1 ? null : '+ Select'}
 
       
     </Upload>
-    <Button onClick={()=>uploadImage()}> Upload</Button>
+   <div style={{marginLeft:20,marginRight:20}}> <img src={"http://localhost:3004/"+props?.image} alt="Institute" style={{ width: '100px', height: '100px', marginBottom: '20px' }} />
+   </div>
+    <Button type='primary' style={{marginBottom:'auto',marginTop:"auto"}} onClick={()=>uploadImage()}> Upload</Button>
     </>
   );
 };

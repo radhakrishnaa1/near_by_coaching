@@ -8,7 +8,7 @@ import CourseDetails from "./CourseDetails";
 import { PlusOutlined } from "@ant-design/icons";
 import axios from "axios";
 import EditCourseData from "./EditCourseData";
-
+import ImageUpload from "./ImageUploadCourse";
 const MyCourses = (props) => {
   const [size, setSize] = useState("large");
   const [courseList, setCourseList] = useState([]); // default is 'middle'
@@ -125,6 +125,10 @@ const MyCourses = (props) => {
       {viewCourseDetails == "" ? null : (
         <>
           <CourseDetails viewCourseDetails={viewCourseDetails}></CourseDetails>
+          <ImageUpload
+            image={viewCourseDetails?.course_pic}
+            id={viewCourseDetails?.courseid}
+          />
           <EditCourseData
             viewCourseDetails={viewCourseDetails}
             handleSpinner={props?.handleSpinner}

@@ -28,12 +28,18 @@ const CourseCard = (props) => {
   //         "max_student": null,
   //         "institute_id": "2"
   //     },
-  // console.log(props?.countPurchased);
+  console.log(props?.courseData);
   return (
     <Card
       hoverable
       style={{ width: 300, margin: 10 }}
-      cover={<img draggable={false} alt="example" src={props?.img} />}
+      cover={
+        <img
+          draggable={false}
+          alt="courseimage"
+          src={"http://localhost:3004/" + props?.courseData?.course_pic}
+        />
+      }
       actions={[
         <div onClick={() => props?.handleCardClick(props?.courseData)}>
           <ClockCircleOutlined key="setting"> </ClockCircleOutlined>{" "}

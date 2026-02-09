@@ -106,7 +106,10 @@ const TutorEnquiry = (props) => {
         <Card style={{ marginBottom: 24 }}>
           <Space style={{ width: "100%", justifyContent: "space-between" }}>
             <Space>
-              <Avatar size={64} src="https://i.pravatar.cc/150?u=1" />
+              <Avatar
+                size={64}
+                src={"http://localhost:3004/" + props?.tutorData?.photo}
+              />
               <div>
                 <Title level={4} style={{ margin: 0 }}>
                   {props?.tutorData?.name}

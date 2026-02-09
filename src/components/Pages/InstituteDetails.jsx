@@ -5,7 +5,7 @@ import {
   PhoneOutlined,
   MailOutlined,
 } from "@ant-design/icons";
-import offline from "../../modern-education-Skillstork.jpg";
+// import offline from "../../modern-education-Skillstork.jpg";
 import CourseCardOuter from "./CourseCardOuter";
 import PurchaseCourse from "./PurchaseCourse";
 import CourseDetails from "./CourseDetails";
@@ -43,7 +43,7 @@ const InstituteDetails = (props) => {
       })
       .catch(() => {});
   };
-  const url = offline;
+  const offline = "http://localhost:3004/" + instituteDetails?.institute_image;
 
   return (
     <LayoutHome flagForSlider={false}>

@@ -160,7 +160,7 @@ const Courses = (props) => {
               cover={
                 <img
                   alt={"image Loading"}
-                  src="https://st.adda247.com/https://storeimages.adda247.com/941621760351293.png?tr=w-undefined"
+                  src={"http://localhost:3004/" + course?.course_pic}
                   style={{
                     height: 180,
                     objectFit: "cover",

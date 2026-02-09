@@ -31,6 +31,7 @@ const InstituteProfile = () => {
     institute_name: "",
     institute_discription: "",
     institute_logo: "",
+    institute_image: "",
     email: "",
     contact: "",
     address: "",
@@ -121,6 +122,7 @@ const InstituteProfile = () => {
             pincode: data.pincode,
             vision: data.vision,
             creation_date: data.creation_date,
+            institute_image: data.institute_image,
           });
           // setInitialValues();
         }
@@ -228,7 +230,10 @@ const InstituteProfile = () => {
             marginBottom: "20px",
           }}
         >
-          <ImageUpload />
+          <ImageUpload
+            image={instituteData?.institute_image}
+            id={instituteData.institute_id}
+          />
         </div>
         <Form.Item
           label="Name of Institute"

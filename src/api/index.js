@@ -62,17 +62,65 @@ app.get('/getimage', (req, response) => {
 // ****************************************** API Endpoints *************************
 
 
-app.use('/uploadsaddinstitute/:status',upload.single('image'),(req,res)=>{
+app.use('/uploadsaddinstitute/:id',upload.single('image'),(req,res)=>{
   const image = req.file.filename;
-  const sql = 'INSERT INTO user ( profile_image, status_type) VALUES (?,?)' 
-  connection.query(sql, [image, req.params.status], (err, result) => {
+ const sql = 'UPDATE institute_details SET institute_image = ? WHERE institute_id = ?';
+  connection.query(sql, [image, req.params.id], (err, result) => {
     if (err) {
-      return res.status(500).send('Error insert image in database.');
+      return res.status(500).send('Error updating image in database.');
     }
     res.send('Image uploaded and database updated successfully.');
-  });
 
 })
+})
+
+app.use('/uploadstudentimage/:id',upload.single('image'),(req,res)=>{
+  const image = req.file.filename;
+ const sql = 'UPDATE student_details SET student_pic = ? WHERE student_id = ?';
+  connection.query(sql, [image, req.params.id], (err, result) => {
+    if (err) {
+      return res.status(500).send('Error updating image in database.');
+    }
+    res.send('Image uploaded and database updated successfully.');
+
+})
+})
+
+
+app.use('/uploadtutorimage/:id',upload.single('image'),(req,res)=>{
+  const image = req.file.filename;
+ const sql = 'UPDATE home_teacher SET photo = ? WHERE teacher_id = ?';
+  connection.query(sql, [image, req.params.id], (err, result) => {
+    if (err) {
+      return res.status(500).send('Error updating image in database.');
+    }
+    res.send('Image uploaded and database updated successfully.');
+
+})
+})
+
+app.use('/uploadCourseimage/:id',upload.single('image'),(req,res)=>{
+  const image = req.file.filename;
+ const sql = 'UPDATE course_details SET course_pic = ? WHERE courseid = ?';
+  connection.query(sql, [image, req.params.id], (err, result) => {
+    if (err) {
+      return res.status(500).send('Error updating image in database.');
+    }
+    res.send('Image uploaded and database updated successfully.');
+
+})
+})
+
+// app.get('/getinstituteimage', (req, response) => {
+
+//   let sql = "SELECT * from user";
+//   connection.query(sql, (error, results) => {
+//     if (error) {
+//       return response.status(500).send("Error retrieving course from database.");
+//     } 
+//     response.json(results);
+//   });
+// });
 
 // app.post("/saveCourseData", (request, response) => {
 //   const {courseid, 
@@ -190,7 +238,7 @@ app.get("/getInstituteDetailsbyEmail/:email", (request, response) => {
 app.get("/purchasecoursebystudent/:email", (request, response) => {
     const email = request.params.email;
            
-  let sql = "SELECT p.purchase_id,p.student_id,p.purchase_date,p.fee_paid,c.courseid,c.course_name, c.course_duraton,c.course_fee,c.status,c.mode,c.timing,c.course_medium,c.start_date,c.end_date,c.discount FROM purchase_course p INNER JOIN course_details c ON p.course_id = c.courseid WHERE p.email = ?";
+  let sql = "SELECT p.purchase_id,p.student_id,p.purchase_date,p.fee_paid,c.courseid,c.course_name, c.course_duraton,c.course_fee, c.course_pic, c.status,c.mode,c.timing,c.course_medium,c.start_date,c.end_date,c.discount FROM purchase_course p INNER JOIN course_details c ON p.course_id = c.courseid WHERE p.email = ?";
   connection.query(sql, [email], (error, results) => {
     if (error) {
      console.error("SQL ERROR:", error);  // logs actual error
@@ -223,7 +271,7 @@ app.get("/enquiryTutorByStudent/:email", (request, response) => {
 app.get("/tutorEnquirybyteacher/:email", (request, response) => {
     const email = request.params.email;
            
-  let sql = "SELECT e.enquiry_id, e.status, e.number_of_student, e.tutor_id, e.fee as tutor_fee, e.creation_date, e.name, e.number_of_student, t.teacher_id, t.name, t.qualification, t.email, t.contact, t.discription, t.address, t.city, t.city_name, t.state, t.state_name, t.available_on, t.experience, t.creation_date, t.institute_id, t.course_id, t.medium, t.max_hours, t.stream, t.gender, t.fee , s.student_name , s.email as student_email, s.address as student_add , s.state as student_state ,s.city as student_city, s.contact as student_contact, s.student_class FROM tutor_enquiry e INNER JOIN home_teacher t ON e.tutor_id = t.teacher_id INNER JOIN student_details s ON e.email = s.email WHERE t.email = ?";
+  let sql = "SELECT e.enquiry_id, e.status, e.number_of_student, e.tutor_id, e.fee as tutor_fee, e.creation_date, e.name, e.number_of_student, t.teacher_id, t.name, t.qualification, t.email, t.contact, t.discription, t.address, t.city, t.city_name, t.state, t.state_name, t.available_on, t.experience, t.creation_date, t.institute_id, t.course_id, t.medium, t.photo, t.max_hours, t.stream, t.gender, t.fee , s.student_name , s.email as student_email, s.address as student_add , s.state as student_state ,s.city as student_city, s.contact as student_contact, s.student_class FROM tutor_enquiry e INNER JOIN home_teacher t ON e.tutor_id = t.teacher_id INNER JOIN student_details s ON e.email = s.email WHERE t.email = ?";
   connection.query(sql, [email], (error, results) => {
     if (error) {
      console.error("SQL ERROR:", error);  // logs actual error

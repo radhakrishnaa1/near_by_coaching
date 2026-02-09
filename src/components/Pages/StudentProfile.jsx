@@ -12,7 +12,7 @@ import {
   Select,
 } from "antd";
 import axios from "axios";
-import ImageUpload from "./ImageUpload";
+import ImageUpload from "./imageUploadStudents";
 import AuthLayout from "../Layouts/AuthLayout";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
@@ -160,7 +160,10 @@ const StudentDetails = (props) => {
             marginBottom: "20px",
           }}
         >
-          <ImageUpload />
+          <ImageUpload
+            image={studentData?.student_pic}
+            id={studentData?.student_id}
+          />
         </div>
         <Form.Item
           label="Name of Student"
