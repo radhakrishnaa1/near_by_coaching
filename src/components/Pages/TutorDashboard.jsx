@@ -18,7 +18,7 @@ const InstituteDashboard = () => {
   }, []);
 
   const gettutorCount = (tutorData) => {
-    const tutorid = tutorData?.tutor_id;
+    const tutorid = tutorData?.teacher_id;
     axios
       .get(`http://localhost:3004/countTutorDashboard/${tutorid}`)
       .then((response) => {
@@ -46,6 +46,7 @@ const InstituteDashboard = () => {
           sessionStorage.setItem("userName", data?.name);
 
           setTutorprofileData(data);
+          gettutorCount(data);
 
           // console.log("data===>", districtData, stateData);
         }
@@ -67,7 +68,7 @@ const InstituteDashboard = () => {
           sessionStorage.setItem("userName", data?.name);
           setTutorEnquiryList(response.data);
           setTutorData(data);
-          gettutorCount(data);
+          // gettutorCount(data);
           // console.log("data===>", districtData, stateData);
         }
       })

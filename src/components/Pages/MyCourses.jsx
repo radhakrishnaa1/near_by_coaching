@@ -14,7 +14,8 @@ const MyCourses = (props) => {
   const [courseList, setCourseList] = useState([]); // default is 'middle'
   const [showCourseForm, setShowForm] = useState(false); // default is 'middle'
   const [viewCourseDetails, setViewCourseDetails] = useState(""); // default is 'middle'
-  const [purchaseCount, setPurchaseCount] = useState([]); // default is 'middle'
+  const [purchaseCount, setPurchaseCount] = useState([]);
+  const [instituteData, setInstituteData] = useState(); // default is 'middle'
   React.useEffect(() => {
     getInstituteDetails();
   }, []);
@@ -30,6 +31,7 @@ const MyCourses = (props) => {
           const data = response.data[0];
           getCourseList(data?.institute_id);
           getCoursePurchaseList(data?.institute_id);
+          setInstituteData(data);
           // console.log("data===>", districtData, stateData);
         }
       })
@@ -119,6 +121,7 @@ const MyCourses = (props) => {
           cancel={addCourseFormShow}
           viewCourseDetails={viewCourseDetails}
           handleSpinner={props?.handleSpinner}
+          instituteData={instituteData}
         />
       ) : null}
 

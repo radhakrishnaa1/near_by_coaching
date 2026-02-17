@@ -86,6 +86,9 @@ const Teacherdetails = (props) => {
             state: data.state,
             state_name: data.state_name,
             teacher_id: data.teacher_id,
+            max_hours: data.max_hours,
+            medium: data.medium,
+            stream: data.stream,
           });
         }
       })
@@ -100,7 +103,7 @@ const Teacherdetails = (props) => {
     const cityDataArray = values.city_name.split("/");
     const updateData = {
       address: values.address,
-      available_on: "evening",
+      available_on: values.available_on,
       city: cityDataArray[0],
       city_name: cityDataArray[1],
       contact: values.contact,
@@ -115,9 +118,9 @@ const Teacherdetails = (props) => {
       qualification: values.qualification,
       state: stateDataArray[0],
       state_name: stateDataArray[1],
-      medium: "English",
-      stream: "PCM",
-      max_hours: "2",
+      medium: values.medium,
+      stream: values.stream,
+      max_hours: values.max_hours,
     };
     if (updateData) {
       props?.handleSpinner(true);
@@ -189,6 +192,40 @@ const Teacherdetails = (props) => {
           rules={[{ required: true }]}
         >
           <Input placeholder="Enter Experience" />
+        </Form.Item>
+        <Form.Item
+          label="Available on"
+          name="available_on"
+          rules={[{ required: true }]}
+        >
+          <Input placeholder="Enter Timing Of Teaching" />
+        </Form.Item>
+        <Form.Item
+          label="Stream teaching"
+          name="stream"
+          rules={[{ required: true }]}
+        >
+          <Input placeholder="Enter Stream" />
+        </Form.Item>
+        <Form.Item
+          label="Max hours per student"
+          name="max_hours"
+          rules={[{ required: true }]}
+        >
+          <Input placeholder="Enter Max Hours Per Student" />
+        </Form.Item>
+        <Form.Item label="Medium" name="medium" rules={[{ required: true }]}>
+          <Select style={{ width: "100%" }} name="medium">
+            <option key={1} value={"Hindi"}>
+              Hindi
+            </option>
+            <option key={2} value={"English"}>
+              English
+            </option>
+            <option key={3} value={"Both"}>
+              Both
+            </option>
+          </Select>
         </Form.Item>
         <Form.Item
           label="Contact number"

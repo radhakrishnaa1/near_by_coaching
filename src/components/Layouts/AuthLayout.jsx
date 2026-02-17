@@ -247,7 +247,14 @@ const AuthLayout = (props) => {
                 <LogoutOutlined
                   style={{ fontSize: "30px", color: "rgba(244, 67, 54, 1)" }}
                 />{" "}
-                <Text> Admin</Text>
+                <Text>
+                  {" "}
+                  {sessionStorage.getItem("roleId") === "1"
+                    ? "Institute"
+                    : sessionStorage.getItem("roleId") === "2"
+                    ? "Student"
+                    : "Tutor"}
+                </Text>
               </Col>
             </Row>
           </Header>
