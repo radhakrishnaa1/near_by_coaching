@@ -155,7 +155,7 @@ const Teacherdetails = (props) => {
   return (
     <AuthLayout>
       <Title level={5} style={{ textAlign: "center" }}>
-        Add Faculty Details
+        Add Tutor Details
       </Title>
 
       <Form form={form} layout="vertical" onFinish={handleFinish}>
@@ -172,7 +172,7 @@ const Teacherdetails = (props) => {
           />
         </div>
         <Form.Item
-          label="Name of faculty"
+          label="Name of Tutor"
           name="name"
           rules={[{ required: true }]}
         >
@@ -222,8 +222,8 @@ const Teacherdetails = (props) => {
             <option key={2} value={"English"}>
               English
             </option>
-            <option key={3} value={"Both"}>
-              Both
+            <option key={3} value={"Both (Hindi/English)"}>
+              Both (Hindi/English)
             </option>
           </Select>
         </Form.Item>

@@ -420,6 +420,7 @@ const Courseform = (props) => {
                 >
                   <option value="Hindi">Hindi</option>
                   <option value="English">English</option>
+                  <option value="Both (Hindi & English)">Both (Hindi & English)</option>
                 </Select>
               </Form.Item>
             </Col>

@@ -100,7 +100,7 @@ const FloatingAppBar = (props) => {
         </Title>
 
         {/* Right Section: Action Buttons */}
-        <Space size="large">
+        {/* <Space size="large">
           <Badge count={5} size="small">
             <Button
               type="text"
@@ -117,7 +117,7 @@ const FloatingAppBar = (props) => {
             icon={<UserOutlined />}
             style={{ backgroundColor: "#f44336", borderColor: "#f44336" }}
           />
-        </Space>
+        </Space> */}
       </Header>
       <div style={{ paddingTop: 100, backgroundColor: "#fff" }}></div>
       {/* {props?.flagForSlider ? <CarouselTop /> : null} */}

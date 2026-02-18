@@ -98,20 +98,20 @@ const BranchInfo = (props) => {
         <Row gutter={32} align="middle">
           {/* Left side info */}
           <Col xs={24} md={12}>
-            <Text style={{ fontSize: 18 }}>Near By Coaching centre at</Text>
+            <Text style={{ fontSize: 18 }}>Near By Coaching </Text>
             <Title level={2} style={{ color: "#fff", marginTop: 0 }}>
-              Shankar Nagar
+              Institute List
             </Title>
 
             <p style={{ fontSize: 16, marginTop: 10 }}>
-              <EnvironmentOutlined /> Near By Coaching Shankar Nagar B/37,
-              Shankar Nagar Near ICICI Bank, Raipur , Chhattisgarh - 492001
+               Here you can see all the list of institute registered in Nearby Coaching application
+              student can search institute by city and address nearby.
             </p>
             <p style={{ fontSize: 16 }}>
-              <PhoneOutlined /> 8750505082, 8750606007
+              <PhoneOutlined /> 8817468184
             </p>
             <p style={{ fontSize: 16 }}>
-              <MailOutlined /> nb@coaching.in
+              <MailOutlined /> sagarsahu4198@gmail.com
             </p>
           </Col>
 

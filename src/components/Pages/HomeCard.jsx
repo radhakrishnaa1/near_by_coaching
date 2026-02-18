@@ -29,7 +29,7 @@ const DashboardCard = (props) => {
     },
 
     {
-      title: " Total Tutor Registerd ",
+      title: " Total Tutor Registered ",
       value: props?.countData?.tutorCount || 0,
       route: REPORT_OUTSIDE + "/1",
       icon: <FileDoneOutlined style={{ fontSize: "30px", color: "#4caf50" }} />,

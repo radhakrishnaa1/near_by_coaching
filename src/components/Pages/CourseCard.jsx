@@ -79,7 +79,10 @@ const CourseCard = (props) => {
           " " +
           props?.courseData?.course_medium
         }
-        description={props?.courseData?.course_details}
+        description={<div style={{whiteSpace: "nowrap",
+  overflow: "hidden",
+  textOverflow: "ellipsis",
+  width: 200}}>{props?.courseData?.course_details}</div>}
       />
     </Card>
   );
